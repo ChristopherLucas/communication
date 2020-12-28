@@ -1,0 +1,22 @@
+Package: communication
+Type: Package
+Title: What the Package Does in One 'Title Case' Line
+Version: 0.1
+Date: 2020-12-28
+Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
+Maintainer: Christopher Lucas <christopher.lucas@wustl.edu>
+Description: One paragraph description of what the package does as one or more full sentences.
+Depends: R (>= 3.5.0)
+License: GPL (>= 2)
+Imports: Rcpp (>= 1.0.2),
+        purrr,
+        magrittr,
+        diagram
+LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
+RoxygenNote: 7.0.2
+Encoding: UTF-8
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr

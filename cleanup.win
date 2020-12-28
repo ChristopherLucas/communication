@@ -1,0 +1,1 @@
+rm -f smile.log config.log config.status src/Makevars

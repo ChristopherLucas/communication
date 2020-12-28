@@ -1,0 +1,100 @@
+---
+title: "Extracting Features with Speech"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{extracting-features}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(speech)
+library(magrittr)
+```
+
+
+
+In order to extract features from a audio file, two parameters are required, 
+the name of the file and a configuration. 
+
+
+## Config
+
+The configuration is contained in an audio_config object. `createConfig()` create 
+the basis for the object. Parameters `frameSize` and `frameStep` are used to 
+separate the raw audio data.
+
+```{r}
+audioConfig <- createConfig(frameSize = 0.025, frameStep = 0.0125 )
+```
+
+Components are added over the basis and indicate 
+the features to be extracted. For example, mean-crossing rate, 
+zero-crossing rate, dc, amax, intensity and loudness can be extracted from frames 
+themselves. For each added component, input and output must be 
+explicitly declared. Users can choose the name of output.
+
+```{r}
+audioConfig <- audioConfig %>%
+  mcr('frames','mcr') %>%
+  zcr('frames','zcr')  %>%
+  dc('frames','dc') %>%
+  a_max('frames','amax') %>%
+  intensity('frames','intensity') %>%
+  loudness('frames','loudness') 
+```
+
+
+Some components require intermediate steps. For example, 
+ to extract 13  Mel-frequency cepstrum coefficients, 
+ config must also add a fourier transform, mag/phase representation, and 
+ mel spectogram with parameters low frequency equal to 20, high frequency, 8000,
+ and 26 bands.
+ 
+```{r}
+ audioConfig <- audioConfig %>%
+  fastFourierTransform(input = 'frames',output = 'fourierTransform') %>%
+  magPhase(input = 'fourierTransform',output = 'magphase') %>%
+  melSpec('magphase','melspec', lofreq = 20, hifreq = 8000, nBands = 26) %>%
+  mfcc(firstMfcc = 1, lastMfcc = 13)
+```
+
+
+Given the extracted features, derivatives can be added as well. In this case,
+ we utilize the component `delta`. It is not required to add names for outputs.
+ In this case, outputs will have the same name as input with "de_" added.
+ For instance, a delta for "mcr" would receive the name "de_mcr".
+ 
+```{r}
+audioConfig <- audioConfig %>%
+  delta(input = "mcr")
+```
+
+In order to extract automatically deltas for different features, it is possible to use
+`add_components` 
+
+```{r}
+audioConfig <- audioConfig %>%
+  addComponents(delta, c("mcr","zcr","intensity","loudness"))
+
+```
+
+
+To check the audio_config object, it it possible to plot it or print it.
+
+
+
+
+
+
+
+```{r}
+#getEdges(audioConfig)
+```
+
+

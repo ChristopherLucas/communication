@@ -1,0 +1,6 @@
+^RcppOpenSmile.Rproj$
+\.o$
+\.so$
+\.dll$
+^.*\.Rproj$
+^\.Rproj\.user$
