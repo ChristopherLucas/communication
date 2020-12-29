@@ -1,4 +1,4 @@
 library(testthat)
-library(speech)
+library(communication)
 
-test_check("speech")
+test_check("communication")

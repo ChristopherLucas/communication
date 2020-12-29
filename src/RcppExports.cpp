@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // dmvnorm_cens
 arma::vec dmvnorm_cens(arma::mat X, arma::rowvec mu, arma::mat Sigma, arma::uvec missingness_labels_i, std::vector< arma::uvec > nonmissing_features, bool logd, double lambda);
-RcppExport SEXP _speech_dmvnorm_cens(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP missingness_labels_iSEXP, SEXP nonmissing_featuresSEXP, SEXP logdSEXP, SEXP lambdaSEXP) {
+RcppExport SEXP _communication_dmvnorm_cens(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP missingness_labels_iSEXP, SEXP nonmissing_featuresSEXP, SEXP logdSEXP, SEXP lambdaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // dmvnorm_cond
 arma::vec dmvnorm_cond(arma::mat X, arma::rowvec mu, arma::mat Sigma, arma::uvec labels_t, arma::uvec labels_y, bool logd, double lambda);
-RcppExport SEXP _speech_dmvnorm_cond(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP labels_tSEXP, SEXP labels_ySEXP, SEXP logdSEXP, SEXP lambdaSEXP) {
+RcppExport SEXP _communication_dmvnorm_cond(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP labels_tSEXP, SEXP labels_ySEXP, SEXP logdSEXP, SEXP lambdaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,7 +42,7 @@ END_RCPP
 }
 // forward
 arma::mat forward(arma::rowvec delta, arma::mat Gamma, arma::mat tstateprobs, arma::vec scale);
-RcppExport SEXP _speech_forward(SEXP deltaSEXP, SEXP GammaSEXP, SEXP tstateprobsSEXP, SEXP scaleSEXP) {
+RcppExport SEXP _communication_forward(SEXP deltaSEXP, SEXP GammaSEXP, SEXP tstateprobsSEXP, SEXP scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -56,7 +56,7 @@ END_RCPP
 }
 // backward
 arma::mat backward(arma::mat Gamma, arma::mat tstateprobs, arma::vec scale);
-RcppExport SEXP _speech_backward(SEXP GammaSEXP, SEXP tstateprobsSEXP, SEXP scaleSEXP) {
+RcppExport SEXP _communication_backward(SEXP GammaSEXP, SEXP tstateprobsSEXP, SEXP scaleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -69,7 +69,7 @@ END_RCPP
 }
 // hmm_cpp
 Rcpp::List hmm_cpp(std::vector<arma::mat> Xs, arma::vec weights, arma::rowvec delta_init, arma::mat mus_init, std::vector<arma::mat> Sigmas_init, arma::mat Gamma_init, std::vector<arma::mat> zetas_init, std::vector< arma::uvec > nonmissing, std::vector< arma::uvec > missingness_labels, std::vector< arma::uvec > nonmissing_features, double lambda, double tol, arma::uword maxiter, double uncollapse, bool verbose, bool supervised);
-RcppExport SEXP _speech_hmm_cpp(SEXP XsSEXP, SEXP weightsSEXP, SEXP delta_initSEXP, SEXP mus_initSEXP, SEXP Sigmas_initSEXP, SEXP Gamma_initSEXP, SEXP zetas_initSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP, SEXP tolSEXP, SEXP maxiterSEXP, SEXP uncollapseSEXP, SEXP verboseSEXP, SEXP supervisedSEXP) {
+RcppExport SEXP _communication_hmm_cpp(SEXP XsSEXP, SEXP weightsSEXP, SEXP delta_initSEXP, SEXP mus_initSEXP, SEXP Sigmas_initSEXP, SEXP Gamma_initSEXP, SEXP zetas_initSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP, SEXP tolSEXP, SEXP maxiterSEXP, SEXP uncollapseSEXP, SEXP verboseSEXP, SEXP supervisedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -95,7 +95,7 @@ END_RCPP
 }
 // hmm_autocorr_cpp
 Rcpp::List hmm_autocorr_cpp(std::vector<arma::mat> Xs, arma::vec weights, arma::rowvec delta_init, arma::mat mus_init, std::vector<arma::mat> Sigmas_init, arma::mat Gamma_init, std::vector<arma::mat> zetas_init, arma::uvec labels_t, arma::uvec labels_y, double lambda, double tol, arma::uword maxiter, double uncollapse, bool verbose, bool supervised);
-RcppExport SEXP _speech_hmm_autocorr_cpp(SEXP XsSEXP, SEXP weightsSEXP, SEXP delta_initSEXP, SEXP mus_initSEXP, SEXP Sigmas_initSEXP, SEXP Gamma_initSEXP, SEXP zetas_initSEXP, SEXP labels_tSEXP, SEXP labels_ySEXP, SEXP lambdaSEXP, SEXP tolSEXP, SEXP maxiterSEXP, SEXP uncollapseSEXP, SEXP verboseSEXP, SEXP supervisedSEXP) {
+RcppExport SEXP _communication_hmm_autocorr_cpp(SEXP XsSEXP, SEXP weightsSEXP, SEXP delta_initSEXP, SEXP mus_initSEXP, SEXP Sigmas_initSEXP, SEXP Gamma_initSEXP, SEXP zetas_initSEXP, SEXP labels_tSEXP, SEXP labels_ySEXP, SEXP lambdaSEXP, SEXP tolSEXP, SEXP maxiterSEXP, SEXP uncollapseSEXP, SEXP verboseSEXP, SEXP supervisedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -120,7 +120,7 @@ END_RCPP
 }
 // llh_cpp
 Rcpp::List llh_cpp(std::vector<arma::mat> Xs, arma::rowvec delta, arma::mat mus, std::vector<arma::mat> Sigmas_in, arma::mat Gamma, std::vector< arma::uvec > nonmissing, std::vector< arma::uvec > missingness_labels, std::vector< arma::uvec > nonmissing_features, double lambda, bool verbose);
-RcppExport SEXP _speech_llh_cpp(SEXP XsSEXP, SEXP deltaSEXP, SEXP musSEXP, SEXP Sigmas_inSEXP, SEXP GammaSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _communication_llh_cpp(SEXP XsSEXP, SEXP deltaSEXP, SEXP musSEXP, SEXP Sigmas_inSEXP, SEXP GammaSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -140,7 +140,7 @@ END_RCPP
 }
 // lstateprobs_cpp
 Rcpp::List lstateprobs_cpp(std::vector<arma::mat> Xs, arma::mat mus, std::vector<arma::mat> Sigmas_in, std::vector< arma::uvec > nonmissing, std::vector< arma::uvec > missingness_labels, std::vector< arma::uvec > nonmissing_features, double lambda);
-RcppExport SEXP _speech_lstateprobs_cpp(SEXP XsSEXP, SEXP musSEXP, SEXP Sigmas_inSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP) {
+RcppExport SEXP _communication_lstateprobs_cpp(SEXP XsSEXP, SEXP musSEXP, SEXP Sigmas_inSEXP, SEXP nonmissingSEXP, SEXP missingness_labelsSEXP, SEXP nonmissing_featuresSEXP, SEXP lambdaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -157,7 +157,7 @@ END_RCPP
 }
 // viterbi_cpp
 std::vector< std::vector<arma::uword> > viterbi_cpp(std::vector<arma::mat> lstateprobs, arma::rowvec delta, arma::mat Gamma);
-RcppExport SEXP _speech_viterbi_cpp(SEXP lstateprobsSEXP, SEXP deltaSEXP, SEXP GammaSEXP) {
+RcppExport SEXP _communication_viterbi_cpp(SEXP lstateprobsSEXP, SEXP deltaSEXP, SEXP GammaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -170,7 +170,7 @@ END_RCPP
 }
 // wavToMp3
 void wavToMp3(std::string wav_file_in, std::string mp3_file_out);
-RcppExport SEXP _speech_wavToMp3(SEXP wav_file_inSEXP, SEXP mp3_file_outSEXP) {
+RcppExport SEXP _communication_wavToMp3(SEXP wav_file_inSEXP, SEXP mp3_file_outSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type wav_file_in(wav_file_inSEXP);
@@ -181,7 +181,7 @@ END_RCPP
 }
 // mp3ToWav
 void mp3ToWav(std::string mp3_file_in, std::string wav_file_out);
-RcppExport SEXP _speech_mp3ToWav(SEXP mp3_file_inSEXP, SEXP wav_file_outSEXP) {
+RcppExport SEXP _communication_mp3ToWav(SEXP mp3_file_inSEXP, SEXP wav_file_outSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type mp3_file_in(mp3_file_inSEXP);
@@ -192,7 +192,7 @@ END_RCPP
 }
 // rcpp_parseWavFile
 SEXP rcpp_parseWavFile(std::string strWavfile);
-RcppExport SEXP _speech_rcpp_parseWavFile(SEXP strWavfileSEXP) {
+RcppExport SEXP _communication_rcpp_parseWavFile(SEXP strWavfileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -203,7 +203,7 @@ END_RCPP
 }
 // rcpp_playWavFile
 bool rcpp_playWavFile(std::vector<int32_t> rawData, Rcpp::List header);
-RcppExport SEXP _speech_rcpp_playWavFile(SEXP rawDataSEXP, SEXP headerSEXP) {
+RcppExport SEXP _communication_rcpp_playWavFile(SEXP rawDataSEXP, SEXP headerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -215,7 +215,7 @@ END_RCPP
 }
 // test_rcpp_playWavFile
 SEXP test_rcpp_playWavFile(std::string strWavfile);
-RcppExport SEXP _speech_test_rcpp_playWavFile(SEXP strWavfileSEXP) {
+RcppExport SEXP _communication_test_rcpp_playWavFile(SEXP strWavfileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -226,7 +226,7 @@ END_RCPP
 }
 // rcpp_writeWavFile
 void rcpp_writeWavFile(std::string filePath, std::vector<int32_t> rawData, Rcpp::List header);
-RcppExport SEXP _speech_rcpp_writeWavFile(SEXP filePathSEXP, SEXP rawDataSEXP, SEXP headerSEXP) {
+RcppExport SEXP _communication_rcpp_writeWavFile(SEXP filePathSEXP, SEXP rawDataSEXP, SEXP headerSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type filePath(filePathSEXP);
@@ -238,7 +238,7 @@ END_RCPP
 }
 // test_rcpp_writeWavFile
 void test_rcpp_writeWavFile(std::string filePathIn, std::string filePathOut);
-RcppExport SEXP _speech_test_rcpp_writeWavFile(SEXP filePathInSEXP, SEXP filePathOutSEXP) {
+RcppExport SEXP _communication_test_rcpp_writeWavFile(SEXP filePathInSEXP, SEXP filePathOutSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type filePathIn(filePathInSEXP);
@@ -249,7 +249,7 @@ END_RCPP
 }
 // rcpp_openSmileGetFeatures
 SEXP rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in, std::string config_string_in);
-RcppExport SEXP _speech_rcpp_openSmileGetFeatures(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
+RcppExport SEXP _communication_rcpp_openSmileGetFeatures(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -261,7 +261,7 @@ END_RCPP
 }
 // test_rcpp_openSmileGetFeatures
 SEXP test_rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in, std::string config_file_in);
-RcppExport SEXP _speech_test_rcpp_openSmileGetFeatures(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
+RcppExport SEXP _communication_test_rcpp_openSmileGetFeatures(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -273,7 +273,7 @@ END_RCPP
 }
 // rcpp_openSmileGetBorderFrames
 SEXP rcpp_openSmileGetBorderFrames(std::vector<std::string> audio_files_in, std::string config_string_in);
-RcppExport SEXP _speech_rcpp_openSmileGetBorderFrames(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
+RcppExport SEXP _communication_rcpp_openSmileGetBorderFrames(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -285,7 +285,7 @@ END_RCPP
 }
 // test_rcpp_openSmileGetBorderFrames
 SEXP test_rcpp_openSmileGetBorderFrames(std::vector<std::string> audio_files_in, std::string config_file_in);
-RcppExport SEXP _speech_test_rcpp_openSmileGetBorderFrames(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
+RcppExport SEXP _communication_test_rcpp_openSmileGetBorderFrames(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -297,7 +297,7 @@ END_RCPP
 }
 // rcpp_openSmileMain
 SEXP rcpp_openSmileMain(std::vector<std::string> arguments);
-RcppExport SEXP _speech_rcpp_openSmileMain(SEXP argumentsSEXP) {
+RcppExport SEXP _communication_rcpp_openSmileMain(SEXP argumentsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -308,7 +308,7 @@ END_RCPP
 }
 // rcpp_openSmileGetFeatures_Turns
 SEXP rcpp_openSmileGetFeatures_Turns(std::vector<std::string> audio_files_in, std::string config_string_in);
-RcppExport SEXP _speech_rcpp_openSmileGetFeatures_Turns(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
+RcppExport SEXP _communication_rcpp_openSmileGetFeatures_Turns(SEXP audio_files_inSEXP, SEXP config_string_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -320,7 +320,7 @@ END_RCPP
 }
 // test_rcpp_openSmileGetFeatures_Turns
 SEXP test_rcpp_openSmileGetFeatures_Turns(std::vector<std::string> audio_files_in, std::string config_file_in);
-RcppExport SEXP _speech_test_rcpp_openSmileGetFeatures_Turns(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
+RcppExport SEXP _communication_test_rcpp_openSmileGetFeatures_Turns(SEXP audio_files_inSEXP, SEXP config_file_inSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -332,33 +332,33 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_speech_dmvnorm_cens", (DL_FUNC) &_speech_dmvnorm_cens, 7},
-    {"_speech_dmvnorm_cond", (DL_FUNC) &_speech_dmvnorm_cond, 7},
-    {"_speech_forward", (DL_FUNC) &_speech_forward, 4},
-    {"_speech_backward", (DL_FUNC) &_speech_backward, 3},
-    {"_speech_hmm_cpp", (DL_FUNC) &_speech_hmm_cpp, 16},
-    {"_speech_hmm_autocorr_cpp", (DL_FUNC) &_speech_hmm_autocorr_cpp, 15},
-    {"_speech_llh_cpp", (DL_FUNC) &_speech_llh_cpp, 10},
-    {"_speech_lstateprobs_cpp", (DL_FUNC) &_speech_lstateprobs_cpp, 7},
-    {"_speech_viterbi_cpp", (DL_FUNC) &_speech_viterbi_cpp, 3},
-    {"_speech_wavToMp3", (DL_FUNC) &_speech_wavToMp3, 2},
-    {"_speech_mp3ToWav", (DL_FUNC) &_speech_mp3ToWav, 2},
-    {"_speech_rcpp_parseWavFile", (DL_FUNC) &_speech_rcpp_parseWavFile, 1},
-    {"_speech_rcpp_playWavFile", (DL_FUNC) &_speech_rcpp_playWavFile, 2},
-    {"_speech_test_rcpp_playWavFile", (DL_FUNC) &_speech_test_rcpp_playWavFile, 1},
-    {"_speech_rcpp_writeWavFile", (DL_FUNC) &_speech_rcpp_writeWavFile, 3},
-    {"_speech_test_rcpp_writeWavFile", (DL_FUNC) &_speech_test_rcpp_writeWavFile, 2},
-    {"_speech_rcpp_openSmileGetFeatures", (DL_FUNC) &_speech_rcpp_openSmileGetFeatures, 2},
-    {"_speech_test_rcpp_openSmileGetFeatures", (DL_FUNC) &_speech_test_rcpp_openSmileGetFeatures, 2},
-    {"_speech_rcpp_openSmileGetBorderFrames", (DL_FUNC) &_speech_rcpp_openSmileGetBorderFrames, 2},
-    {"_speech_test_rcpp_openSmileGetBorderFrames", (DL_FUNC) &_speech_test_rcpp_openSmileGetBorderFrames, 2},
-    {"_speech_rcpp_openSmileMain", (DL_FUNC) &_speech_rcpp_openSmileMain, 1},
-    {"_speech_rcpp_openSmileGetFeatures_Turns", (DL_FUNC) &_speech_rcpp_openSmileGetFeatures_Turns, 2},
-    {"_speech_test_rcpp_openSmileGetFeatures_Turns", (DL_FUNC) &_speech_test_rcpp_openSmileGetFeatures_Turns, 2},
+    {"_communication_dmvnorm_cens", (DL_FUNC) &_communication_dmvnorm_cens, 7},
+    {"_communication_dmvnorm_cond", (DL_FUNC) &_communication_dmvnorm_cond, 7},
+    {"_communication_forward", (DL_FUNC) &_communication_forward, 4},
+    {"_communication_backward", (DL_FUNC) &_communication_backward, 3},
+    {"_communication_hmm_cpp", (DL_FUNC) &_communication_hmm_cpp, 16},
+    {"_communication_hmm_autocorr_cpp", (DL_FUNC) &_communication_hmm_autocorr_cpp, 15},
+    {"_communication_llh_cpp", (DL_FUNC) &_communication_llh_cpp, 10},
+    {"_communication_lstateprobs_cpp", (DL_FUNC) &_communication_lstateprobs_cpp, 7},
+    {"_communication_viterbi_cpp", (DL_FUNC) &_communication_viterbi_cpp, 3},
+    {"_communication_wavToMp3", (DL_FUNC) &_communication_wavToMp3, 2},
+    {"_communication_mp3ToWav", (DL_FUNC) &_communication_mp3ToWav, 2},
+    {"_communication_rcpp_parseWavFile", (DL_FUNC) &_communication_rcpp_parseWavFile, 1},
+    {"_communication_rcpp_playWavFile", (DL_FUNC) &_communication_rcpp_playWavFile, 2},
+    {"_communication_test_rcpp_playWavFile", (DL_FUNC) &_communication_test_rcpp_playWavFile, 1},
+    {"_communication_rcpp_writeWavFile", (DL_FUNC) &_communication_rcpp_writeWavFile, 3},
+    {"_communication_test_rcpp_writeWavFile", (DL_FUNC) &_communication_test_rcpp_writeWavFile, 2},
+    {"_communication_rcpp_openSmileGetFeatures", (DL_FUNC) &_communication_rcpp_openSmileGetFeatures, 2},
+    {"_communication_test_rcpp_openSmileGetFeatures", (DL_FUNC) &_communication_test_rcpp_openSmileGetFeatures, 2},
+    {"_communication_rcpp_openSmileGetBorderFrames", (DL_FUNC) &_communication_rcpp_openSmileGetBorderFrames, 2},
+    {"_communication_test_rcpp_openSmileGetBorderFrames", (DL_FUNC) &_communication_test_rcpp_openSmileGetBorderFrames, 2},
+    {"_communication_rcpp_openSmileMain", (DL_FUNC) &_communication_rcpp_openSmileMain, 1},
+    {"_communication_rcpp_openSmileGetFeatures_Turns", (DL_FUNC) &_communication_rcpp_openSmileGetFeatures_Turns, 2},
+    {"_communication_test_rcpp_openSmileGetFeatures_Turns", (DL_FUNC) &_communication_test_rcpp_openSmileGetFeatures_Turns, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_speech(DllInfo *dll) {
+RcppExport void R_init_communication(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
