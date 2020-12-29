@@ -1,2 +1,4 @@
 #!/bin/sh
-rm -f smile.log config.log config.status src/Makevars
+rm -vf config.log config.status src/Makevars
+find . -name '*.o' -exec rm -v '{}' \;
+find . -name '*.so' -exec rm -v '{}' \;
