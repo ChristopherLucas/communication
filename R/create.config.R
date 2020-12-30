@@ -1,7 +1,7 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom utils head
 #' @importFrom utils tail
-#' @useDynLib speech, .registration=TRUE
+#' @useDynLib communication, .registration=TRUE
 #' @title create audio_config
 #' 
 #' @description return config structure for extractFeatures

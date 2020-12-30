@@ -4,3 +4,5 @@
 \.dll$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^.git/.*$
+^.gitignore$

@@ -1,5 +1,5 @@
 ---
-title: "Extracting Features with Speech"
+title: "Extracting Features with Communication"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{extracting-features}
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(speech)
+library(communication)
 library(magrittr)
 ```
 

@@ -1,0 +1,9 @@
+.DS_Store
+config.log
+config.status
+*.o
+*.so
+*.dll
+src/Makevars
+src/symbols.rds
+.Rhistory
