@@ -7,3 +7,4 @@ config.status
 src/Makevars
 src/symbols.rds
 .Rhistory
+.Rproj.user
