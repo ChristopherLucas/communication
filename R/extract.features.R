@@ -2,7 +2,7 @@
 #' @description Extract features from a file and return audio class with these data
 #' @importFrom magrittr %>%
 #' @importFrom purrr map
-#' @param filename \code{character}. The path and file name. For example, "folder/1.wav"
+#' @param filenames \code{character}. The path and file name. For example, "folder/1.wav"
 #' @param config \code{audio_config}. An object of class 'audio_config' with parameters for extraction.
 #' @return audio class
 #' @export
@@ -31,7 +31,7 @@ extractFeature <- function(filename, config = config) {
 
 #' @title Label Utterances
 #' @description Get a speech object and return it with labels
-#' @param speech 
+#' @param speeches TODO 
 #' @param labels \code{character}. Vector of labels for the speech object.
 #' @return speech object
 #' @export
