@@ -4,10 +4,10 @@
 \alias{extractFeatures}
 \title{Extract features from a file and return audio class with these data}
 \usage{
-extractFeatures(filename, config = loudness(createConfig()))
+extractFeatures(filenames, config = loudness(createConfig()))
 }
 \arguments{
-\item{filename}{\code{character}. The path and file name. For example, "folder/1.wav"}
+\item{filenames}{\code{character}. The path and file name. For example, "folder/1.wav"}
 
 \item{config}{\code{audio_config}. An object of class 'audio_config' with parameters for extraction.}
 }

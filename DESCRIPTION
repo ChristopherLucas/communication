@@ -1,11 +1,11 @@
 Package: communication
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Feature extraction for audio of human speech.
 Version: 0.1
-Date: 2020-12-28
+Date: 2020-01-04
 Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
 Maintainer: Christopher Lucas <christopher.lucas@wustl.edu>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Provides fast, easy feature extraction of human speech with C++ libraries.
 Depends: R (>= 3.5.0)
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.2),
@@ -17,6 +17,7 @@ RoxygenNote: 7.0.2
 Encoding: UTF-8
 Suggests: 
     knitr,
+    qpdf,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
