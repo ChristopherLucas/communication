@@ -3,7 +3,7 @@ Type: Package
 Title: Feature extraction for audio of human speech
 Version: 0.1
 Date: 2020-01-04
-Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
+Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal, Vadym Vashchenko
 Maintainer: Christopher Lucas <christopher.lucas@wustl.edu>
 Description: Provides fast, easy feature extraction of human speech with C++ libraries.
 Depends: R (>= 3.5.0)
