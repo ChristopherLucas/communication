@@ -47,12 +47,15 @@
 #ifndef __DATA_MEMORY_HPP
 #define __DATA_MEMORY_HPP
 
-#include <core/smileCommon.hpp>
-#include <core/smileComponent.hpp>
+#include "core/smileCommon.hpp"
+#include "core/smileComponent.hpp"
+
 #include <math.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+#include <string.h>
 
 // temporal frame ID
 #define DMEM_IDX_ABS    -1   // no special index
@@ -547,7 +550,10 @@ class  cMatrix : public cVector { public:
     }
     tmeta = new TimeMetaInfo[nT];
     // TODO: use copy constructors???
-    memcpy(tmeta,_tmeta,sizeof(TimeMetaInfo)*MIN(nT,_nT));
+    //memcpy(tmeta,_tmeta,sizeof(TimeMetaInfo)*MIN(nT,_nT));
+    for(auto i = 0; i < nT; ++i) {
+      tmeta[i] = TimeMetaInfo(*_tmeta);
+    }
     // strdup the metadata->text field??
     if (_nT < nT) {
       // TODO: manually free the variables in metadata here!!!
@@ -650,8 +656,15 @@ class  cMatrix : public cVector { public:
       tmeta = new TimeMetaInfo[_new_nT];
       if (tmeta == nullptr) { ret=0; tmeta = old; }
       else {
-        memcpy(tmeta,old,sizeof(TimeMetaInfo)*nT);
-        memset(tmeta+nT,0,sizeof(TimeMetaInfo)*(_new_nT-nT));
+        // TODO: fix is provided, check
+        // memcpy(tmeta,old,sizeof(TimeMetaInfo)*nT);
+        for(auto i = 0; i < nT; ++i) {
+          tmeta[i] = TimeMetaInfo(old[i]);
+        }
+        // memset(tmeta+nT,0,sizeof(TimeMetaInfo)*(_new_nT-nT));
+        for(auto i = 0; i < (_new_nT - nT); ++i) {
+          tmeta[nT+i] = TimeMetaInfo(NULL);
+        }
         if ((old != nullptr)&&(!tmetaAlien)) {
           delete[] old;
         }

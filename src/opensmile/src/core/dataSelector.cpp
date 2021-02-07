@@ -113,7 +113,7 @@ int cDataSelector::loadSelection()
 
     // read first line to determine filetype:
     char line[MAX_LINE_LENGTH+1];
-    long nStr=0;
+    unsigned long nStr=0;
     char * fgets_res = nullptr;
     fgets_res = fgets( line, 5, f);
     line[3] = 0;
@@ -121,7 +121,7 @@ int cDataSelector::loadSelection()
       fselType = 2;
       SMILE_IDBG(5,"reading string list of features");
       int fscanf_res=0;
-      fscanf_res = fscanf( f, "%u\n", &nStr);
+      fscanf_res = fscanf( f, "%lu\n", &nStr);
       if (nStr < 1) { COMP_ERR("Error reading feature selection file, nFeatures < 1!"); }
 
       nSel = nStr;

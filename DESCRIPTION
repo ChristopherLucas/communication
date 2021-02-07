@@ -1,6 +1,6 @@
 Package: communication
 Type: Package
-Title: Feature extraction for audio of human speech.
+Title: Feature extraction for audio of human speech
 Version: 0.1
 Date: 2020-01-04
 Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
@@ -13,7 +13,7 @@ Imports: Rcpp (>= 1.0.2),
         magrittr,
         diagram
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
     knitr,

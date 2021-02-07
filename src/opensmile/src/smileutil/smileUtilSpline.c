@@ -50,8 +50,12 @@
 contains modular DSP functions for splines
 
 */
-
+#include <stdlib.h>
 #include <smileutil/smileUtilSpline.h>
+
+#include <Rcpp.h>
+
+#include "core/smileTypes.h"
 
 int smileMath_spline(const double *xval, const double *yval,
   long N, double y1p, double ynp, double *y2, 
@@ -204,7 +208,7 @@ int smileMath_splint(const double *xorig, const double *yorig, const double *y2,
   klower--;
   range = xorig[kupper] - xorig[klower];
   if (range == 0.0) {
-    Rprintf("smileMath_splint(): bad input (range == 0)!\n");
+    Rcpp::Rprintf("smileMath_splint(): bad input (range == 0)!\n");
     return 0;
   }
   a = (xorig[kupper] - x) / range;

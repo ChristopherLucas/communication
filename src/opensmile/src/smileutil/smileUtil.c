@@ -63,7 +63,9 @@ Smile Util:
 #include <smileutil/smileUtil.h>
 #include <string.h>
 
-//#include <smileTypes.hpp>
+#include "core/smileTypes.hpp"
+
+#include <Rcpp.h>
 
 
 /*******************************************************************************************
@@ -1113,7 +1115,7 @@ double smileDsp_specScaleTransfInv(double x, int scale, double param)
       return 600.0 * sinh(x/6.0);
       //return 0.0;
     case SPECTSCALE_BARK_SPEEX:
-      Rprintf("smileDsp_specScaleTransfInv: SPECTSCALE_BARK_SPEEX: inversion not yet implemented");
+      Rcpp::Rprintf("smileDsp_specScaleTransfInv: SPECTSCALE_BARK_SPEEX: inversion not yet implemented");
     case SPECTSCALE_MEL :  // Mel scale according to: L.L. Beranek (1949) Acoustic Measurements, New York: Wiley.
       return 700.0*(exp(x/1127.0)-1.0);
     case SPECTSCALE_LINEAR:

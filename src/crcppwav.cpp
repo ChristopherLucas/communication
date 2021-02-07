@@ -227,7 +227,7 @@ bool CRcppWave::setInputData (std::vector<std::string> audio_files_in,
                                      std::string config_string_in)
 {
   std::remove(config_file.c_str());
-    config_file = std::tmpnam(nullptr);
+  config_file = std::tmpnam(nullptr);
   std::ofstream stream;
   stream.open(config_file, std::ofstream::out | std::ofstream::trunc);
   if(!stream.is_open())

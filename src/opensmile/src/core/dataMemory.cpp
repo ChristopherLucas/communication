@@ -670,8 +670,9 @@ int cDataMemoryLevel::addField(const char *_name, int lN, int arrNameOffset)
   //TODO: check for uniqueness of name!!
 
   if (fmeta.N >= fmetaNalloc) { //realloc:
-    FieldMetaInfo *f;
-    f = (FieldMetaInfo *)realloc(fmeta.field,sizeof(FieldMetaInfo)*(fmeta.N+LOOKAHEAD_ALLOC));
+    FieldMetaInfo *f = FieldMetaInfo[fmeta.N+LOOKAHEAD_ALLOC];
+    // TODO: fix this
+    //f = (FieldMetaInfo *)realloc(fmeta.field,sizeof(FieldMetaInfo)*(fmeta.N+LOOKAHEAD_ALLOC));
     if (f==nullptr) OUT_OF_MEMORY;
     // zero newly allocated data
     int i;

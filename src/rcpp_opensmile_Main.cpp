@@ -1,3 +1,4 @@
+#include <RcppArmadillo.h>
 #include <RcppCommon.h>
 
 #include <core/smileCommon.hpp>
@@ -19,6 +20,7 @@
 #include "utils_global.h"
 
 #define MODULE "RcppOpenSmileMain"
+
 
 namespace Rcpp {
 template <>

@@ -7,7 +7,7 @@
 extractFeatures(filenames, config = loudness(createConfig()))
 }
 \arguments{
-\item{filenames}{\code{character}. The path and file name. For example, "folder/1.wav"}
+\item{filenames}{\code{character}. The list of paths and file names. For example, "folder/1.wav"}
 
 \item{config}{\code{audio_config}. An object of class 'audio_config' with parameters for extraction.}
 }

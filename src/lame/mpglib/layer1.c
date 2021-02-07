@@ -27,6 +27,7 @@
 # include <config.h>
 #endif
 
+#include <string.h>
 #include <assert.h>
 #include "common.h"
 #include "decode_i386.h"
