@@ -1,22 +1,51 @@
 Package: communication
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Feature Extraction and Model Estimation for Audio of Human Speech
 Version: 0.1
-Date: 2020-12-28
-Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
+Date: 2021-02-12
+Authors@R: c(
+		person("Dean", "Knox", email = "dcknox@upenn.edu", role = c("aut")),
+	    person("Christopher", "Lucas", email = "christopher.lucas@wustl.edu", role = c("aut", "cre")),
+	    person("Guilherme", "Duarte", role = "ctb"),
+	    person("Alex", "Shmuley", role = "ctb"),	 
+	    person("Vineet", "Bansal", role = "ctb"),
+	    person("Vadym", "Vashchenko", role = "ctb"))
+Author: Dean Knox and Christopher Lucas, with contributions from Guilherme Duarte, Alex Shmuley, Vineet Bansal and Vadym Vashchenko
 Maintainer: Christopher Lucas <christopher.lucas@wustl.edu>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Provides fast, easy feature extraction of human speech and model estimation
+	     with hidden Markov models. Flexible extraction of phonetic features and their
+	     derivatives, with necessary preprocessing options like feature standardization.
+	     Communication can estimate supervised and unsupervised hidden Markov models with
+	     these features, with cross validation and corrections for auto-correlation in
+	     features.
 Depends: R (>= 3.5.0)
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.2),
-        purrr,
-        magrittr,
-        diagram
+Imports: 
+    Rcpp,
+    purrr,
+    magrittr,
+    diagram,
+    GGally,
+    grid,
+    useful,
+    ggplot2,
+    reshape2,
+    tuneR,
+    wrassp,
+    gtools,
+    signal,
+    plyr,
+    RColorBrewer,
+    scales,
+    abind,
+    igraph,
+    gtable
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
     knitr,
+    qpdf,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
