@@ -6,6 +6,7 @@ on:
       - main
       - master
       - dev
+      - CRAN_compatible
   pull_request:
     branches:
       - main
