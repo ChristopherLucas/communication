@@ -1109,7 +1109,7 @@ ConfigInstance::ConfigInstance(const char *_name, const ConfigType *_type, int _
 #ifdef _MSC_VER // Visual Studio specific macro
 	strncpy_s(name,CONFIGTYPE_STRLEN,_name,CONFIGTYPE_STRLEN);
 #else
-    strncpy(name,_name,CONFIGTYPE_STRLEN);
+    strcpy(name,_name);
 #endif
     type=_type;
     if (_type != nullptr) {

@@ -634,7 +634,7 @@ class  cConfigManager {
         if (v!=nullptr) {
           return v->isSet();
         } else return 0;
-      } catch (cConfigException) { // removed &c ??
+      } catch (cConfigException &) { // removed &c ??
         return 0;
       }
     }

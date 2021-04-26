@@ -53,6 +53,10 @@ contains modular DSP functions for splines
 
 #include <smileutil/smileUtilSpline.h>
 
+#include <R.h>
+#include <Rinternals.h>
+
+
 int smileMath_spline(const double *xval, const double *yval,
   long N, double y1p, double ynp, double *y2, 
   double **workarea)

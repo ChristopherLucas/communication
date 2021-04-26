@@ -89,7 +89,7 @@ class  cPortaudioWavplayer : public cSmileComponent {
     
     int monoMixdown;    // if set to 1, multi-channel files will be mixed down to 1 channel
 
-    int eof, abort; // NOTE : when setting abort, first lock the callbackMtx!!!
+    int eof, abort_; // NOTE : when setting abort, first lock the callbackMtx!!!
     int inputChannels, channels, sampleRate, nBits, nBPS;
     
     const char *semaineCallbackRcpt;
@@ -155,7 +155,7 @@ class  cPortaudioWavplayer : public cSmileComponent {
     int getInputChannels() { return inputChannels; }
     int getSampleRate() { return sampleRate; }
 
-    int isAbort() { return abort; }
+    int isAbort() { return abort_; }
     int isMonoMixdown() { return monoMixdown; }
 
     virtual ~cPortaudioWavplayer();

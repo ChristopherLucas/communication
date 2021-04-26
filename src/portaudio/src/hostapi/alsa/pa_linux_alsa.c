@@ -182,7 +182,7 @@ _PA_DEFINE_FUNC(snd_pcm_sw_params_set_stop_threshold);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_get_boundary);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_silence_threshold);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_silence_size);
-_PA_DEFINE_FUNC(snd_pcm_sw_params_set_xfer_align);
+//_PA_DEFINE_FUNC(snd_pcm_sw_params_set_xfer_align);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_tstamp_mode);
 #define alsa_snd_pcm_sw_params_alloca(ptr) __alsa_snd_alloca(ptr, snd_pcm_sw_params)
 
@@ -462,7 +462,7 @@ static int PaAlsa_LoadLibrary()
     _PA_LOAD_FUNC(snd_pcm_sw_params_get_boundary);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_silence_threshold);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_silence_size);
-    _PA_LOAD_FUNC(snd_pcm_sw_params_set_xfer_align);
+    //_PA_LOAD_FUNC(snd_pcm_sw_params_set_xfer_align);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_tstamp_mode);
 
     _PA_LOAD_FUNC(snd_pcm_info);
@@ -1297,7 +1297,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
             size_t len;
             int hasPlayback = 0, hasCapture = 0;
 
-            snprintf( buf, sizeof (buf), "%s%s,%d", hwPrefix, alsaCardName, devIdx );
+            sprintf( buf, "%s%s,%d", hwPrefix, alsaCardName, devIdx );
 
             /* Obtain info about this particular device */
             alsa_snd_pcm_info_set_device( pcmInfo, devIdx );
@@ -2120,7 +2120,7 @@ static PaError PaAlsaStreamComponent_FinishConfigure( PaAlsaStreamComponent *sel
     }
 
     ENSURE_( alsa_snd_pcm_sw_params_set_avail_min( self->pcm, swParams, self->framesPerPeriod ), paUnanticipatedHostError );
-    ENSURE_( alsa_snd_pcm_sw_params_set_xfer_align( self->pcm, swParams, 1 ), paUnanticipatedHostError );
+    //ENSURE_( alsa_snd_pcm_sw_params_set_xfer_align( self->pcm, swParams, 1 ), paUnanticipatedHostError );
     ENSURE_( alsa_snd_pcm_sw_params_set_tstamp_mode( self->pcm, swParams, SND_PCM_TSTAMP_ENABLE ), paUnanticipatedHostError );
 
     /* Set the parameters! */

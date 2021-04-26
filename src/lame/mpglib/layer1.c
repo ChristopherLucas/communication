@@ -28,6 +28,7 @@
 #endif
 
 #include <assert.h>
+#include <string.h>
 #include "common.h"
 #include "decode_i386.h"
 

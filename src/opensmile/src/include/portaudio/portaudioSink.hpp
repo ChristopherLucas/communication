@@ -86,7 +86,7 @@ class  cPortaudioSink : public cDataSink {
     
     int monoMixdown;    // if set to 1, multi-channel files will be mixed down to 1 channel
 
-    int eof, abort; // NOTE : when setting abort, first lock the callbackMtx!!!
+    int eof, abort_; // NOTE : when setting abort, first lock the callbackMtx!!!
     int channels, sampleRate, nBits, nBPS;
     
     int setupDevice();
@@ -134,7 +134,7 @@ class  cPortaudioSink : public cDataSink {
     int getChannels() { return channels; }
     int getSampleRate() { return sampleRate; }
     
-	int isAbort() { return abort; }
+	int isAbort() { return abort_; }
     int isMonoMixdown() { return monoMixdown; }
     
     virtual ~cPortaudioSink();

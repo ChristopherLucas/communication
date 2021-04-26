@@ -99,7 +99,7 @@ cPortaudioWavplayer::cPortaudioWavplayer(const char *_name) :
   cSmileComponent(_name),
   audioBuffersize(-1),
   audioBuffersize_sec(-1.0),
-  eof(0),  abort(0),
+  eof(0),  abort_(0),
   monoMixdown(0),
   deviceId(0),
   listDevices(0),
@@ -655,7 +655,7 @@ int cPortaudioWavplayer::stopPlayback()
 
   streamStatus =  PA_STREAM_STOPPED;
 
-  abort = 1;
+  abort_ = 1;
 
   err = Pa_CloseStream( stream );
   if( err != paNoError ) {
@@ -673,7 +673,7 @@ int cPortaudioWavplayer::stopPlaybackWait()
 
   streamStatus =  PA_STREAM_STOPPED;
 
-  abort = 1;
+  abort_ = 1;
 
   smileMutexUnlock(callbackMtx);
   err = Pa_StopStream( stream );

@@ -94,7 +94,7 @@ cDataProcessor(_name),
 audioBuffersize(-1),
 audioBuffersize_sec(-1.0),
 //  curReadPos(0),
-eof(0),  abort(0),
+eof(0),  abort_(0),
 monoMixdownPB(0),
 monoMixdownREC(0),
 deviceId(0),
@@ -575,7 +575,7 @@ int cPortaudioDuplex::stopDuplex()
 
   streamStatus =  PA_STREAM_STOPPED;
 
-  abort = 1;
+  abort_ = 1;
 
   err = Pa_CloseStream( stream );
   if( err != paNoError ) {
@@ -593,7 +593,7 @@ int cPortaudioDuplex::stopDuplexWait()
 
   streamStatus =  PA_STREAM_STOPPED;
 
-  abort = 1;
+  abort_ = 1;
 
   err = Pa_StopStream( stream );
   if( err != paNoError ) {

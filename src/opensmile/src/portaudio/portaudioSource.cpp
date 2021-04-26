@@ -97,7 +97,7 @@ cPortaudioSource::cPortaudioSource(const char *_name) :
   audioBuffersize(-1),
   audioBuffersize_sec(-1.0),
   curReadPos(0),
-  eof(0),  abort(0),
+  eof(0),  abort_(0),
   monoMixdown(0),
   deviceId(0),
   listDevices(0),

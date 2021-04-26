@@ -249,7 +249,7 @@ class  FrameMetaInfo {
           if (field[i].name != nullptr) free(field[i].name); 
           if (field[i].info!=nullptr) free(field[i].info);
         }
-        free(field);
+        delete [] field;
       }
       smileMutexDestroy(myMtx);
     }
@@ -547,11 +547,18 @@ class  cMatrix : public cVector { public:
     }
     tmeta = new TimeMetaInfo[nT];
     // TODO: use copy constructors???
-    memcpy(tmeta,_tmeta,sizeof(TimeMetaInfo)*MIN(nT,_nT));
+    for (int i=0; i<MIN(nT,_nT); i++)
+    {
+      tmeta[i].cloneFrom(_tmeta + i);  
+    }
     // strdup the metadata->text field??
     if (_nT < nT) {
       // TODO: manually free the variables in metadata here!!!
-      bzero( tmeta + _nT, sizeof(TimeMetaInfo)*(nT-_nT) );
+      TimeMetaInfo temp;
+      for (int i=0; i<nT-_nT; i++)
+      {
+        tmeta[i].cloneFrom(&temp);  
+      }      
     }
     tmetaAlien = 0; tmetaArr=1;
   }
@@ -650,8 +657,15 @@ class  cMatrix : public cVector { public:
       tmeta = new TimeMetaInfo[_new_nT];
       if (tmeta == nullptr) { ret=0; tmeta = old; }
       else {
-        memcpy(tmeta,old,sizeof(TimeMetaInfo)*nT);
-        memset(tmeta+nT,0,sizeof(TimeMetaInfo)*(_new_nT-nT));
+        for (int i=0; i<nT; i++)
+        {
+          tmeta[i].cloneFrom(old + i);  
+        }
+        TimeMetaInfo temp;
+        for (int i=nT; i<_new_nT; i++)
+        {
+          tmeta[i].cloneFrom(&temp);  
+        }        
         if ((old != nullptr)&&(!tmetaAlien)) {
           delete[] old;
         }

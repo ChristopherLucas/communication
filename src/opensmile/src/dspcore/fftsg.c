@@ -777,13 +777,13 @@ void makect(int nc, int *ip, FLOAT_TYPE_FFT *c)
 #define cdft_thread_create(thp,func,argp) { \
     if (pthread_create(thp, NULL, func, (void *) argp) != 0) { \
         Rprintf( "cdft thread error\n"); \
-        exit(1); \
+        //exit(1); \
     } \
 }
 #define cdft_thread_wait(th) { \
     if (pthread_join(th, NULL) != 0) { \
         Rprintf( "cdft thread error\n"); \
-        exit(1); \
+        //exit(1); \
     } \
 }
 #endif /* USE_CDFT_PTHREADS */
@@ -806,7 +806,7 @@ void makect(int nc, int *ip, FLOAT_TYPE_FFT *c)
     *(thp) = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) func, (LPVOID) argp, 0, &thid); \
     if (*(thp) == 0) { \
         Rprintf( "cdft thread error\n"); \
-        exit(1); \
+        //exit(1); \
     } \
 }
 #define cdft_thread_wait(th) { \

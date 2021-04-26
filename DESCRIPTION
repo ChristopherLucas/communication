@@ -1,10 +1,9 @@
 Package: communication
 Type: Package
-Title: Feature extraction for audio of human speech.
+Title: Feature extraction for audio of human speech
 Version: 0.1
 Date: 2020-01-04
 Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
-Maintainer: Christopher Lucas <christopher.lucas@wustl.edu>
 Description: Provides fast, easy feature extraction of human speech with C++ libraries.
 Depends: R (>= 3.5.0)
 License: GPL (>= 2)
@@ -21,3 +20,12 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
+Authors@R: 
+    c(person(given = "Alex",
+             family = "Shmuley",
+             role = "aut",             
+             email = "dvajdual@gmail.com"),
+      person(given = "Christopher",
+             family = "Lucas",
+             role = "cre",
+             email = "christopher.lucas@wustl.edu"))

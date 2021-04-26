@@ -110,7 +110,7 @@ class  cPortaudioSource : public cDataSource {
     int monoMixdown;    // if set to 1, multi-channel files will be mixed down to 1 channel
 
     long curReadPos;   // in samples
-    int eof, abort; // NOTE : when setting abort, first lock the callbackMtx!!!
+    int eof, abort_; // NOTE : when setting abort, first lock the callbackMtx!!!
     int channels, sampleRate, nBits, nBPS, selectChannel;
     
     int setupDevice();
@@ -159,7 +159,7 @@ class  cPortaudioSource : public cDataSource {
     int getChannels() { return channels; }
     int getSelectedChannel() { return selectChannel; }
     int getSampleRate() { return sampleRate; }
-    int isAbort() { return abort; }
+    int isAbort() { return abort_; }
     int isMonoMixdown() { return monoMixdown; }
     
     virtual ~cPortaudioSource();

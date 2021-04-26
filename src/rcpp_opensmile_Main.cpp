@@ -230,9 +230,10 @@ void mp3ToWav(std::string mp3_file_in, std::string wav_file_out)
     //skip id3 tag
     if(id3_tag_size) 
     {
-      unsigned char id3_buffer[id3_tag_size];
+      unsigned char * id3_buffer = new unsigned char[id3_tag_size];
       int id3_read = 0;
       id3_read =fread(&id3_buffer[0],sizeof(unsigned char), id3_tag_size, mp3);
+      delete [] id3_buffer;
     }
     while( true )
     {

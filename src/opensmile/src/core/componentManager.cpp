@@ -447,7 +447,7 @@ int cComponentManager::registerPlugins()
 #else
   strcpy_s(szDir, MAX_PATH, pluginpath);
 #endif
-  strncat(szDir, "\\*", MAX_PATH);
+  strcat(szDir, "\\*");
 
   hFind = FindFirstFile(szDir, &ffd);
   if (INVALID_HANDLE_VALUE == hFind) {
