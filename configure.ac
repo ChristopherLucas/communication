@@ -1,5 +1,5 @@
 
-dnl Require autoconf >= 2.13
+dnl  Require autoconf >= 2.13
 AC_PREREQ(2.13)
 
 AC_INIT([speech], 0.0.0)
