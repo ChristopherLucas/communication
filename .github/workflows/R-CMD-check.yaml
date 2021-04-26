@@ -88,6 +88,11 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
+        
+    - name: Install curl
+        if: runner.os == 'Linux'    
+        run: |
+          sudo apt-get install libcurl4-openssl-dev        
 
       - name: Check
         env:
