@@ -155,60 +155,21 @@ case "${R_PLATFORM}" in
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 
         if test "x$enable_mac_universal" = "xyes" ; then
-           case `xcodebuild -version | sed -n 's/Xcode \(.*\)/\1/p'` in
-
-           [12]*|3.0|3.1)
-              dnl In pre-3.2 versions of Xcode, xcodebuild doesn't
-              dnl support -sdk, so we can't use that to look for
-              dnl SDKs.  However, in those versions of Xcode, the
-              dnl SDKs are under /Developer/SDKs, so we can just look
-              dnl there.  Also, we assume they had no SDKs later
-              dnl than 10.5, as 3.2 was the version that came with
-              dnl 10.6, at least if the Wikipedia page for Xcode
-              dnl is to be believed.
-              if [[ -d /Developer/SDKs/MacOSX10.5.sdk ]] ; then
-                 # mac_version_min="-mmacosx-version-min=10.3"
-                 mac_sysroot="-isysroot /Developer/SDKs/MacOSX10.5.sdk"
-              else
-                 # mac_version_min="-mmacosx-version-min=10.3"
-                 mac_sysroot="-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-              fi
-              ;;
-
-           *)
-              dnl In 3.2 and later, xcodebuild supports -sdk, and, in
-              dnl 4.3 and later, the SDKs aren't under /Developer/SDKs
-              dnl as there *is* no /Developer, so we use -sdk to check
-              dnl what SDKs are available and to get the full path of
-              dnl the SDKs.
-              if xcodebuild -version -sdk macosx10.5 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.5 Path`"
-              elif xcodebuild -version -sdk macosx10.6 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.6 Path`"
-              elif xcodebuild -version -sdk macosx10.7 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.7 Path`"
-              elif xcodebuild -version -sdk macosx10.8 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.8 Path`"
-              elif xcodebuild -version -sdk macosx10.9 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.9 Path`"
-              elif xcodebuild -version -sdk macosx10.10 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.10 Path`"
-	            elif xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
-	            elif xcodebuild -version -sdk macosx10.12 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
-	            elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.13 Path`"
-	            elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.14 Path`"
-	            elif xcodebuild -version -sdk macosx10.15 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.15 Path`"
-	            elif xcodebuild -version -sdk macosx11.0 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx11.0 Path`"
-							else
-                 AC_MSG_ERROR([Couldn't find 10.5, 10.6, 10.7, 10.8, 10.9, 10.10, 10.11, 10.12, 10.13, 10.14, 10.15 11 SDK])
-              fi
-           esac
+	         if xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
+	         elif xcodebuild -version -sdk macosx10.12 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
+	         elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.13 Path`"
+	         elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.14 Path`"
+	         elif xcodebuild -version -sdk macosx10.15 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.15 Path`"
+	         elif xcodebuild -version -sdk macosx11.0 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx11.0 Path`"
+						else
+              AC_MSG_ERROR([Couldn't find 10.11, 10.12, 10.13, 10.14, 10.15 11 SDK])
+           fi
 
            dnl Pick which architectures to build for based on what
            dnl the compiler supports.
