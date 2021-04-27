@@ -57,6 +57,8 @@ compute delta regression using regression formula
 
 #include <core/smileCommon.hpp>
 #include <core/windowProcessor.hpp>
+#include <math.h>
+
 #ifdef WIN32
 #include <cmath>
 #endif
@@ -79,11 +81,11 @@ protected:
 
   int isNoValue(FLOAT_DMEM x) {
     if (onlyInSegments && x==0.0) return 1;
-//#ifdef WIN32
+#ifdef WIN32
     if (std::isnan(x))
-//#else
-//    if (isnan(x))    
-//#endif    
+#else
+    if (isnan(x))    
+#endif    
     {
       return 1;
     }
