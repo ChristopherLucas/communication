@@ -3,7 +3,6 @@ Type: Package
 Title: Feature Extraction and Model Estimation for Audio of Human Speech
 Version: 0.2
 Date: 2021-04-27
-Author: Dean Knox, Christopher Lucas,  Guilherme Duarte, Alex Shmuley, Vineet Bansal
 Description: Provides fast, easy feature extraction of human speech with C++ libraries.
 Depends: R (>= 3.5.0)
 License: GPL (>= 2)
