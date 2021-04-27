@@ -25,5 +25,4 @@ Authors@R: c(
 	    person("Christopher", "Lucas", email = "christopher.lucas@wustl.edu", role = c("aut", "cre")),
 	    person("Guilherme", "Duarte", role = "ctb"),
 	    person("Alex", "Shmuley", email = "dvajdual@gmail.com", role = "ctb"),	 
-	    person("Vineet", "Bansal", role = "ctb"),
-	    person("Vadym", "Vashchenko", role = "ctb"))
+	    person("Vineet", "Bansal", role = "ctb"))
