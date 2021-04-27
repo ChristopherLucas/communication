@@ -4735,47 +4735,21 @@ case "${R_PLATFORM}" in
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 
         if test "x$enable_mac_universal" = "xyes" ; then
-           case `xcodebuild -version | sed -n 's/Xcode \(.*\)/\1/p'` in
-
-           12*|3.0|3.1)
-                                                                                                                              if [ -d /Developer/SDKs/MacOSX10.5.sdk ] ; then
-                 # mac_version_min="-mmacosx-version-min=10.3"
-                 mac_sysroot="-isysroot /Developer/SDKs/MacOSX10.5.sdk"
-              else
-                 # mac_version_min="-mmacosx-version-min=10.3"
-                 mac_sysroot="-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-              fi
-              ;;
-
-           *)
-                                                                                    if xcodebuild -version -sdk macosx10.5 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.5 Path`"
-              elif xcodebuild -version -sdk macosx10.6 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.6 Path`"
-              elif xcodebuild -version -sdk macosx10.7 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.7 Path`"
-              elif xcodebuild -version -sdk macosx10.8 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.8 Path`"
-              elif xcodebuild -version -sdk macosx10.9 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.9 Path`"
-              elif xcodebuild -version -sdk macosx10.10 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.10 Path`"
-	            elif xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
-	            elif xcodebuild -version -sdk macosx10.12 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
-	            elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.13 Path`"
-	            elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.14 Path`"
-	            elif xcodebuild -version -sdk macosx10.15 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.15 Path`"
-	            elif xcodebuild -version -sdk macosx11.0 Path >/dev/null 2>&1 ; then
-                 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx11.0 Path`"
-							else
-                 as_fn_error $? "Couldn't find 10.5, 10.6, 10.7, 10.8, 10.9, 10.10, 10.11, 10.12, 10.13, 10.14, 10.15 11 SDK" "$LINENO" 5
-              fi
-           esac
+	         if xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
+	         elif xcodebuild -version -sdk macosx10.12 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
+	         elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.13 Path`"
+	         elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.14 Path`"
+	         elif xcodebuild -version -sdk macosx10.15 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.15 Path`"
+	         elif xcodebuild -version -sdk macosx11.0 Path >/dev/null 2>&1 ; then
+              mac_sysroot="-isysroot `xcodebuild -version -sdk macosx11.0 Path`"
+						else
+              as_fn_error $? "Couldn't find 10.11, 10.12, 10.13, 10.14, 10.15 11 SDK" "$LINENO" 5
+           fi
 
                                  mac_arches=""
            for arch in i386 x86_64 ppc ppc64
