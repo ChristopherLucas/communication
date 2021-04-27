@@ -79,11 +79,11 @@ protected:
 
   int isNoValue(FLOAT_DMEM x) {
     if (onlyInSegments && x==0.0) return 1;
-#ifdef WIN32
+//#ifdef WIN32
     if (std::isnan(x))
-#else
-    if (isnan(x))    
-#endif    
+//#else
+//    if (isnan(x))    
+//#endif    
     {
       return 1;
     }
