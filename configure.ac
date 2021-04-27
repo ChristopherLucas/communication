@@ -1,16 +1,3 @@
-contains() {
-    string="$1"
-    substring="$2"
-    if test "${string#*$substring}" != "$string"
-    then
-        return 0    # $substring is in $string
-    else
-        return 1    # $substring is not in $string
-    fi
-}
-
-
-
 dnl  Require autoconf >= 2.13
 AC_PREREQ(2.13)
 
@@ -167,7 +154,7 @@ case "${R_PLATFORM}" in
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 
         if test "x$enable_mac_universal" = "xyes" ; then
-					 if contains "-isysroot `xcodebuild -version -sdk macosx Path`" "Developer/SDKs/MacOSX"; then
+					 if test "${"-isysroot `xcodebuild -version -sdk macosx Path`"#*$"Developer/SDKs/MacOSX"}" != "$"-isysroot `xcodebuild -version -sdk macosx Path`"" ; then
 					    mac_sysroot="-isysroot `xcodebuild -version -sdk macosx Path`"
 	         elif xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
               mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
