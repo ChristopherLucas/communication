@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <limits.h>
-
+#include <stdlib.h>
 
 #include "crcppwav.h"
 #include <smileutil/smileUtil.h>
@@ -227,7 +227,14 @@ bool CRcppWave::setInputData (std::vector<std::string> audio_files_in,
                                      std::string config_string_in)
 {
   std::remove(config_file.c_str());
-    config_file = std::tmpnam(nullptr);
+#ifdef __MACOS
+  char *filename = "/tmp/fileXXXXXX";
+  int fd = mkstemp(filename);
+  close(fd)
+  config_file = filename; 
+#else    
+  config_file = std::tmpnam(nullptr);
+#endif  
   std::ofstream stream;
   stream.open(config_file, std::ofstream::out | std::ofstream::trunc);
   if(!stream.is_open())

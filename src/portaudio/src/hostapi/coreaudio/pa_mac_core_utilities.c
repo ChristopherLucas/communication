@@ -62,6 +62,7 @@
 #include <strings.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <atomic>
 
 OSStatus PaMacCore_AudioHardwareGetProperty(
         AudioHardwarePropertyID inPropertyID,
@@ -742,10 +743,16 @@ OSStatus xrunCallback(
 
             if( isInput ) {
                 if( stream->inputDevice == inDevice )
-                    OSAtomicOr32( paInputOverflow, &stream->xrunFlags );
+                    std::atomic_fetch_or_explicit(
+                            (volatile _OSAtomic_uint32_t*)&stream->xrunFlags, paInputOverflow,
+                            std::memory_order_relaxed | paInputOverflow);
+                    //OSAtomicOr32( paInputOverflow, &stream->xrunFlags );
             } else {
                 if( stream->outputDevice == inDevice )
-                    OSAtomicOr32( paOutputUnderflow, &stream->xrunFlags );
+                    std::atomic_fetch_or_explicit(
+                        (volatile _OSAtomic_uint32_t*)&stream->xrunFlags, paOutputUnderflow,
+                        std::memory_order_relaxed | paInputOverflow);                    
+                    //OSAtomicOr32( paOutputUnderflow, &stream->xrunFlags );
             }
         }
 
