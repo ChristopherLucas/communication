@@ -214,8 +214,8 @@ case "${R_PLATFORM}" in
                     PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/win/*.c portaudio/src/hostapi/wdmks/*.c"
                     dnl add_objects src/hostapi/asio/pa_asio.o src/common/pa_ringbuffer.o src/os/win/pa_win_hostapis.o src/os/win/pa_win_util.o src/os/win/pa_win_coinitialize.o src/hostapi/asio/iasiothiscallresolver.o $ASIODIR/common/asio.o $ASIODIR/host/asiodrivers.o $ASIODIR/host/pc/asiolist.o
                     PORTAUDIO_LIBS="$PORTAUDIO_LIBS -lwinmm -lm -lole32 -luuid"
-                    PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -ffast-math -fomit-frame-pointer -I\$(top_srcdir)/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
-                    CFLAGS="$CFLAGS -ffast-math -fomit-frame-pointer -I\$(top_srcdir)/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
+                    PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -ffast-math -fomit-frame-pointer -I\${top_srcdir}/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
+                    CFLAGS="$CFLAGS -ffast-math -fomit-frame-pointer -I\${top_srcdir}/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
 
                     dnl Setting the windows version flags below resolves a conflict between Interlocked*
                     dnl definitions in mingw winbase.h and Interlocked* hacks in ASIO SDK combase.h
@@ -247,7 +247,7 @@ case "${R_PLATFORM}" in
                     PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/win/*.c portaudio/src/hostapi/wasapi/*.c"
                     PORTAUDIO_LIBS="$PORTAUDIO_LIBS -lwinmm -lm -lole32 -luuid"
                     PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
-                    CFLAGS="$CFLAGS -I\$(top_srcdir)/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
+                    CFLAGS="$CFLAGS -I\${top_srcdir}/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
                 fi
                 ;;
 
