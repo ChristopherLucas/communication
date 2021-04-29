@@ -154,23 +154,7 @@ case "${R_PLATFORM}" in
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 
         if test "x$enable_mac_universal" = "xyes" ; then
-					 dnl if test "${"-isysroot `xcodebuild -version -sdk macosx Path`"#*$"Developer/SDKs/MacOSX"}" != "$"-isysroot `xcodebuild -version -sdk macosx Path`"" ; then
-					 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx Path`"
-	         dnl if xcodebuild -version -sdk macosx10.11 Path >dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.11 Path`"
-	         dnl elif xcodebuild -version -sdk macosx10.12 Path >/dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.12 Path`"
-	         dnl elif xcodebuild -version -sdk macosx10.13 Path >/dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.13 Path`"
-	         dnl elif xcodebuild -version -sdk macosx10.14 Path >/dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.14 Path`"
-	         dnl elif xcodebuild -version -sdk macosx10.15 Path >/dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx10.15 Path`"
-	         dnl elif xcodebuild -version -sdk macosx11.0 Path >/dev/null 2>&1 ; then
-              dnl mac_sysroot="-isysroot `xcodebuild -version -sdk macosx11.0 Path`"
-					 dnl else
-              dnl AC_MSG_ERROR([Couldn't find 10.11, 10.12, 10.13, 10.14, 10.15 11 SDK])
-           dnl fi
+					 mac_sysroot="-isysroot $(xcrun --sdk macosx --show-sdk-path)"
 
            dnl Pick which architectures to build for based on what
            dnl the compiler supports.
