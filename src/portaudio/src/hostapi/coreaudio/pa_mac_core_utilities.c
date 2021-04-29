@@ -62,7 +62,7 @@
 #include <strings.h>
 #include <pthread.h>
 #include <sys/time.h>
-#include <atomic>
+#include <stdatomic>
 
 OSStatus PaMacCore_AudioHardwareGetProperty(
         AudioHardwarePropertyID inPropertyID,

@@ -61,7 +61,7 @@
  ****************/
 
 #if defined(__APPLE__)
-#   include <atomic>
+#   include <stdatomic>
     /* Here are the memory barrier functions. Mac OS X only provides
        full memory barriers, so the three types of barriers are the same,
        however, these barriers are superior to compiler-based ones. */

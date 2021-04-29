@@ -63,7 +63,7 @@
 #include "pa_mac_core_blocking.h"
 #include "pa_mac_core_internal.h"
 #include <assert.h>
-#include <atomic>
+#include <stdatomic>
 #ifdef MOSX_USE_NON_ATOMIC_FLAG_BITS
 # define OSAtomicAnd32( a, b ) std::atomic_fetch_or_explicit)((volatile _OSAtomic_uint32_t*)b, a, std::memory_order_relaxed & a);
 #else
