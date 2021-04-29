@@ -15,11 +15,7 @@ AC_SUBST(PORTAUDIO_LIBS)
 AC_SUBST(PORTAUDIO_DEFINES_INCLUDES)
 AC_SUBST(PORTAUDIO_CFLAGS)
 AC_SUBST(MACOSX_DEPLOYMENT_TARGET)
-dnl MACOSX_DEPLOYMENT_TARGET="10.11"
-dnl if test "$CI" != "0"; then
-	dnl MACOSX_DEPLOYMENT_TARGET="11.0"
-dnl fi
-dnl AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET")
+
 dnl This must be one of the first tests we do or it will fail...
 AC_C_BIGENDIAN
 if [[ $ac_cv_c_bigendian = "yes" ]] ; then
@@ -181,7 +177,15 @@ case "${R_PLATFORM}" in
            mac_sysroot=""
            mac_version=""
         fi
-				mac_version_min="-mmacosx-version-min=11.0"
+        
+        MACOSX_DEPLOYMENT_TARGET="10.11"
+        mac_version_min="-mmacosx-version-min=10.11"
+        if test "$CI" != "0"; then
+          MACOSX_DEPLOYMENT_TARGET="11.0"
+          mac_version_min="-mmacosx-version-min=11.0"
+        fi
+        AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min")        
+		
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot" "$mac_version_min"
         dnl PORTAUDIO_CFLAGS="-std=c99 $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot $mac_version_min"
         PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot" "$mac_version_min"

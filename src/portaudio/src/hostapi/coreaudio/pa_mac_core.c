@@ -366,11 +366,11 @@ static PaError gatherDeviceInfo(PaMacAUHAL *auhalHostApi)
                                         &propsize,
                                         auhalHostApi->devIds );
 #ifdef MAC_CORE_VERBOSE_DEBUG
-    {
+    /*{
         int i;
         for( i=0; i<auhalHostApi->devCount; ++i )
             printf( "Device %d\t: %ld\n", i, (long)auhalHostApi->devIds[i] );
-    }
+    }*/
 #endif
 
     size = sizeof(AudioDeviceID);
@@ -454,25 +454,25 @@ static void DumpDeviceProperties( AudioDeviceID macCoreDeviceId,
     UInt32 safetyOffset;
     AudioStreamID streamIDs[128];
 
-    printf("\n======= latency query : macCoreDeviceId = %d, isInput %d =======\n", (int)macCoreDeviceId, isInput );
+    //printf("\n======= latency query : macCoreDeviceId = %d, isInput %d =======\n", (int)macCoreDeviceId, isInput );
 
     propSize = sizeof(UInt32);
     err = WARNING(AudioDeviceGetProperty(macCoreDeviceId, 0, isInput, kAudioDevicePropertyBufferFrameSize, &propSize, &bufferFrames));
-    printf("kAudioDevicePropertyBufferFrameSize: err = %d, propSize = %d, value = %d\n", err, propSize, bufferFrames );
+    //printf("kAudioDevicePropertyBufferFrameSize: err = %d, propSize = %d, value = %d\n", err, propSize, bufferFrames );
 
     propSize = sizeof(UInt32);
     err = WARNING(AudioDeviceGetProperty(macCoreDeviceId, 0, isInput, kAudioDevicePropertySafetyOffset, &propSize, &safetyOffset));
-    printf("kAudioDevicePropertySafetyOffset: err = %d, propSize = %d, value = %d\n", err, propSize, safetyOffset );
+    //printf("kAudioDevicePropertySafetyOffset: err = %d, propSize = %d, value = %d\n", err, propSize, safetyOffset );
 
     propSize = sizeof(UInt32);
     err = WARNING(AudioDeviceGetProperty(macCoreDeviceId, 0, isInput, kAudioDevicePropertyLatency, &propSize, &deviceLatency));
-    printf("kAudioDevicePropertyLatency: err = %d, propSize = %d, value = %d\n", err, propSize, deviceLatency );
+    //printf("kAudioDevicePropertyLatency: err = %d, propSize = %d, value = %d\n", err, propSize, deviceLatency );
 
     AudioValueRange audioRange;
     propSize = sizeof( audioRange );
     err = WARNING(AudioDeviceGetProperty( macCoreDeviceId, 0, isInput, kAudioDevicePropertyBufferFrameSizeRange, &propSize, &audioRange ) );
-    printf("kAudioDevicePropertyBufferFrameSizeRange: err = %d, propSize = %u, minimum = %g\n", err, propSize, audioRange.mMinimum);
-    printf("kAudioDevicePropertyBufferFrameSizeRange: err = %d, propSize = %u, maximum = %g\n", err, propSize, audioRange.mMaximum );
+    //printf("kAudioDevicePropertyBufferFrameSizeRange: err = %d, propSize = %u, minimum = %g\n", err, propSize, audioRange.mMinimum);
+    //printf("kAudioDevicePropertyBufferFrameSizeRange: err = %d, propSize = %u, maximum = %g\n", err, propSize, audioRange.mMaximum );
 
     /* Get the streams from the device and query their latency. */
     propSize = sizeof(streamIDs);
@@ -480,11 +480,11 @@ static void DumpDeviceProperties( AudioDeviceID macCoreDeviceId,
     int numStreams = propSize / sizeof(AudioStreamID);
     for( i=0; i<numStreams; i++ )
     {
-        printf("Stream #%d = %d---------------------- \n", i, streamIDs[i] );
+        //printf("Stream #%d = %d---------------------- \n", i, streamIDs[i] );
 
         propSize = sizeof(UInt32);
         err  = WARNING(PaMacCore_AudioStreamGetProperty(streamIDs[i], 0, kAudioStreamPropertyLatency, &propSize, &streamLatency));
-        printf("  kAudioStreamPropertyLatency: err = %d, propSize = %d, value = %d\n", err, propSize, streamLatency );
+        //printf("  kAudioStreamPropertyLatency: err = %d, propSize = %d, value = %d\n", err, propSize, streamLatency );
     }
 }
 #endif

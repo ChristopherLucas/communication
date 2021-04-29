@@ -86,7 +86,7 @@
  */
 #define MAC_CORE_DEBUG
 #ifdef MAC_CORE_DEBUG
-# define DBUG(MSG) do { printf("||PaMacCore (AUHAL)|| "); printf MSG ; fflush(stdout); } while(0)
+# define DBUG(MSG) //do { printf("||PaMacCore (AUHAL)|| "); printf MSG ; fflush(stdout); } while(0)
 #else
 # define DBUG(MSG)
 #endif
@@ -96,7 +96,7 @@
 #define MAC_CORE_VERBOSE_DEBUG
 */
 #ifdef MAC_CORE_VERBOSE_DEBUG
-# define VDBUG(MSG) do { printf("||PaMacCore (v )|| "); printf MSG ; fflush(stdout); } while(0)
+# define VDBUG(MSG) //do { printf("||PaMacCore (v )|| "); printf MSG ; fflush(stdout); } while(0)
 #else
 # define VDBUG(MSG)
 #endif
@@ -106,7 +106,7 @@
 #define MAC_CORE_VERY_VERBOSE_DEBUG
  */
 #ifdef MAC_CORE_VERY_VERBOSE_DEBUG
-# define VVDBUG(MSG) do { printf("||PaMacCore (vv)|| "); printf MSG ; fflush(stdout); } while(0)
+# define VVDBUG(MSG) //do { printf("||PaMacCore (vv)|| "); printf MSG ; fflush(stdout); } while(0)
 #else
 # define VVDBUG(MSG)
 #endif
