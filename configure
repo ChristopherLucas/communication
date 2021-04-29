@@ -4690,7 +4690,6 @@ case "$R_PLATFORM" in *mingw* | *cygwin*)
                  eval with_$api=yes
                  ;;
              *)
-                 as_fn_error $? "unknown Windows API \"$api\" (do you need --help?)" "$LINENO" 5
                  ;;
          esac
      done
@@ -4740,7 +4739,7 @@ if test ${enable_mac_universal+y}
 then :
   enableval=$enable_mac_universal; enable_mac_universal=$enableval
 else $as_nop
-  enable_mac_universal="yes"
+  enable_mac_universal="no"
 fi
 
 
@@ -5454,24 +5453,24 @@ case "${R_PLATFORM}" in
               CFLAGS="$CFLAGS -arch $arch"
               cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+AC_COMPILE_IFELSE([
+                    if [[ -z "$mac_arches" ]] ; then
+                       mac_arches="-arch $arch"
+                    else
+                       mac_arches="$mac_arches -arch $arch"
+                    fi
+                 ])
 int
 main (void)
 {
-return 0;
+
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"
 then :
-
-                    if [ -z "$mac_arches" ] ; then
-                       mac_arches="-arch $arch"
-                    else
-                       mac_arches="$mac_arches -arch $arch"
-                    fi
-
+  return 0;
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
               CFLAGS="$save_CFLAGS"
@@ -5482,14 +5481,11 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
            mac_version=""
         fi
 
-        if test -z "$CI" ; then
-					MACOSX_DEPLOYMENT_TARGET="10.11"
-        fi
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: \"CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min\"" >&5
 printf "%s\n" "\"CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min\"" >&6; }
 
-        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot" "$mac_version_min"
-                PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot" "$mac_version_min"
+        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot $mac_version_min"
+        PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot $mac_version_min"
 
         PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/unix/pa_unix_hostapis.c portaudio/src/os/unix/pa_unix_util.c portaudio/src/hostapi/coreaudio/pa_mac_core_blocking.c portaudio/src/hostapi/coreaudio/pa_mac_core_utilities.c portaudio/src/hostapi/coreaudio/pa_mac_core.c"
         ;;
