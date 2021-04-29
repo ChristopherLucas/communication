@@ -178,17 +178,17 @@ case "${R_PLATFORM}" in
            mac_version=""
         fi
         
-        dnl MACOSX_DEPLOYMENT_TARGET="10.11"
-        dnl mac_version_min="-mmacosx-version-min=10.11"
-        dnl if test "$CI" != "0"; then
-        dnl  MACOSX_DEPLOYMENT_TARGET="11.0"
-        dnl  mac_version_min="-mmacosx-version-min=11.0"
-        dnl fi
-        dnl AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min")        
+        MACOSX_DEPLOYMENT_TARGET="10.11"
+        mac_version_min="-mmacosx-version-min=10.11"
+        if test "$CI" != "0"; then
+					MACOSX_DEPLOYMENT_TARGET="11.0"
+					mac_version_min="-mmacosx-version-min=11.0"
+        fi
+        AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min")        
 		
-        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot" dnl "$mac_version_min"
+        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot $mac_version_min"
         dnl PORTAUDIO_CFLAGS="-std=c99 $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot dnl $mac_version_min"
-        PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot" dnl "$mac_version_min"
+        PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot $mac_version_min"
 
         PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/unix/pa_unix_hostapis.c portaudio/src/os/unix/pa_unix_util.c portaudio/src/hostapi/coreaudio/pa_mac_core_blocking.c portaudio/src/hostapi/coreaudio/pa_mac_core_utilities.c portaudio/src/hostapi/coreaudio/pa_mac_core.c"
         ;;
