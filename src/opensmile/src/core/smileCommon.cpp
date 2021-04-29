@@ -173,7 +173,7 @@ void gettimeofday(timeval* p, void* tz /* IGNORED */){
 #endif /* WIN32 */
 
 
-#ifdef __MACOS
+#ifdef __APPLE__
 int clock_gettime (int clock_id, struct timespec *tp)
 {
 	struct timeval tv;

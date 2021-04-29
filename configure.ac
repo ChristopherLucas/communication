@@ -178,8 +178,8 @@ case "${R_PLATFORM}" in
            mac_version=""
         fi
         
-        if test "$CI" = "0"; then
-					dnl MACOSX_DEPLOYMENT_TARGET="10.11"
+        if test -z "$CI" ; then
+					MACOSX_DEPLOYMENT_TARGET="10.11"
         fi
         AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min")        
 		
