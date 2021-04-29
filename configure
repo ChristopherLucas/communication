@@ -4794,8 +4794,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
                     ASIODIR="$with_asiodir"
                     PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/win/*.c portaudio/src/hostapi/wdmks/*.c"
                                         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -lwinmm -lm -lole32 -luuid"
-                    PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -ffast-math -fomit-frame-pointer -I\$(top_srcdir)/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
-                    CFLAGS="$CFLAGS -ffast-math -fomit-frame-pointer -I\$(top_srcdir)/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
+                    PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -ffast-math -fomit-frame-pointer -I\${top_srcdir}/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
+                    CFLAGS="$CFLAGS -ffast-math -fomit-frame-pointer -I\${top_srcdir}/src/hostapi/asio -I$ASIODIR/host/pc -I$ASIODIR/common -I$ASIODIR/host -UPA_USE_ASIO -DPA_USE_ASIO=1 -DWINDOWS"
 
                                                                                                     CFLAGS="$CFLAGS -D_WIN32_WINNT=0x0501 -DWINVER=0x0501"
                     PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -D_WIN32_WINNT=0x0501 -DWINVER=0x0501"
@@ -4823,7 +4823,7 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
                     PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/win/*.c portaudio/src/hostapi/wasapi/*.c"
                     PORTAUDIO_LIBS="$PORTAUDIO_LIBS -lwinmm -lm -lole32 -luuid"
                     PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
-                    CFLAGS="$CFLAGS -I\$(top_srcdir)/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
+                    CFLAGS="$CFLAGS -I\${top_srcdir}/src/hostapi/wasapi/mingw-include -UPA_USE_WASAPI -DPA_USE_WASAPI=1"
                 fi
                 ;;
 
