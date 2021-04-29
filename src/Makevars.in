@@ -9,6 +9,7 @@ CXX_STD = CXX11
 PKG_CFLAGS = $(PORTAUDIO_CFLAGS)
 PKG_CPPFLAGS = -pthread $(DEFS) $(PORTAUDIO_DEFINES_INCLUDES) -DHAVE_MPGLIB -DARMA_DONT_PRINT_ERRORS -DOPENSMILE_BUILD -DHAVE_PORTAUDIO -DBUILD_LIBSVM -DBUILD_WITHOUT_EXPERIMENTAL -DHAVE_PORTAUDIO_V19 -DHAVE_PTHREAD -pthread -I/usr/include/armadillo_bits -I portaudio/src/common -I portaudio/include -I opensmile/src/include -I develop/include -I lame-wrapper -I lame/include -I lame/libmp3lame  -I lame/mpglib -I windows -I mp3 -I utils #-DDevelopVersion
 PKG_LIBS = -pthread  $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(PORTAUDIO_LIBS)
+PKG_CXXFLAGS = -std=c++11
 
 
 OpSm_P = opensmile/src
