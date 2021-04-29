@@ -44,11 +44,11 @@
 #define DEFINE_GUIDSTRUCT(g,n) DEFINE_GUIDEX(n)
 #define DEFINE_GUIDNAMED(n) n
 
-#define STATIC_GUID_nullptr						\
+#define STATIC_GUID_NULL						\
 	0x00000000L,0x0000,0x0000,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 
-DEFINE_GUIDSTRUCT("00000000-0000-0000-0000-000000000000",GUID_nullptr);
-#define GUID_nullptr DEFINE_GUIDNAMED(GUID_nullptr)
+DEFINE_GUIDSTRUCT("00000000-0000-0000-0000-000000000000",GUID_NULL);
+#define GUID_NULL DEFINE_GUIDNAMED(GUID_NULL)
 
 #define IOCTL_KS_PROPERTY CTL_CODE(FILE_DEVICE_KS,0x000,METHOD_NEITHER,FILE_ANY_ACCESS)
 #define IOCTL_KS_ENABLE_EVENT CTL_CODE(FILE_DEVICE_KS,0x001,METHOD_NEITHER,FILE_ANY_ACCESS)
@@ -358,7 +358,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSCOMPONENTID),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define STATIC_KSMETHODSETID_StreamIo	\
 	0x65D003CAL,0x1523,0x11D2,0xB2,0x7A,0x00,0xA0,0xC9,0x22,0x31,0x96
@@ -377,7 +377,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSMETHOD),			\
 				0,					\
-				nullptr)
+				NULL)
 
 #define DEFINE_KSMETHOD_ITEM_STREAMIO_WRITE(Handler)			\
 	DEFINE_KSMETHOD_ITEM(						\
@@ -386,7 +386,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSMETHOD),			\
 				0,					\
-				nullptr)
+				NULL)
 
 #define STATIC_KSPROPSETID_MediaSeeking					\
 	0xEE904F0CL,0xD09B,0x11D0,0xAB,0xE9,0x00,0xA0,0xC9,0x22,0x31,0x96
@@ -451,7 +451,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KS_SEEKING_CAPABILITIES),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_FORMATS(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -459,7 +459,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_TIMEFORMAT(GetHandler,SetHandler) \
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -468,7 +468,7 @@ typedef struct {
 				sizeof(KSPROPERTY),			\
 				sizeof(GUID),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_POSITION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -476,7 +476,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_STOPPOSITION(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -484,16 +484,16 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_POSITIONS(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_MEDIASEEKING_POSITIONS,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSPROPERTY_POSITIONS),		\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_DURATION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -501,7 +501,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_AVAILABLE(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -509,7 +509,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSPROPERTY_MEDIAAVAILABLE),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_PREROLL(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -517,7 +517,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_MEDIASEEKING_CONVERTTIMEFORMAT(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -525,7 +525,7 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSP_TIMEFORMAT),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define STATIC_KSPROPSETID_Topology					\
 	0x720D4AC0L,0x7533,0x11D0,0xA5,0xD6,0x28,0xDB,0x04,0xC1,0x00,0x00
@@ -545,7 +545,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				0,					\
-				nullptr, nullptr, 0,nullptr, nullptr, 0)
+				NULL, NULL, 0,NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_TOPOLOGY_NODES(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -553,7 +553,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_TOPOLOGY_CONNECTIONS(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -561,7 +561,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_TOPOLOGY_NAME(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -569,7 +569,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSP_NODE),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_TOPOLOGYSET(TopologySet,Handler)		\
 DEFINE_KSPROPERTY_TABLE(TopologySet) {					\
@@ -680,8 +680,8 @@ typedef struct {
   ULONG Node;
 } KSNODE_CREATE,*PKSNODE_CREATE;
 
-#define STATIC_KSTIME_FORMAT_NONE	STATIC_GUID_nullptr
-#define KSTIME_FORMAT_NONE		GUID_nullptr
+#define STATIC_KSTIME_FORMAT_NONE	STATIC_GUID_NULL
+#define KSTIME_FORMAT_NONE		GUID_NULL
 
 #define STATIC_KSTIME_FORMAT_FRAME					\
 	0x7b785570L,0x8c82,0x11cf,0xbc,0x0c,0x00,0xaa,0x00,0xac,0x74,0xf6
@@ -877,7 +877,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(KSPIN_CINSTANCES),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_CTYPES(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -885,7 +885,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(ULONG),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_DATAFLOW(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -893,7 +893,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(KSPIN_DATAFLOW),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_DATARANGES(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -901,7 +901,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_DATAINTERSECTION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -909,7 +909,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN) + sizeof(KSMULTIPLE_ITEM),\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_INTERFACES(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -917,7 +917,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_MEDIUMS(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -925,7 +925,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_COMMUNICATION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -933,7 +933,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(KSPIN_COMMUNICATION),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_GLOBALCINSTANCES(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -941,7 +941,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(KSPIN_CINSTANCES),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_NECESSARYINSTANCES(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -949,7 +949,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(ULONG),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_PHYSICALCONNECTION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -957,7 +957,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_CATEGORY(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -965,7 +965,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				sizeof(GUID),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_NAME(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -973,7 +973,7 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_CONSTRAINEDDATARANGES(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -981,15 +981,15 @@ typedef NTSTATUS (*PFNKSINTERSECTHANDLEREX)(PVOID Context, PIRP Irp,
 				(Handler),				\
 				sizeof(KSP_PIN),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_PIN_PROPOSEDATAFORMAT(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_PIN_PROPOSEDATAFORMAT,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSP_PIN),			\
 				sizeof(KSDATAFORMAT),			\
-				(Handler), nullptr, 0, nullptr, nullptr, 0)
+				(Handler), NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_PINSET(PinSet,PropGeneral,PropInstances,PropIntersection) \
 DEFINE_KSPROPERTY_TABLE(PinSet) {					\
@@ -1086,7 +1086,7 @@ typedef const KSPIN_DESCRIPTOR *PCKSPIN_DESCRIPTOR;
 {									\
 		InterfacesCount, Interfaces, MediumsCount, Mediums,	\
 		DataRangesCount, DataRanges, DataFlow, Communication,	\
-		nullptr, nullptr, 0						\
+		NULL, NULL, 0						\
 }
 
 #define DEFINE_KSPIN_DESCRIPTOR_ITEMEX(InterfacesCount,Interfaces,MediumsCount,Mediums,DataRangesCount,DataRanges,DataFlow,Communication,Category,Name)\
@@ -1097,11 +1097,11 @@ typedef const KSPIN_DESCRIPTOR *PCKSPIN_DESCRIPTOR;
 }
 #endif /* _NTDDK_ */
 
-#define STATIC_KSDATAFORMAT_TYPE_WILDCARD	STATIC_GUID_nullptr
-#define KSDATAFORMAT_TYPE_WILDCARD		GUID_nullptr
+#define STATIC_KSDATAFORMAT_TYPE_WILDCARD	STATIC_GUID_NULL
+#define KSDATAFORMAT_TYPE_WILDCARD		GUID_NULL
 
-#define STATIC_KSDATAFORMAT_SUBTYPE_WILDCARD	STATIC_GUID_nullptr
-#define KSDATAFORMAT_SUBTYPE_WILDCARD		GUID_nullptr
+#define STATIC_KSDATAFORMAT_SUBTYPE_WILDCARD	STATIC_GUID_NULL
+#define KSDATAFORMAT_SUBTYPE_WILDCARD		GUID_NULL
 
 #define STATIC_KSDATAFORMAT_TYPE_STREAM					\
 	0xE436EB83L,0x524F,0x11CE,0x9F,0x53,0x00,0x20,0xAF,0x0B,0xA7,0x70
@@ -1113,8 +1113,8 @@ DEFINE_GUIDSTRUCT("E436EB83-524F-11CE-9F53-0020AF0BA770",KSDATAFORMAT_TYPE_STREA
 DEFINE_GUIDSTRUCT("E436EB8E-524F-11CE-9F53-0020AF0BA770",KSDATAFORMAT_SUBTYPE_NONE);
 #define KSDATAFORMAT_SUBTYPE_NONE DEFINE_GUIDNAMED(KSDATAFORMAT_SUBTYPE_NONE)
 
-#define STATIC_KSDATAFORMAT_SPECIFIER_WILDCARD	STATIC_GUID_nullptr
-#define KSDATAFORMAT_SPECIFIER_WILDCARD		GUID_nullptr
+#define STATIC_KSDATAFORMAT_SPECIFIER_WILDCARD	STATIC_GUID_NULL
+#define KSDATAFORMAT_SPECIFIER_WILDCARD		GUID_NULL
 
 #define STATIC_KSDATAFORMAT_SPECIFIER_FILENAME				\
 	0xAA797B40L,0xE974,0x11CF,0xA5,0xD6,0x28,0xDB,0x04,0xC1,0x00,0x00
@@ -1148,7 +1148,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSQUALITY),			\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_QUALITY_ERROR(GetHandler,SetHandler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1157,7 +1157,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSERROR),			\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define STATIC_KSPROPSETID_Connection					\
 	0x1D58C920L,0xAC9B,0x11CF,0xA5,0xD6,0x28,0xDB,0x04,0xC1,0x00,0x00
@@ -1182,7 +1182,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSSTATE),			\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_PRIORITY(GetHandler,SetHandler) \
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1191,7 +1191,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSPRIORITY),			\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_DATAFORMAT(GetHandler,SetHandler)\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1200,7 +1200,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				0,					\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_ALLOCATORFRAMING(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1208,7 +1208,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSALLOCATOR_FRAMING),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_ALLOCATORFRAMING_EX(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1216,16 +1216,16 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				0,					\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_PROPOSEDATAFORMAT(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_CONNECTION_PROPOSEDATAFORMAT,\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSDATAFORMAT),			\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_ACQUIREORDERING(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1233,16 +1233,16 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(int),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CONNECTION_STARTAT(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_CONNECTION_STARTAT,		\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSRELATIVEEVENT),		\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define KSALLOCATOR_REQUIREMENTF_INPLACE_MODIFIER	0x00000001
 #define KSALLOCATOR_REQUIREMENTF_SYSTEM_MEMORY		0x00000002
@@ -1329,14 +1329,14 @@ typedef struct {
   KS_FRAMING_ITEM FramingItem[1];
 } KSALLOCATOR_FRAMING_EX,*PKSALLOCATOR_FRAMING_EX;
 
-#define KSMEMORY_TYPE_WILDCARD		GUID_nullptr
-#define STATIC_KSMEMORY_TYPE_WILDCARD	STATIC_GUID_nullptr
+#define KSMEMORY_TYPE_WILDCARD		GUID_NULL
+#define STATIC_KSMEMORY_TYPE_WILDCARD	STATIC_GUID_NULL
 
-#define KSMEMORY_TYPE_DONT_CARE		GUID_nullptr
-#define STATIC_KSMEMORY_TYPE_DONT_CARE	STATIC_GUID_nullptr
+#define KSMEMORY_TYPE_DONT_CARE		GUID_NULL
+#define STATIC_KSMEMORY_TYPE_DONT_CARE	STATIC_GUID_NULL
 
-#define KS_TYPE_DONT_CARE		GUID_nullptr
-#define STATIC_KS_TYPE_DONT_CARE	STATIC_GUID_nullptr
+#define KS_TYPE_DONT_CARE		GUID_NULL
+#define STATIC_KS_TYPE_DONT_CARE	STATIC_GUID_NULL
 
 #define STATIC_KSMEMORY_TYPE_SYSTEM					\
 	0x091bb638L,0x603f,0x11d1,0xb0,0x67,0x00,0xa0,0xc9,0x06,0x28,0x02
@@ -1484,7 +1484,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSMETHOD),			\
 				sizeof(PVOID),				\
-				nullptr)
+				NULL)
 
 #define DEFINE_KSMETHOD_ITEM_STREAMALLOCATOR_FREE(Handler)		\
 	DEFINE_KSMETHOD_ITEM(						\
@@ -1493,7 +1493,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSMETHOD),			\
 				sizeof(PVOID),				\
-				nullptr)
+				NULL)
 
 #define DEFINE_KSMETHOD_ALLOCATORSET(AllocatorSet,MethodAlloc,MethodFree)\
 DEFINE_KSMETHOD_TABLE(AllocatorSet) {					\
@@ -1518,7 +1518,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSSTREAMALLOCATOR_FUNCTIONTABLE),\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAMALLOCATOR_STATUS(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1526,7 +1526,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSSTREAMALLOCATOR_STATUS),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ALLOCATORSET(AllocatorSet,PropFunctionTable,PropStatus)\
 DEFINE_KSPROPERTY_TABLE(AllocatorSet) {					\
@@ -1602,7 +1602,7 @@ typedef enum {
 				(GetHandler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(ULONG),				\
-				nullptr,nullptr,0,nullptr,nullptr,0)
+				NULL,NULL,0,NULL,NULL,0)
 
 #define DEFINE_KSPROPERTY_STREAMINTERFACESET(StreamInterfaceSet,HeaderSizeHandler) \
 DEFINE_KSPROPERTY_TABLE(StreamInterfaceSet) {				\
@@ -1635,7 +1635,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(HANDLE),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_QUALITY(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1643,7 +1643,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSQUALITY_MANAGER),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_DEGRADATION(GetHandler,SetHandler)\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1652,7 +1652,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				0,					\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_MASTERCLOCK(GetHandler,SetHandler)\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1661,7 +1661,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(HANDLE),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_TIMEFORMAT(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1669,7 +1669,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(GUID),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_PRESENTATIONTIME(GetHandler,SetHandler)\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1678,7 +1678,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSTIME),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_PRESENTATIONEXTENT(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1686,7 +1686,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(LONGLONG),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_FRAMETIME(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1694,7 +1694,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSFRAMETIME),			\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_RATECAPABILITY(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1702,7 +1702,7 @@ typedef enum {
 				(Handler),				\
 				sizeof(KSRATE_CAPABILITY),		\
 				sizeof(KSRATE),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_RATE(GetHandler,SetHandler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1711,7 +1711,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(KSRATE),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_STREAM_PIPE_ID(GetHandler,SetHandler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1720,7 +1720,7 @@ typedef enum {
 				sizeof(KSPROPERTY),			\
 				sizeof(HANDLE),				\
 				(SetHandler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 typedef struct {
   HANDLE QualityManager;
@@ -1813,14 +1813,14 @@ typedef PVOID			PKSDEFAULTCLOCK;
 				KSPROPERTY_CLOCK_TIME,			\
 				(Handler),				\
 				sizeof(KSPROPERTY), sizeof(LONGLONG),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_PHYSICALTIME(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_CLOCK_PHYSICALTIME,		\
 				(Handler),				\
 				sizeof(KSPROPERTY), sizeof(LONGLONG),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_CORRELATEDTIME(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1828,7 +1828,7 @@ typedef PVOID			PKSDEFAULTCLOCK;
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSCORRELATED_TIME),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_CORRELATEDPHYSICALTIME(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1836,21 +1836,21 @@ typedef PVOID			PKSDEFAULTCLOCK;
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSCORRELATED_TIME),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_RESOLUTION(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_CLOCK_RESOLUTION,		\
 				(Handler),				\
 				sizeof(KSPROPERTY),sizeof(KSRESOLUTION),\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_STATE(Handler)			\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_CLOCK_STATE,			\
 				(Handler),				\
 				sizeof(KSPROPERTY), sizeof(KSSTATE),	\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_CLOCK_FUNCTIONTABLE(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -1858,7 +1858,7 @@ typedef PVOID			PKSDEFAULTCLOCK;
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSCLOCK_FUNCTIONTABLE),		\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_CLOCKSET(ClockSet,PropTime,PropPhysicalTime,PropCorrelatedTime,PropCorrelatedPhysicalTime,PropResolution,PropState,PropFunctionTable)\
 DEFINE_KSPROPERTY_TABLE(ClockSet) {					\
@@ -2186,11 +2186,11 @@ typedef VOID (*PFNKSITEMFREECALLBACK)(PKSOBJECT_CREATE_ITEM CreateItem);
 {									\
 			(DispatchCreate), (PVOID)(Context),		\
 			{						\
-				sizeof(TypeName) - sizeof(UNICODE_nullptr),\
+				sizeof(TypeName) - sizeof(UNICODE_NULL),\
 				sizeof(TypeName),			\
 				(PWCHAR)(TypeName)			\
 			},						\
-			nullptr, 0						\
+			NULL, 0						\
 }
 
 #define DEFINE_KSCREATE_ITEMEX(DispatchCreate,TypeName,Context,Flags)	\
@@ -2198,20 +2198,20 @@ typedef VOID (*PFNKSITEMFREECALLBACK)(PKSOBJECT_CREATE_ITEM CreateItem);
 			(DispatchCreate),				\
 			(PVOID)(Context),				\
 			{						\
-				sizeof(TypeName) - sizeof(UNICODE_nullptr),\
+				sizeof(TypeName) - sizeof(UNICODE_NULL),\
 				sizeof(TypeName),			\
 				(PWCHAR)(TypeName)			\
 			},						\
-			nullptr, (Flags)					\
+			NULL, (Flags)					\
 }
 
-#define DEFINE_KSCREATE_ITEMnullptr(DispatchCreate,Context)		\
+#define DEFINE_KSCREATE_ITEMNULL(DispatchCreate,Context)		\
 {									\
 			DispatchCreate, Context,			\
 			{						\
-				0, 0, nullptr,				\
+				0, 0, NULL,				\
 			},						\
-			nullptr, 0						\
+			NULL, 0						\
 }
 
 typedef struct {
@@ -2476,20 +2476,20 @@ struct KSAUTOMATION_TABLE_ {
 		sizeof(KSEVENT_ITEM),					\
 		table
 
-#define DEFINE_KSAUTOMATION_PROPERTIES_nullptr				\
+#define DEFINE_KSAUTOMATION_PROPERTIES_NULL				\
 		0,							\
 		sizeof(KSPROPERTY_ITEM),				\
-		nullptr
+		NULL
 
-#define DEFINE_KSAUTOMATION_METHODS_nullptr				\
+#define DEFINE_KSAUTOMATION_METHODS_NULL				\
 		0,							\
 		sizeof(KSMETHOD_ITEM),					\
-		nullptr
+		NULL
 
-#define DEFINE_KSAUTOMATION_EVENTS_nullptr					\
+#define DEFINE_KSAUTOMATION_EVENTS_NULL					\
 		0,							\
 		sizeof(KSEVENT_ITEM),					\
-		nullptr
+		NULL
 
 #define MIN_DEV_VER_FOR_QI		(0x100)
 
@@ -2594,19 +2594,19 @@ struct _KSFILTER_DESCRIPTOR {
 	1,								\
 	&(category)
 
-#define DEFINE_KSFILTER_CATEGORIES_nullptr					\
+#define DEFINE_KSFILTER_CATEGORIES_NULL					\
 	0,								\
-	nullptr
+	NULL
 
 #define DEFINE_KSFILTER_NODE_DESCRIPTORS(table)				\
 	SIZEOF_ARRAY(table),						\
 	sizeof(table[0]),						\
 	table
 
-#define DEFINE_KSFILTER_NODE_DESCRIPTORS_nullptr				\
+#define DEFINE_KSFILTER_NODE_DESCRIPTORS_NULL				\
 	0,								\
 	sizeof(KSNODE_DESCRIPTOR),					\
-	nullptr
+	NULL
 
 #define DEFINE_KSFILTER_CONNECTIONS(table)				\
 	SIZEOF_ARRAY(table),						\
@@ -2614,7 +2614,7 @@ struct _KSFILTER_DESCRIPTOR {
 
 #define DEFINE_KSFILTER_DEFAULT_CONNECTIONS				\
 	0,								\
-	nullptr
+	NULL
 
 #define DEFINE_KSFILTER_DESCRIPTOR_TABLE(table)				\
 	const KSFILTER_DESCRIPTOR*const table[] =
@@ -2653,11 +2653,11 @@ struct _KSPIN_DESCRIPTOR_EX {
 
 #define DEFINE_KSPIN_DEFAULT_INTERFACES					\
 	0,								\
-	nullptr
+	NULL
 
 #define DEFINE_KSPIN_DEFAULT_MEDIUMS					\
 	0,								\
-	nullptr
+	NULL
 
 struct _KSNODE_DESCRIPTOR {
   const KSAUTOMATION_TABLE *AutomationTable;
@@ -2670,7 +2670,7 @@ struct _KSNODE_DESCRIPTOR {
 
 #ifndef _WIN64
 #define DEFINE_NODE_DESCRIPTOR(automation,type,name)			\
-	{ (automation), (type), (name), nullptr }
+	{ (automation), (type), (name), NULL }
 #else
 #define DEFINE_NODE_DESCRIPTOR(automation,type,name)			\
 	{ (automation), (type), (name) }

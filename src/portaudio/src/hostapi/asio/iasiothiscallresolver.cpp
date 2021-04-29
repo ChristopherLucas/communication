@@ -151,7 +151,6 @@
     Andrew Baldwin: contributed fixes for compatibility problems with more
     recent versions of the gcc assembler.
 */
-#include "develop.h"
 
 
 // We only need IASIOThiscallResolver at all if we are on Win32. For other
@@ -369,7 +368,7 @@ IASIOThiscallResolver::IASIOThiscallResolver(IASIO* that)
 {
 }
 
-// Implement IUnknown methods as speech_assert(false). IASIOThiscallResolver is not
+// Implement IUnknown methods as assert(false). IASIOThiscallResolver is not
 // really a COM object, just a wrapper which will work with the ASIO SDK.
 // If you wanted to use ASIO without the SDK you might want to implement COM
 // aggregation in these methods.
@@ -377,22 +376,22 @@ HRESULT STDMETHODCALLTYPE IASIOThiscallResolver::QueryInterface(REFIID riid, voi
 {
     (void)riid;     // suppress unused variable warning
 
-    speech_assert( false ); // this function should never be called by the ASIO SDK.
+    assert( false ); // this function should never be called by the ASIO SDK.
 
-    *ppv = nullptr;
+    *ppv = NULL;
     return E_NOINTERFACE;
 }
 
 ULONG STDMETHODCALLTYPE IASIOThiscallResolver::AddRef()
 {
-    speech_assert( false ); // this function should never be called by the ASIO SDK.
+    assert( false ); // this function should never be called by the ASIO SDK.
 
     return 1;
 }
 
 ULONG STDMETHODCALLTYPE IASIOThiscallResolver::Release()
 {
-    speech_assert( false ); // this function should never be called by the ASIO SDK.
+    assert( false ); // this function should never be called by the ASIO SDK.
     
     return 1;
 }

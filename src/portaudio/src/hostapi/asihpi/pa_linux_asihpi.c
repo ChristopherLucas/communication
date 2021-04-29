@@ -140,8 +140,6 @@
  and friends) is not implemented yet. All output is primed with silence.
  */
 
-#include "develop.h"
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -169,7 +167,7 @@
  * Defines
  */
 
-/* Error reporting and speech_assertions */
+/* Error reporting and assertions */
 
 /** Evaluate expression, and return on any PortAudio errors */
 #define PA_ENSURE_(expr) \
@@ -201,27 +199,27 @@
         /* If HPI error occurred */ \
         if( UNLIKELY( hpiError ) ) \
         { \
-	    char szError[256]; \
-	    HPI_GetErrorText( hpiError, szError ); \
-	    PA_DEBUG(( "HPI error %d occurred: %s\n", hpiError, szError )); \
-	    /* This message will always be displayed, even if debug info is disabled */ \
+        char szError[256]; \
+        HPI_GetErrorText( hpiError, szError ); \
+        PA_DEBUG(( "HPI error %d occurred: %s\n", hpiError, szError )); \
+        /* This message will always be displayed, even if debug info is disabled */ \
             PA_DEBUG(( "Expression '" #expr "' failed in '" __FILE__ "', line: " STRINGIZE( __LINE__ ) "\n" )); \
             if( (paError) == paUnanticipatedHostError ) \
-	    { \
-	        PA_DEBUG(( "Host error description: %s\n", szError )); \
-	        /* PaUtil_SetLastHostErrorInfo should only be used in the main thread */ \
-	        if( pthread_equal( pthread_self(), paUnixMainThread ) ) \
+        { \
+            PA_DEBUG(( "Host error description: %s\n", szError )); \
+            /* PaUtil_SetLastHostErrorInfo should only be used in the main thread */ \
+            if( pthread_equal( pthread_self(), paUnixMainThread ) ) \
                 { \
-		    PaUtil_SetLastHostErrorInfo( paInDevelopment, hpiError, szError ); \
+            PaUtil_SetLastHostErrorInfo( paInDevelopment, hpiError, szError ); \
                 } \
-	    } \
-	    /* If paNoError is specified, continue as usual */ \
+        } \
+        /* If paNoError is specified, continue as usual */ \
             /* (useful if you only want to print out the debug messages above) */ \
-	    if( (paError) < 0 ) \
-	    { \
-	        result = (paError); \
-	        goto error; \
-	    } \
+        if( (paError) < 0 ) \
+        { \
+            result = (paError); \
+            goto error; \
+        } \
         } \
     } while( 0 );
 
@@ -233,9 +231,9 @@
         PA_DEBUG(( "HPI error %d occurred: %s\n", hpiError, szError )); \
         /* PaUtil_SetLastHostErrorInfo should only be used in the main thread */ \
         if( pthread_equal( pthread_self(), paUnixMainThread ) ) \
-	{ \
-	    PaUtil_SetLastHostErrorInfo( paInDevelopment, (hpiErrorCode), szError ); \
-	} \
+    { \
+        PaUtil_SetLastHostErrorInfo( paInDevelopment, (hpiErrorCode), szError ); \
+    } \
     } while( 0 );
 
 /* Defaults */
@@ -531,7 +529,7 @@ static PaError PaAsiHpi_BuildDeviceList( PaAsiHpiHostApiRepresentation *hpiHostA
     hpi_err_t hpiError = 0;
     int i, j, deviceCount = 0, deviceIndex = 0;
 
-    speech_assert( hpiHostApi );
+    assert( hpiHostApi );
 
     /* Errors not considered critical here (subsystem may report 0 devices), but report them */
     /* in debug mode. */
@@ -558,7 +556,7 @@ static PaError PaAsiHpi_BuildDeviceList( PaAsiHpiHostApiRepresentation *hpiHostA
             continue;
         }
         hpiError = HPI_AdapterGetInfo( NULL, idx, &outStreams, &inStreams,
-					&version, &serial, &type );
+                                       &version, &serial, &type );
         /* Skip to next device on failure */
         if( hpiError )
         {
@@ -740,7 +738,7 @@ PaError PaAsiHpi_Initialize( PaUtilHostApiRepresentation **hostApi, PaHostApiInd
          * interface and paNoError */
         PA_DEBUG(( "Could not open HPI interface\n" ));
 
-	*hostApi = NULL;
+        *hostApi = NULL;
         return paNoError;
     }
     else
@@ -938,7 +936,7 @@ static PaError PaAsiHpi_CreateFormat( struct PaUtilHostApiRepresentation *hostAp
         return paInvalidDevice;
     else
     {
-        speech_assert( parameters->device < hostApi->info.deviceCount );
+        assert( parameters->device < hostApi->info.deviceCount );
         *hpiDevice = (PaAsiHpiDeviceInfo*) hostApi->deviceInfos[ parameters->device ];
     }
 
@@ -1180,8 +1178,8 @@ static PaError PaAsiHpi_GetStreamInfo( PaAsiHpiStreamComponent *streamComp, PaAs
     uint32_t bufferSize, dataSize, frameCounter, auxDataSize, threshold;
     uint32_t hwBufferSize, hwDataSize;
 
-    speech_assert( streamComp );
-    speech_assert( info );
+    assert( streamComp );
+    assert( info );
 
     /* First blank the stream info struct, in case something goes wrong below.
        This saves the caller from initializing the struct. */
@@ -1261,8 +1259,8 @@ static void PaAsiHpi_StreamComponentDump( PaAsiHpiStreamComponent *streamComp,
 {
     PaAsiHpiStreamInfo streamInfo;
 
-    speech_assert( streamComp );
-    speech_assert( stream );
+    assert( streamComp );
+    assert( stream );
 
     /* Name of soundcard/device used by component */
     PA_DEBUG(( "device: %s\n", streamComp->hpiDevice->baseDeviceInfo.name ));
@@ -1385,7 +1383,7 @@ static void PaAsiHpi_StreamComponentDump( PaAsiHpiStreamComponent *streamComp,
  */
 static void PaAsiHpi_StreamDump( PaAsiHpiStream *stream )
 {
-    speech_assert( stream );
+    assert( stream );
 
     PA_DEBUG(( "\n------------------------- STREAM INFO FOR %p ---------------------------\n", stream ));
     /* General stream info (input+output) */
@@ -1474,8 +1472,8 @@ static PaError PaAsiHpi_SetupBuffers( PaAsiHpiStreamComponent *streamComp, uint3
     PaAsiHpiStreamInfo streamInfo;
     unsigned long hpiBufferSize = 0, paHostBufferSize = 0;
 
-    speech_assert( streamComp );
-    speech_assert( streamComp->hpiDevice );
+    assert( streamComp );
+    assert( streamComp->hpiDevice );
 
     /* Obtain size of hardware buffer of HPI stream, since we will be activating BBM shortly
        and afterwards the buffer size will refer to the BBM (host-side) buffer.
@@ -1586,7 +1584,7 @@ static PaError PaAsiHpi_SetupBuffers( PaAsiHpiStreamComponent *streamComp, uint3
             /* If BBM not supported, foreground transfers will be used, but not a show-stopper */
             /* Anything else is an error */
             else if (( hpiError != HPI_ERROR_INVALID_OPERATION ) &&
-		     ( hpiError != HPI_ERROR_INVALID_FUNC ))
+                    ( hpiError != HPI_ERROR_INVALID_FUNC ))
             {
                 PA_ASIHPI_REPORT_ERROR_( hpiError );
                 result = paUnanticipatedHostError;
@@ -1715,7 +1713,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
     framesPerHostBuffer = (framesPerHostBuffer / 4) * 4;
     /* Polling is based on time length (in milliseconds) of user-requested block size */
     stream->pollingInterval = (uint32_t)ceil( 1000.0*framesPerHostBuffer/sampleRate );
-    speech_assert( framesPerHostBuffer > 0 );
+    assert( framesPerHostBuffer > 0 );
 
     /* Open underlying streams, check formats and allocate buffers */
     if( inputParameters )
@@ -1734,7 +1732,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
         inputSampleFormat = inputParameters->sampleFormat;
         hostInputSampleFormat = PaAsiHpi_HpiToPaFormat( stream->input->hpiFormat.wFormat );
         stream->input->bytesPerFrame = inputChannelCount * Pa_GetSampleSize( hostInputSampleFormat );
-        speech_assert( stream->input->bytesPerFrame > 0 );
+        assert( stream->input->bytesPerFrame > 0 );
         /* Allocate host and temp buffers of appropriate size */
         PA_ENSURE_( PaAsiHpi_SetupBuffers( stream->input, stream->pollingInterval,
                                            framesPerHostBuffer, inputParameters->suggestedLatency ) );
@@ -1772,7 +1770,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
         stream->maxFramesPerHostBuffer = inputParameters ? stream->input->tempBufferSize / stream->input->bytesPerFrame
                                          : stream->output->tempBufferSize / stream->output->bytesPerFrame;
     }
-    speech_assert( stream->maxFramesPerHostBuffer > 0 );
+    assert( stream->maxFramesPerHostBuffer > 0 );
     /* Initialize various other stream parameters */
     stream->neverDropInput = streamFlags & paNeverDropInput;
     stream->state = paAsiHpiStoppedState;
@@ -1818,7 +1816,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
             bufferDuration +
             ((PaTime)PaUtil_GetBufferProcessorInputLatencyFrames( &stream->bufferProcessor ) -
                 stream->maxFramesPerHostBuffer) / sampleRate;
-        speech_assert( stream->baseStreamRep.streamInfo.inputLatency > 0.0 );
+        assert( stream->baseStreamRep.streamInfo.inputLatency > 0.0 );
     }
     /* Determine output latency from buffer processor and buffer sizes */
     if( stream->output )
@@ -1835,7 +1833,7 @@ static PaError OpenStream( struct PaUtilHostApiRepresentation *hostApi,
             bufferDuration +
             ((PaTime)PaUtil_GetBufferProcessorOutputLatencyFrames( &stream->bufferProcessor ) -
                 stream->maxFramesPerHostBuffer) / sampleRate;
-        speech_assert( stream->baseStreamRep.streamInfo.outputLatency > 0.0 );
+        assert( stream->baseStreamRep.streamInfo.outputLatency > 0.0 );
     }
 
     /* Report stream info, for debugging purposes */
@@ -1922,12 +1920,12 @@ static PaError PaAsiHpi_PrimeOutputWithSilence( PaAsiHpiStream *stream )
     PaAsiHpiStreamComponent *out;
     PaUtilZeroer *zeroer;
     PaSampleFormat outputFormat;
-    speech_assert( stream );
+    assert( stream );
     out = stream->output;
     /* Only continue if stream has output channels */
     if( !out )
         return result;
-    speech_assert( out->tempBuffer );
+    assert( out->tempBuffer );
 
     /* Clear all existing data in hardware playback buffer */
     PA_ASIHPI_UNLESS_( HPI_OutStreamReset( NULL,
@@ -2005,7 +2003,7 @@ static PaError StartStream( PaStream *s )
     PaError result = paNoError;
     PaAsiHpiStream *stream = (PaAsiHpiStream*)s;
 
-    speech_assert( stream );
+    assert( stream );
 
     /* Ready the processor */
     PaUtil_ResetBufferProcessor( &stream->bufferProcessor );
@@ -2043,7 +2041,7 @@ static PaError PaAsiHpi_StopStream( PaAsiHpiStream *stream, int abort )
 {
     PaError result = paNoError;
 
-    speech_assert( stream );
+    assert( stream );
 
     /* Input channels */
     if( stream->input )
@@ -2179,7 +2177,7 @@ static PaError IsStreamStopped( PaStream *s )
 {
     PaAsiHpiStream *stream = (PaAsiHpiStream*)s;
 
-    speech_assert( stream );
+    assert( stream );
     return stream->state == paAsiHpiStoppedState ? 1 : 0;
 }
 
@@ -2200,7 +2198,7 @@ static PaError IsStreamActive( PaStream *s )
 {
     PaAsiHpiStream *stream = (PaAsiHpiStream*)s;
 
-    speech_assert( stream );
+    assert( stream );
     return stream->state == paAsiHpiActiveState ? 1 : 0;
 }
 
@@ -2247,7 +2245,7 @@ static void PaAsiHpi_OnThreadExit( void *userData )
 {
     PaAsiHpiStream *stream = (PaAsiHpiStream *) userData;
 
-    speech_assert( stream );
+    assert( stream );
 
     PaUtil_ResetCpuLoadMeasurer( &stream->cpuLoadMeasurer );
 
@@ -2294,13 +2292,13 @@ static PaError PaAsiHpi_WaitForFrames( PaAsiHpiStream *stream, unsigned long *fr
     unsigned long framesTarget;
     uint32_t outputData = 0, outputSpace = 0, inputData = 0, framesLeft = 0;
 
-    speech_assert( stream );
-    speech_assert( stream->input || stream->output );
+    assert( stream );
+    assert( stream->input || stream->output );
 
     sampleRate = stream->baseStreamRep.streamInfo.sampleRate;
     /* We have to come up with this much frames on both input and output */
     framesTarget = stream->bufferProcessor.framesPerHostBuffer;
-    speech_assert( framesTarget > 0 );
+    assert( framesTarget > 0 );
 
     while( 1 )
     {
@@ -2410,8 +2408,8 @@ static void PaAsiHpi_CalculateTimeInfo( PaAsiHpiStream *stream, PaStreamCallback
     PaAsiHpiStreamInfo streamInfo;
     double sampleRate;
 
-    speech_assert( stream );
-    speech_assert( timeInfo );
+    assert( stream );
+    assert( timeInfo );
     sampleRate = stream->baseStreamRep.streamInfo.sampleRate;
 
     /* The current time ("now") is at the forefront of both recording and playback */
@@ -2454,7 +2452,7 @@ static PaError PaAsiHpi_BeginProcessing( PaAsiHpiStream *stream, unsigned long *
 {
     PaError result = paNoError;
 
-    speech_assert( stream );
+    assert( stream );
     if( *numFrames > stream->maxFramesPerHostBuffer )
         *numFrames = stream->maxFramesPerHostBuffer;
 
@@ -2531,7 +2529,7 @@ static PaError PaAsiHpi_EndProcessing( PaAsiHpiStream *stream, unsigned long num
 {
     PaError result = paNoError;
 
-    speech_assert( stream );
+    assert( stream );
 
     if( stream->output )
     {
@@ -2572,7 +2570,7 @@ static void *CallbackThreadFunc( void *userData )
     PaAsiHpiStream *stream = (PaAsiHpiStream *) userData;
     int callbackResult = paContinue;
 
-    speech_assert( stream );
+    assert( stream );
 
     /* Cleanup routine stops streams on thread exit */
     pthread_cleanup_push( &PaAsiHpi_OnThreadExit, stream );
@@ -2637,7 +2635,7 @@ static void *CallbackThreadFunc( void *userData )
             else
             {
                 /* We've committed to an upper bound on the size of host buffers */
-                speech_assert( stream->bufferProcessor.hostBufferSizeMode == paUtilBoundedHostBufferSize );
+                assert( stream->bufferProcessor.hostBufferSizeMode == paUtilBoundedHostBufferSize );
                 framesGot = PA_MIN( framesGot, stream->maxFramesPerHostBuffer );
             }
 
@@ -2727,7 +2725,7 @@ static PaError ReadStream( PaStream *s,
     PaAsiHpiStreamInfo info;
     void *userBuffer;
 
-    speech_assert( stream );
+    assert( stream );
     PA_UNLESS_( stream->input, paCanNotReadFromAnOutputOnlyStream );
 
     /* Check for input overflow since previous call to ReadStream */
@@ -2794,7 +2792,7 @@ static PaError WriteStream( PaStream *s,
     PaAsiHpiStreamInfo info;
     const void *userBuffer;
 
-    speech_assert( stream );
+    assert( stream );
     PA_UNLESS_( stream->output, paCanNotWriteToAnInputOnlyStream );
 
     /* Check for output underflow since previous call to WriteStream */
@@ -2851,7 +2849,7 @@ static signed long GetStreamReadAvailable( PaStream *s )
     PaAsiHpiStream *stream = (PaAsiHpiStream*)s;
     PaAsiHpiStreamInfo info;
 
-    speech_assert( stream );
+    assert( stream );
     PA_UNLESS_( stream->input, paCanNotReadFromAnOutputOnlyStream );
 
     PA_ENSURE_( PaAsiHpi_GetStreamInfo( stream->input, &info ) );
@@ -2879,7 +2877,7 @@ static signed long GetStreamWriteAvailable( PaStream *s )
     PaAsiHpiStream *stream = (PaAsiHpiStream*)s;
     PaAsiHpiStreamInfo info;
 
-    speech_assert( stream );
+    assert( stream );
     PA_UNLESS_( stream->output, paCanNotWriteToAnInputOnlyStream );
 
     PA_ENSURE_( PaAsiHpi_GetStreamInfo( stream->output, &info ) );

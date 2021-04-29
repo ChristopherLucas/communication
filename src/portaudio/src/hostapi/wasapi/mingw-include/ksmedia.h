@@ -3991,52 +3991,52 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(ULONG),				\
-				nullptr, nullptr, 0, nullptr, nullptr, 0)
+				NULL, NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_PALETTE(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_OVERLAYUPDATE_PALETTE,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				0,					\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_COLORKEY(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_OVERLAYUPDATE_COLORKEY,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				sizeof(COLORKEY),			\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_CLIPLIST(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_OVERLAYUPDATE_CLIPLIST,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				2 *sizeof(RECT) + sizeof(RGNDATAHEADER),\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_VIDEOPOSITION(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_OVERLAYUPDATE_VIDEOPOSITION,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				2 *sizeof(RECT),			\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_DISPLAYCHANGE(Handler)	\
 	DEFINE_KSPROPERTY_ITEM(						\
 				KSPROPERTY_OVERLAYUPDATE_DISPLAYCHANGE,	\
-				nullptr,					\
+				NULL,					\
 				sizeof(KSPROPERTY),			\
 				sizeof(KSDISPLAYCHANGE),		\
 				(Handler),				\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL, 0, NULL, NULL, 0)
 
 #define DEFINE_KSPROPERTY_ITEM_OVERLAYUPDATE_COLORREF(Handler)		\
 	DEFINE_KSPROPERTY_ITEM(						\
@@ -4044,8 +4044,8 @@ typedef struct {
 				(Handler),				\
 				sizeof(KSPROPERTY),			\
 				sizeof(COLORREF),			\
-				nullptr,					\
-				nullptr, 0, nullptr, nullptr, 0)
+				NULL,					\
+				NULL, 0, NULL, NULL, 0)
 
 #define STATIC_PROPSETID_VIDCAP_VIDEOCONTROL				\
 	0x6a2e0670L,0x28e4,0x11d0,0xa1,0x8c,0x00,0xa0,0xc9,0x11,0x89,0x56

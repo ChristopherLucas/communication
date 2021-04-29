@@ -1,5 +1,5 @@
 /*
- * $Id: pa_unix_util.c 1510 2010-06-10 08:05:29Z dmitrykos $
+ * $Id$
  * Portable Audio I/O Library
  * UNIX platform-specific support functions
  *
@@ -27,21 +27,19 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
 /** @file
  @ingroup unix_src
 */
-
-#include "develop.h"
 
 #include <pthread.h>
 #include <unistd.h>
@@ -113,7 +111,7 @@ void Pa_Sleep( long msec )
     struct timespec req = {0}, rem = {0};
     PaTime time = msec / 1.e3;
     req.tv_sec = (time_t)time;
-    speech_assert(time - req.tv_sec < 1.0);
+    assert(time - req.tv_sec < 1.0);
     req.tv_nsec = (long)((time - req.tv_sec) * 1.e9);
     nanosleep(&req, &rem);
     /* XXX: Try sleeping the remaining time (contained in rem) if interrupted by a signal? */
@@ -131,7 +129,7 @@ void Pa_Sleep( long msec )
 /*
     Discussion on the CoreAudio mailing list suggests that calling
     gettimeofday (or anything else in the BSD layer) is not real-time
-    safe, so we use mach_absolute_time on OSX. This implementation is 
+    safe, so we use mach_absolute_time on OSX. This implementation is
     based on these two links:
 
     Technical Q&A QA1398 - Mach Absolute Time Units
@@ -142,7 +140,7 @@ void Pa_Sleep( long msec )
 */
 
 /* Scaler to convert the result of mach_absolute_time to seconds */
-static double machSecondsConversionScaler_ = 0.0; 
+static double machSecondsConversionScaler_ = 0.0;
 #endif
 
 void PaUtil_InitializeClock( void )
@@ -195,8 +193,8 @@ PaError PaUtil_CancelThreading( PaUtilThreading *threading, int wait, PaError *e
     if( exitResult )
         *exitResult = paNoError;
 
-    /* If pthread_cancel is not supported (Android platform) whole this function can lead to indefinite waiting if 
-       working thread (callbackThread) has'n received any stop signals from outside, please keep 
+    /* If pthread_cancel is not supported (Android platform) whole this function can lead to indefinite waiting if
+       working thread (callbackThread) has'n received any stop signals from outside, please keep
        this in mind when considering using PaUtil_CancelThreading
     */
 #ifdef PTHREAD_CANCELED
@@ -222,7 +220,7 @@ PaError PaUtil_CancelThreading( PaUtilThreading *threading, int wait, PaError *e
 }
 
 /* Threading */
-/* paUnixMainThread 
+/* paUnixMainThread
  * We have to be a bit careful with defining this global variable,
  * as explained below. */
 #ifdef __APPLE__
@@ -233,12 +231,12 @@ PaError PaUtil_CancelThreading( PaUtilThreading *threading, int wait, PaError *e
 */
 pthread_t paUnixMainThread = 0;
 #else
-/*pthreads are opaque. We don't know that asigning it an int value
+/*pthreads are opaque. We don't know that assigning it an int value
   always makes sense, so we don't initialize it unless we have to.*/
 pthread_t paUnixMainThread = 0;
 #endif
 
-PaError PaUnixThreading_Initialize()
+PaError PaUnixThreading_Initialize( void )
 {
     paUnixMainThread = pthread_self();
     return paNoError;
@@ -251,7 +249,7 @@ static PaError BoostPriority( PaUnixThread* self )
     /* Priority should only matter between contending FIFO threads? */
     spm.sched_priority = 1;
 
-    speech_assert( self );
+    assert( self );
 
     if( pthread_setschedparam( self->thread, SCHED_FIFO, &spm ) != 0 )
     {
@@ -290,7 +288,7 @@ PaError PaUnixThread_New( PaUnixThread* self, void* (*threadFunc)( void* ), void
         if( mlockall( MCL_CURRENT | MCL_FUTURE ) < 0 )
         {
             int savedErrno = errno;             /* In case errno gets overwritten */
-            speech_assert( savedErrno != EINVAL );     /* Most likely a programmer error */
+            assert( savedErrno != EINVAL );     /* Most likely a programmer error */
             PA_UNLESS( (savedErrno == EPERM), paInternalError );
             PA_DEBUG(( "%s: Failed locking memory\n", __FUNCTION__ ));
         }
@@ -302,7 +300,7 @@ PaError PaUnixThread_New( PaUnixThread* self, void* (*threadFunc)( void* ), void
 
     PA_UNLESS( !pthread_attr_init( &attr ), paInternalError );
     /* Priority relative to other processes */
-    PA_UNLESS( !pthread_attr_setscope( &attr, PTHREAD_SCOPE_SYSTEM ), paInternalError );   
+    PA_UNLESS( !pthread_attr_setscope( &attr, PTHREAD_SCOPE_SYSTEM ), paInternalError );
 
     PA_UNLESS( !pthread_create( &self->thread, &attr, threadFunc, threadArg ), paInternalError );
     started = 1;
@@ -352,7 +350,7 @@ PaError PaUnixThread_New( PaUnixThread* self, void* (*threadFunc)( void* ), void
             pthread_getschedparam(self->thread, &policy, &spm);
         }
     }
-    
+
     if( self->parentWaiting )
     {
         PaTime till;
@@ -515,15 +513,15 @@ PaError PaUnixMutex_Terminate( PaUnixMutex* self )
 
 /** Lock mutex.
  *
- * We're disabling thread cancellation while the thread is holding a lock, so mutexes are 
+ * We're disabling thread cancellation while the thread is holding a lock, so mutexes are
  * properly unlocked at termination time.
  */
 PaError PaUnixMutex_Lock( PaUnixMutex* self )
 {
     PaError result = paNoError;
-    
+
 #ifdef PTHREAD_CANCEL
-	int oldState;
+    int oldState;
     PA_ENSURE_SYSTEM( pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, &oldState ), 0 );
 #endif
     PA_ENSURE_SYSTEM( pthread_mutex_lock( &self->mtx ), 0 );
@@ -542,7 +540,7 @@ PaError PaUnixMutex_Unlock( PaUnixMutex* self )
 
     PA_ENSURE_SYSTEM( pthread_mutex_unlock( &self->mtx ), 0 );
 #ifdef PTHREAD_CANCEL
-	int oldState;
+    int oldState;
     PA_ENSURE_SYSTEM( pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, &oldState ), 0 );
 #endif
 
@@ -556,7 +554,7 @@ static void OnWatchdogExit( void *userData )
 {
     PaAlsaThreading *th = (PaAlsaThreading *) userData;
     struct sched_param spm = { 0 };
-    speech_assert( th );
+    assert( th );
 
     PA_ASSERT_CALL( pthread_setschedparam( th->callbackThread, SCHED_OTHER, &spm ), 0 );    /* Lower before exiting */
     PA_DEBUG(( "Watchdog exiting\n" ));
@@ -573,7 +571,7 @@ static void *WatchdogFunc( void *userData )
     double cpuLoad, avgCpuLoad = 0.;
     int throttled = 0;
 
-    speech_assert( th );
+    assert( th );
 
     /* Execute OnWatchdogExit when exiting */
     pthread_cleanup_push( &OnWatchdogExit, th );
@@ -597,7 +595,7 @@ static void *WatchdogFunc( void *userData )
     while( 1 )
     {
         double lowpassCoeff = 0.9, lowpassCoeff1 = 0.99999 - lowpassCoeff;
-        
+
         /* Test before and after in case whatever underlying sleep call isn't interrupted by pthread_cancel */
         pthread_testcancel();
         Pa_Sleep( intervalMsec );
@@ -682,7 +680,7 @@ error:
     /* Pass on error code */
     pres = malloc( sizeof (PaError) );
     *pres = result;
-    
+
     pthread_exit( pres );
 }
 

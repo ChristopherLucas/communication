@@ -1,7 +1,7 @@
 #ifndef PA_WIN_WMME_H
 #define PA_WIN_WMME_H
 /*
- * $Id: pa_win_wmme.h 1592 2011-02-04 10:41:58Z rossb $
+ * $Id$
  * PortAudio Portable Real-Time Audio Library
  * MME specific extensions
  *
@@ -28,13 +28,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -52,7 +52,7 @@ extern "C"
 #endif /* __cplusplus */
 
 
-/* The following are flags which can be set in 
+/* The following are flags which can be set in
   PaWinMmeStreamInfo's flags field.
 */
 
@@ -100,7 +100,7 @@ typedef struct PaWinMmeStreamInfo{
         Pa_OpenStream().
     */
     unsigned long framesPerBuffer;
-    unsigned long bufferCount;  /* formerly numBuffers */ 
+    unsigned long bufferCount;  /* formerly numBuffers */
 
     /* multiple devices per direction support
         If flags contains the PaWinMmeUseMultipleDevices flag,
@@ -109,7 +109,7 @@ typedef struct PaWinMmeStreamInfo{
         If devices are specified here, the corresponding device parameter
         to Pa_OpenStream() should be set to paUseHostApiSpecificDeviceSpecification,
         otherwise an paInvalidDevice error will result.
-        The total number of channels accross all specified devices
+        The total number of channels across all specified devices
         must agree with the corresponding channelCount parameter to
         Pa_OpenStream() otherwise a paInvalidChannelCount error will result.
     */
@@ -118,7 +118,7 @@ typedef struct PaWinMmeStreamInfo{
 
     /*
         support for WAVEFORMATEXTENSIBLE channel masks. If flags contains
-        paWinMmeUseChannelMask this allows you to specify which speakers 
+        paWinMmeUseChannelMask this allows you to specify which speakers
         to address in a multichannel stream. Constants for channelMask
         are specified in pa_win_waveformat.h
 
@@ -146,7 +146,7 @@ int PaWinMME_GetStreamInputHandleCount( PaStream* stream );
  @param handleIndex The zero based index of the wave in handle to retrieve. This
     should be in the range [0, PaWinMME_GetStreamInputHandleCount(stream)-1].
 
- @return A valid wave in handle, or nullptr if an error occurred.
+ @return A valid wave in handle, or NULL if an error occurred.
 
  @see PaWinMME_GetStreamInputHandle
 */
@@ -155,7 +155,7 @@ HWAVEIN PaWinMME_GetStreamInputHandle( PaStream* stream, int handleIndex );
 
 /** Retrieve the number of wave out handles used by a PortAudio WinMME stream.
  Returns zero if the stream is input only.
- 
+
  @return A non-negative value indicating the number of wave out handles
  or, a PaErrorCode (which are always negative) if PortAudio is not initialized
  or an error is encountered.
@@ -171,7 +171,7 @@ int PaWinMME_GetStreamOutputHandleCount( PaStream* stream );
  @param handleIndex The zero based index of the wave out handle to retrieve.
     This should be in the range [0, PaWinMME_GetStreamOutputHandleCount(stream)-1].
 
- @return A valid wave out handle, or nullptr if an error occurred.
+ @return A valid wave out handle, or NULL if an error occurred.
 
  @see PaWinMME_GetStreamOutputHandleCount
 */
@@ -182,4 +182,4 @@ HWAVEOUT PaWinMME_GetStreamOutputHandle( PaStream* stream, int handleIndex );
 }
 #endif /* __cplusplus */
 
-#endif /* PA_WIN_WMME_H */                                  
+#endif /* PA_WIN_WMME_H */

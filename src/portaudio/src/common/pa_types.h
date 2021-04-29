@@ -1,7 +1,7 @@
 #ifndef PA_TYPES_H
 #define PA_TYPES_H
 
-/* 
+/*
  * Portable Audio I/O Library
  * integer type definitions
  *
@@ -29,13 +29,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -95,7 +95,7 @@ typedef unsigned long PaUint32;
  they don't match the expected values. <assert.h> must be included in the
  context in which this macro is used.
 */
-/*#define PA_VALIDATE_TYPE_SIZES \
+#define PA_VALIDATE_TYPE_SIZES \
     { \
         assert( "PortAudio: type sizes are not correct in pa_types.h" && sizeof( PaUint16 ) == 2 ); \
         assert( "PortAudio: type sizes are not correct in pa_types.h" && sizeof( PaInt16 ) == 2 ); \
@@ -103,5 +103,5 @@ typedef unsigned long PaUint32;
         assert( "PortAudio: type sizes are not correct in pa_types.h" && sizeof( PaInt32 ) == 4 ); \
     }
 
- */
+
 #endif /* PA_TYPES_H */

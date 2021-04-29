@@ -188,47 +188,47 @@ DEFINE_PROPERTYKEY(PKEY_WCN_RegistrarType, 0x88190b8b, 0x4684, 0x11da, 0xa2, 0x6
 DEFINE_PROPERTYKEY(PKEY_Hardware_Devinst, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 4097);
 
 //  Name:     System.Hardware.DisplayAttribute -- PKEY_Hardware_DisplayAttribute
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 5
 DEFINE_PROPERTYKEY(PKEY_Hardware_DisplayAttribute, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 5);
 
 //  Name:     System.Hardware.DriverDate -- PKEY_Hardware_DriverDate
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 11
 DEFINE_PROPERTYKEY(PKEY_Hardware_DriverDate, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 11);
 
 //  Name:     System.Hardware.DriverProvider -- PKEY_Hardware_DriverProvider
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 10
 DEFINE_PROPERTYKEY(PKEY_Hardware_DriverProvider, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 10);
 
 //  Name:     System.Hardware.DriverVersion -- PKEY_Hardware_DriverVersion
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 9
 DEFINE_PROPERTYKEY(PKEY_Hardware_DriverVersion, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 9);
 
 //  Name:     System.Hardware.Function -- PKEY_Hardware_Function
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 4099
 DEFINE_PROPERTYKEY(PKEY_Hardware_Function, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 4099);
 
 //  Name:     System.Hardware.Icon -- PKEY_Hardware_Icon
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 3
 DEFINE_PROPERTYKEY(PKEY_Hardware_Icon, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 3);
 
 //  Name:     System.Hardware.Image -- PKEY_Hardware_Image
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 4098
 DEFINE_PROPERTYKEY(PKEY_Hardware_Image, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 4098);
 
 //  Name:     System.Hardware.Manufacturer -- PKEY_Hardware_Manufacturer
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 6
 DEFINE_PROPERTYKEY(PKEY_Hardware_Manufacturer, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 6);
 
 //  Name:     System.Hardware.Model -- PKEY_Hardware_Model
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 7
 DEFINE_PROPERTYKEY(PKEY_Hardware_Model, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 7);
 
@@ -238,17 +238,17 @@ DEFINE_PROPERTYKEY(PKEY_Hardware_Model, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 
 DEFINE_PROPERTYKEY(PKEY_Hardware_Name, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 2);
 
 //  Name:     System.Hardware.SerialNumber -- PKEY_Hardware_SerialNumber
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 8
 DEFINE_PROPERTYKEY(PKEY_Hardware_SerialNumber, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 8);
 
 //  Name:     System.Hardware.ShellAttributes -- PKEY_Hardware_ShellAttributes
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 4100
 DEFINE_PROPERTYKEY(PKEY_Hardware_ShellAttributes, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 4100);
 
 //  Name:     System.Hardware.Status -- PKEY_Hardware_Status
-//  Type:     Unspecified -- VT_nullptr
+//  Type:     Unspecified -- VT_NULL
 //  FormatID: 5EAF3EF2-E0CA-4598-BF06-71ED1D9DD953, 4096
 DEFINE_PROPERTYKEY(PKEY_Hardware_Status, 0x5EAF3EF2, 0xE0CA, 0x4598, 0xBF, 0x06, 0x71, 0xED, 0x1D, 0x9D, 0xD9, 0x53, 4096);
 

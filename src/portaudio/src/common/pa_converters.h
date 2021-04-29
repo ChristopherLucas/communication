@@ -1,7 +1,7 @@
 #ifndef PA_CONVERTERS_H
 #define PA_CONVERTERS_H
 /*
- * $Id: pa_converters.h 1097 2006-08-26 08:27:53Z rossb $
+ * $Id$
  * Portable Audio I/O Library sample conversion mechanism
  *
  * Based on the Open Source API proposed by Ross Bencina
@@ -28,13 +28,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -59,7 +59,7 @@ struct PaUtilTriangularDitherGenerator;
 
 /** Choose an available sample format which is most appropriate for
  representing the requested format. If the requested format is not available
- higher quality formats are considered before lower quality formates.
+ higher quality formats are considered before lower quality formats.
  @param availableFormats A variable containing the logical OR of all available
  formats.
  @param format The desired format.
@@ -85,7 +85,7 @@ PaSampleFormat PaUtil_SelectClosestAvailableFormat(
     @param count The number of samples to convert.
     @param ditherState State information used to calculate dither. Converters
     that do not perform dithering will ignore this parameter, in which case
-    nullptr or invalid dither state may be passed.
+    NULL or invalid dither state may be passed.
 */
 typedef void PaUtilConverter(
     void *destinationBuffer, signed int destinationStride,
@@ -97,7 +97,7 @@ typedef void PaUtilConverter(
     formats and flags (clip and dither.)
     @return
     A pointer to a PaUtilConverter which will perform the requested
-    conversion, or nullptr if the given format conversion is not supported.
+    conversion, or NULL if the given format conversion is not supported.
     For conversions where clipping or dithering is not necessary, the
     clip and dither flags are ignored and a non-clipping or dithering
     version is returned.
@@ -119,7 +119,7 @@ PaUtilConverter* PaUtil_SelectConverter( PaSampleFormat sourceFormat,
 typedef void PaUtilZeroer(
     void *destinationBuffer, signed int destinationStride, unsigned int count );
 
-    
+
 /** Find a buffer zeroer function for the given destination format.
     @return
     A pointer to a PaUtilZeroer which will perform the requested
@@ -145,7 +145,7 @@ typedef struct{
     PaUtilConverter *Float32_To_Int24_Dither;
     PaUtilConverter *Float32_To_Int24_Clip;
     PaUtilConverter *Float32_To_Int24_DitherClip;
-    
+
     PaUtilConverter *Float32_To_Int16;
     PaUtilConverter *Float32_To_Int16_Dither;
     PaUtilConverter *Float32_To_Int16_Clip;
@@ -193,7 +193,7 @@ typedef struct{
     PaUtilConverter *Int8_To_Int24;
     PaUtilConverter *Int8_To_Int16;
     PaUtilConverter *Int8_To_UInt8;
-    
+
     PaUtilConverter *UInt8_To_Float32;
     PaUtilConverter *UInt8_To_Int32;
     PaUtilConverter *UInt8_To_Int24;
@@ -210,15 +210,15 @@ typedef struct{
 /** A table of pointers to all required converter functions.
     PaUtil_SelectConverter() uses this table to lookup the appropriate
     conversion functions. The fields of this structure are initialized
-    with default conversion functions. Fields may be nullptr, indicating that
-    no conversion function is available. User code may substitue optimised
+    with default conversion functions. Fields may be NULL, indicating that
+    no conversion function is available. User code may substitute optimised
     conversion functions by assigning different function pointers to
     these fields.
 
     @note
     If the PA_NO_STANDARD_CONVERTERS preprocessor variable is defined,
     PortAudio's standard converters will not be compiled, and all fields
-    of this structure will be initialized to nullptr. In such cases, users
+    of this structure will be initialized to NULL. In such cases, users
     should supply their own conversion functions if the require PortAudio
     to open a stream that requires sample conversion.
 
@@ -242,14 +242,14 @@ typedef struct{
 /** A table of pointers to all required zeroer functions.
     PaUtil_SelectZeroer() uses this table to lookup the appropriate
     conversion functions. The fields of this structure are initialized
-    with default conversion functions. User code may substitue optimised
+    with default conversion functions. User code may substitute optimised
     conversion functions by assigning different function pointers to
     these fields.
 
     @note
     If the PA_NO_STANDARD_ZEROERS preprocessor variable is defined,
     PortAudio's standard zeroers will not be compiled, and all fields
-    of this structure will be initialized to nullptr. In such cases, users
+    of this structure will be initialized to NULL. In such cases, users
     should supply their own zeroing functions for the sample sizes which
     they intend to use.
 

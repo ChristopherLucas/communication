@@ -1,5 +1,5 @@
 /*
- * $Id: pa_cpuload.c 1577 2011-02-01 13:03:45Z rossb $
+ * $Id$
  * Portable Audio I/O Library CPU Load measurement functions
  * Portable CPU load measurement facility.
  *
@@ -27,13 +27,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -49,7 +49,7 @@
  PaUtil_EndCpuLoadMeasurement are called. see http://www.portaudio.com/trac/ticket/113
 */
 
-#include "develop.h"
+
 #include "pa_cpuload.h"
 
 #include <assert.h>
@@ -59,7 +59,7 @@
 
 void PaUtil_InitializeCpuLoadMeasurer( PaUtilCpuLoadMeasurer* measurer, double sampleRate )
 {
-    speech_assert(sampleRate > 0);
+    assert( sampleRate > 0 );
 
     measurer->samplingPeriod = 1. / sampleRate;
     measurer->averageLoad = 0.;
@@ -83,7 +83,7 @@ void PaUtil_EndCpuLoadMeasurement( PaUtilCpuLoadMeasurer* measurer, unsigned lon
     if( framesProcessed > 0 ){
         measurementEndTime = PaUtil_GetTime();
 
-        speech_assert(framesProcessed > 0);
+        assert( framesProcessed > 0 );
         secondsFor100Percent = framesProcessed * measurer->samplingPeriod;
 
         measuredLoad = (measurementEndTime - measurer->measurementStartTime) / secondsFor100Percent;
@@ -94,7 +94,7 @@ void PaUtil_EndCpuLoadMeasurement( PaUtilCpuLoadMeasurer* measurer, unsigned lon
 #define LOWPASS_COEFFICIENT_1   (0.99999 - LOWPASS_COEFFICIENT_0)
 
         measurer->averageLoad = (LOWPASS_COEFFICIENT_0 * measurer->averageLoad) +
-                               (LOWPASS_COEFFICIENT_1 * measuredLoad);
+                                (LOWPASS_COEFFICIENT_1 * measuredLoad);
     }
 }
 

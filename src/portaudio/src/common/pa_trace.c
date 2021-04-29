@@ -1,5 +1,5 @@
 /*
- * $Id: pa_trace.c 1916 2014-01-17 03:45:15Z philburk $
+ * $Id$
  * Portable Audio I/O Library Trace Facility
  * Store trace information in real-time for later printing.
  *
@@ -27,13 +27,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -43,7 +43,6 @@
  @brief Real-time safe event trace logging facility for debugging.
 */
 
-#include "develop.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -126,7 +125,7 @@ int PaUtil_InitializeHighSpeedLog( LogHandle* phLog, unsigned maxSizeInBytes )
     {
         return paInsufficientMemory;
     }
-    speech_assert(phLog != 0);
+    assert(phLog != 0);
     *phLog = pLog;
 
     pLog->data = (char*)PaUtil_AllocateMemory(maxSizeInBytes);
@@ -144,7 +143,7 @@ int PaUtil_InitializeHighSpeedLog( LogHandle* phLog, unsigned maxSizeInBytes )
 void PaUtil_ResetHighSpeedLogTimeRef( LogHandle hLog )
 {
     PaHighPerformanceLog* pLog = (PaHighPerformanceLog*)hLog;
-    speech_assert(pLog->magik == kMagik);
+    assert(pLog->magik == kMagik);
     pLog->refTime = PaUtil_GetTime();
 }
 
@@ -170,7 +169,7 @@ int PaUtil_AddHighSpeedLogMessage( LogHandle hLog, const char* fmt, ... )
         PaLogEntryHeader* pHeader;
         char* p;
         int maxN;
-        speech_assert(pLog->magik == kMagik);
+        assert(pLog->magik == kMagik);
         pHeader = (PaLogEntryHeader*)( pLog->data + pLog->writePtr );
         p = (char*)( pHeader + 1 );
         maxN = pLog->size - pLog->writePtr - 2 * sizeof(PaLogEntryHeader);
@@ -203,14 +202,14 @@ void PaUtil_DumpHighSpeedLog( LogHandle hLog, const char* fileName )
     FILE* f = (fileName != NULL) ? fopen(fileName, "w") : stdout;
     unsigned localWritePtr;
     PaHighPerformanceLog* pLog = (PaHighPerformanceLog*)hLog;
-    speech_assert(pLog->magik == kMagik);
+    assert(pLog->magik == kMagik);
     localWritePtr = pLog->writePtr;
     while (pLog->readPtr != localWritePtr)
     {
         const PaLogEntryHeader* pHeader = (const PaLogEntryHeader*)( pLog->data + pLog->readPtr );
         const char* p = (const char*)( pHeader + 1 );
         const PaUint64 ts = (const PaUint64)( pHeader->timeStamp * USEC_PER_SEC );
-        speech_assert(pHeader->size < (1024+sizeof(unsigned)+sizeof(PaLogEntryHeader)));
+        assert(pHeader->size < (1024+sizeof(unsigned)+sizeof(PaLogEntryHeader)));
         fprintf(f, "%05u.%03u: %s\n", (unsigned)(ts/1000), (unsigned)(ts%1000), p);
         pLog->readPtr += pHeader->size;
     }
@@ -223,7 +222,7 @@ void PaUtil_DumpHighSpeedLog( LogHandle hLog, const char* fileName )
 void PaUtil_DiscardHighSpeedLog( LogHandle hLog )
 {
     PaHighPerformanceLog* pLog = (PaHighPerformanceLog*)hLog;
-    speech_assert(pLog->magik == kMagik);
+    assert(pLog->magik == kMagik);
     PaUtil_FreeMemory(pLog->data);
     PaUtil_FreeMemory(pLog);
 }
@@ -234,6 +233,6 @@ void PaUtil_DiscardHighSpeedLog( LogHandle hLog )
  */
 int PaUtil_TraceStubToSatisfyLinker(void)
 {
-	return 0;
+    return 0;
 }
 #endif /* TRACE_REALTIME_EVENTS */

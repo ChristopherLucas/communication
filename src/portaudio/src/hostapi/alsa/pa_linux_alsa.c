@@ -1,5 +1,5 @@
 /*
- * $Id: pa_linux_alsa.c 1911 2013-10-17 12:44:09Z gineera $
+ * $Id$
  * PortAudio Portable Real-Time Audio Library
  * Latest Version at: http://www.portaudio.com
  * ALSA implementation by Joshua Haberman and Arve Knudsen
@@ -52,8 +52,6 @@
 #include <alsa/asoundlib.h>
 #undef ALSA_PCM_NEW_HW_PARAMS_API
 #undef ALSA_PCM_NEW_SW_PARAMS_API
-
-#include "develop.h"
 
 #include <sys/poll.h>
 #include <string.h> /* strlen() */
@@ -182,7 +180,7 @@ _PA_DEFINE_FUNC(snd_pcm_sw_params_set_stop_threshold);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_get_boundary);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_silence_threshold);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_silence_size);
-//_PA_DEFINE_FUNC(snd_pcm_sw_params_set_xfer_align);
+_PA_DEFINE_FUNC(snd_pcm_sw_params_set_xfer_align);
 _PA_DEFINE_FUNC(snd_pcm_sw_params_set_tstamp_mode);
 #define alsa_snd_pcm_sw_params_alloca(ptr) __alsa_snd_alloca(ptr, snd_pcm_sw_params)
 
@@ -325,8 +323,10 @@ int _PA_LOCAL_IMPL(snd_pcm_hw_params_get_buffer_size_max) (const snd_pcm_hw_para
     snd_pcm_uframes_t pmax = 0;
     unsigned int      pcnt = 0;
 
+    dir = 0;
     if(( ret = _PA_LOCAL_IMPL(snd_pcm_hw_params_get_period_size_max)(params, &pmax, &dir) ) < 0 )
         return ret;
+    dir = 0;
     if(( ret = _PA_LOCAL_IMPL(snd_pcm_hw_params_get_periods_max)(params, &pcnt, &dir) ) < 0 )
         return ret;
 
@@ -462,7 +462,7 @@ static int PaAlsa_LoadLibrary()
     _PA_LOAD_FUNC(snd_pcm_sw_params_get_boundary);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_silence_threshold);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_silence_size);
-    //_PA_LOAD_FUNC(snd_pcm_sw_params_set_xfer_align);
+    _PA_LOAD_FUNC(snd_pcm_sw_params_set_xfer_align);
     _PA_LOAD_FUNC(snd_pcm_sw_params_set_tstamp_mode);
 
     _PA_LOAD_FUNC(snd_pcm_info);
@@ -578,10 +578,11 @@ static void PaAlsa_CloseLibrary()
             goto error; \
         } \
     } while (0)
+
 #define ASSERT_CALL_(expr, success) \
     do {\
         int __pa_assert_error_id;\
-        __pa_assert_error_id = (expr);\                        
+        __pa_assert_error_id = (expr);\
         assert( success == __pa_assert_error_id );\
     } while (0)
 
@@ -807,7 +808,7 @@ static void Terminate( struct PaUtilHostApiRepresentation *hostApi )
 {
     PaAlsaHostApiRepresentation *alsaHostApi = (PaAlsaHostApiRepresentation*)hostApi;
 
-    speech_assert( hostApi );
+    assert( hostApi );
 
     /** See AlsaErrorHandler and PaAlsa_Initialize for details.
     */
@@ -843,9 +844,8 @@ static PaError GropeDevice( snd_pcm_t* pcm, int isPlug, StreamDirection mode, in
     double * defaultLowLatency, * defaultHighLatency, * defaultSampleRate =
         &devInfo->baseDeviceInfo.defaultSampleRate;
     double defaultSr = *defaultSampleRate;
-    int dir;
 
-    speech_assert( pcm );
+    assert( pcm );
 
     PA_DEBUG(( "%s: collecting info ..\n", __FUNCTION__ ));
 
@@ -897,9 +897,9 @@ static PaError GropeDevice( snd_pcm_t* pcm, int isPlug, StreamDirection mode, in
 
     ENSURE_( alsa_snd_pcm_hw_params_get_channels_min( hwParams, &minChans ), paUnanticipatedHostError );
     ENSURE_( alsa_snd_pcm_hw_params_get_channels_max( hwParams, &maxChans ), paUnanticipatedHostError );
-    speech_assert( maxChans <= INT_MAX );
-    speech_assert( maxChans > 0 );    /* Weird linking issue could cause wrong version of ALSA symbols to be called,
-    //                               resulting in zeroed values */
+    assert( maxChans <= INT_MAX );
+    assert( maxChans > 0 );    /* Weird linking issue could cause wrong version of ALSA symbols to be called,
+                                   resulting in zeroed values */
 
     /* XXX: Limit to sensible number (ALSA plugins accept a crazy amount of channels)? */
     if( isPlug && maxChans > 128 )
@@ -921,7 +921,7 @@ static PaError GropeDevice( snd_pcm_t* pcm, int isPlug, StreamDirection mode, in
     alsaBufferFrames = 512;
     alsaPeriodFrames = 128;
     ENSURE_( alsa_snd_pcm_hw_params_set_buffer_size_near( pcm, hwParams, &alsaBufferFrames ), paUnanticipatedHostError );
-    ENSURE_( alsa_snd_pcm_hw_params_set_period_size_near( pcm, hwParams, &alsaPeriodFrames, &dir ), paUnanticipatedHostError );
+    ENSURE_( alsa_snd_pcm_hw_params_set_period_size_near( pcm, hwParams, &alsaPeriodFrames, NULL ), paUnanticipatedHostError );
     *defaultLowLatency = (double) (alsaBufferFrames - alsaPeriodFrames) / defaultSr;
 
     /* Base the high latency case on values four times larger */
@@ -931,7 +931,7 @@ static PaError GropeDevice( snd_pcm_t* pcm, int isPlug, StreamDirection mode, in
     ENSURE_( alsa_snd_pcm_hw_params_any( pcm, hwParams ), paUnanticipatedHostError );
     ENSURE_( SetApproximateSampleRate( pcm, hwParams, defaultSr ), paUnanticipatedHostError );
     ENSURE_( alsa_snd_pcm_hw_params_set_buffer_size_near( pcm, hwParams, &alsaBufferFrames ), paUnanticipatedHostError );
-    ENSURE_( alsa_snd_pcm_hw_params_set_period_size_near( pcm, hwParams, &alsaPeriodFrames, &dir ), paUnanticipatedHostError );
+    ENSURE_( alsa_snd_pcm_hw_params_set_period_size_near( pcm, hwParams, &alsaPeriodFrames, NULL ), paUnanticipatedHostError );
     *defaultHighLatency = (double) (alsaBufferFrames - alsaPeriodFrames) / defaultSr;
 
     *minChannels = (int)minChans;
@@ -1067,6 +1067,10 @@ static int IgnorePlugin( const char *pluginId )
     static const char *ignoredPlugins[] = {"hw", "plughw", "plug", "dsnoop", "tee",
         "file", "null", "shm", "cards", "rate_convert", NULL};
     int i = 0;
+
+    if( getenv( "PA_ALSA_IGNORE_ALL_PLUGINS" ) && atoi( getenv( "PA_ALSA_IGNORE_ALL_PLUGINS") ) )
+        return 1;
+
     while( ignoredPlugins[i] )
     {
         if( !strcmp( pluginId, ignoredPlugins[i] ) )
@@ -1297,7 +1301,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
             size_t len;
             int hasPlayback = 0, hasCapture = 0;
 
-            sprintf( buf, "%s%s,%d", hwPrefix, alsaCardName, devIdx );
+            snprintf( buf, sizeof (buf), "%s%s,%d", hwPrefix, alsaCardName, devIdx );
 
             /* Obtain info about this particular device */
             alsa_snd_pcm_info_set_device( pcmInfo, devIdx );
@@ -1328,6 +1332,8 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
                     paInsufficientMemory );
             snprintf( deviceName, len, "%s: %s (%s)", cardName, infoName, buf );
 
+            PA_DEBUG(( "%s: Found device [%d]: %s\n", __FUNCTION__, numDeviceNames, deviceName ));
+
             ++numDeviceNames;
             if( !hwDevInfos || numDeviceNames > maxDeviceNames )
             {
@@ -1354,7 +1360,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
         ENSURE_( alsa_snd_config_update(), paUnanticipatedHostError );
         PA_DEBUG(( "Updating snd_config\n" ));
     }
-    speech_assert( *alsa_snd_config );
+    assert( *alsa_snd_config );
     if( ( res = alsa_snd_config_search( *alsa_snd_config, "pcm", &topNode ) ) >= 0 )
     {
         snd_config_iterator_t i, next;
@@ -1451,7 +1457,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
 
         PA_ENSURE( FillInDevInfo( alsaApi, hwInfo, blocking, devInfo, &devIdx ) );
     }
-    speech_assert( devIdx < numDeviceNames );
+    assert( devIdx <= numDeviceNames );
     /* Now inspect 'dmix' and 'default' plugins */
     for( i = 0; i < numDeviceNames; ++i )
     {
@@ -1486,11 +1492,11 @@ static PaError ValidateParameters( const PaStreamParameters *parameters, PaUtilH
     PaError result = paNoError;
     int maxChans;
     const PaAlsaDeviceInfo *deviceInfo = NULL;
-    speech_assert( parameters );
+    assert( parameters );
 
     if( parameters->device != paUseHostApiSpecificDeviceSpecification )
     {
-        speech_assert( parameters->device < hostApi->info.deviceCount );
+        assert( parameters->device < hostApi->info.deviceCount );
         PA_UNLESS( parameters->hostApiSpecificStreamInfo == NULL, paBadIODeviceCombination );
         deviceInfo = GetDeviceInfo( hostApi, parameters->device );
     }
@@ -1507,8 +1513,8 @@ static PaError ValidateParameters( const PaStreamParameters *parameters, PaUtilH
         return paNoError;
     }
 
-    speech_assert( deviceInfo );
-    speech_assert( parameters->hostApiSpecificStreamInfo == NULL );
+    assert( deviceInfo );
+    assert( parameters->hostApiSpecificStreamInfo == NULL );
     maxChans = ( StreamDirection_In == mode ? deviceInfo->baseDeviceInfo.maxInputChannels :
         deviceInfo->baseDeviceInfo.maxOutputChannels );
     PA_UNLESS( parameters->channelCount <= maxChans, paInvalidChannelCount );
@@ -1785,7 +1791,7 @@ static PaError TestParameters( const PaUtilHostApiRepresentation *hostApi, const
     availableFormats = GetAvailableFormats( pcm );
     PA_ENSURE( hostFormat = PaUtil_SelectClosestAvailableFormat( availableFormats, parameters->sampleFormat ) );
 
-    /* Some specific hardware (reported: Audio8 DJ) can fail with speech_assertion during this step. */
+    /* Some specific hardware (reported: Audio8 DJ) can fail with assertion during this step. */
     ENSURE_( alsa_snd_pcm_hw_params_set_format( pcm, hwParams, Pa2AlsaFormat( hostFormat ) ), paUnanticipatedHostError );
 
     {
@@ -1874,7 +1880,7 @@ static PaError PaAlsaStreamComponent_Initialize( PaAlsaStreamComponent *self, Pa
 {
     PaError result = paNoError;
     PaSampleFormat userSampleFormat = params->sampleFormat, hostSampleFormat = paNoError;
-    speech_assert( params->channelCount > 0 );
+    assert( params->channelCount > 0 );
 
     /* Make sure things have an initial value */
     memset( self, 0, sizeof (PaAlsaStreamComponent) );
@@ -1956,7 +1962,7 @@ static PaError PaAlsaStreamComponent_InitialConfigure( PaAlsaStreamComponent *se
 {
     /* Configuration consists of setting all of ALSA's parameters.
      * These parameters come in two flavors: hardware parameters
-     * and software paramters.  Hardware parameters will affect
+     * and software parameters.  Hardware parameters will affect
      * the way the device is initialized, software parameters
      * affect the way ALSA interacts with me, the user-level client.
      */
@@ -1970,7 +1976,7 @@ static PaError PaAlsaStreamComponent_InitialConfigure( PaAlsaStreamComponent *se
 
     /* self->framesPerPeriod = framesPerHostBuffer; */
 
-    /* ... fill up the configuration space with all possibile
+    /* ... fill up the configuration space with all possible
      * combinations of parameters this device will accept */
     ENSURE_( alsa_snd_pcm_hw_params_any( pcm, hwParams ), paUnanticipatedHostError );
 
@@ -2032,7 +2038,7 @@ static PaError PaAlsaStreamComponent_InitialConfigure( PaAlsaStreamComponent *se
         self->hostInterleaved = !self->userInterleaved;
     }
 
-    /* Some specific hardware (reported: Audio8 DJ) can fail with speech_assertion during this step. */
+    /* Some specific hardware (reported: Audio8 DJ) can fail with assertion during this step. */
     ENSURE_( alsa_snd_pcm_hw_params_set_format( pcm, hwParams, self->nativeFormat ), paUnanticipatedHostError );
 
     if( ( result = SetApproximateSampleRate( pcm, hwParams, sr )) != paUnanticipatedHostError )
@@ -2046,7 +2052,7 @@ static PaError PaAlsaStreamComponent_InitialConfigure( PaAlsaStreamComponent *se
     }
     else
     {
-       PA_ENSURE( paUnanticipatedHostError );
+        PA_ENSURE( paUnanticipatedHostError );
     }
 
     ENSURE_( alsa_snd_pcm_hw_params_set_channels( pcm, hwParams, self->numHostChannels ), paInvalidChannelCount );
@@ -2120,7 +2126,7 @@ static PaError PaAlsaStreamComponent_FinishConfigure( PaAlsaStreamComponent *sel
     }
 
     ENSURE_( alsa_snd_pcm_sw_params_set_avail_min( self->pcm, swParams, self->framesPerPeriod ), paUnanticipatedHostError );
-    //ENSURE_( alsa_snd_pcm_sw_params_set_xfer_align( self->pcm, swParams, 1 ), paUnanticipatedHostError );
+    ENSURE_( alsa_snd_pcm_sw_params_set_xfer_align( self->pcm, swParams, 1 ), paUnanticipatedHostError );
     ENSURE_( alsa_snd_pcm_sw_params_set_tstamp_mode( self->pcm, swParams, SND_PCM_TSTAMP_ENABLE ), paUnanticipatedHostError );
 
     /* Set the parameters! */
@@ -2135,7 +2141,7 @@ static PaError PaAlsaStream_Initialize( PaAlsaStream *self, PaAlsaHostApiReprese
         PaStreamFlags streamFlags, void *userData )
 {
     PaError result = paNoError;
-    speech_assert( self );
+    assert( self );
 
     memset( self, 0, sizeof( PaAlsaStream ) );
 
@@ -2155,7 +2161,7 @@ static PaError PaAlsaStream_Initialize( PaAlsaStream *self, PaAlsaHostApiReprese
 
     self->framesPerUserBuffer = framesPerUserBuffer;
     self->neverDropInput = streamFlags & paNeverDropInput;
-    /* XXX: Ignore paPrimeOutputBuffersUsingStreamCallback untill buffer priming is fully supported in pa_process.c */
+    /* XXX: Ignore paPrimeOutputBuffersUsingStreamCallback until buffer priming is fully supported in pa_process.c */
     /*
     if( outParams & streamFlags & paPrimeOutputBuffersUsingStreamCallback )
         self->primeBuffers = 1;
@@ -2171,7 +2177,7 @@ static PaError PaAlsaStream_Initialize( PaAlsaStream *self, PaAlsaHostApiReprese
         PA_ENSURE( PaAlsaStreamComponent_Initialize( &self->playback, alsaApi, outParams, StreamDirection_Out, NULL != callback ) );
     }
 
-    speech_assert( self->capture.nfds || self->playback.nfds );
+    assert( self->capture.nfds || self->playback.nfds );
 
     PA_UNLESS( self->pfds = (struct pollfd*)PaUtil_AllocateMemory( ( self->capture.nfds +
                     self->playback.nfds ) * sizeof( struct pollfd ) ), paInsufficientMemory );
@@ -2189,7 +2195,7 @@ error:
  */
 static void PaAlsaStream_Terminate( PaAlsaStream *self )
 {
-    speech_assert( self );
+    assert( self );
 
     if( self->capture.pcm )
     {
@@ -2213,7 +2219,7 @@ static void PaAlsaStream_Terminate( PaAlsaStream *self )
  */
 static int CalculatePollTimeout( const PaAlsaStream *stream, unsigned long frames )
 {
-    speech_assert( stream->streamRepresentation.streamInfo.sampleRate > 0.0 );
+    assert( stream->streamRepresentation.streamInfo.sampleRate > 0.0 );
     /* Period in msecs, rounded up */
     return (int)ceil( 1000 * frames / stream->streamRepresentation.streamInfo.sampleRate );
 }
@@ -2289,7 +2295,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
             else
                 bufferSize -= remainder;
 
-            speech_assert( bufferSize % framesPerUserBuffer == 0 );
+            assert( bufferSize % framesPerUserBuffer == 0 );
         }
         else if( framesPerUserBuffer % bufferSize != 0 )
         {
@@ -2313,7 +2319,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
                 bufferSize = newSz;
             }
 
-            speech_assert( framesPerUserBuffer % bufferSize == 0 );
+            assert( framesPerUserBuffer % bufferSize == 0 );
         }
     }
 
@@ -2325,8 +2331,9 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
         /* It may be that the device only supports 2 periods for instance */
         dir = 0;
         ENSURE_( alsa_snd_pcm_hw_params_get_periods_min( hwParams, &minPeriods, &dir ), paUnanticipatedHostError );
+        dir = 0;
         ENSURE_( alsa_snd_pcm_hw_params_get_periods_max( hwParams, &maxPeriods, &dir ), paUnanticipatedHostError );
-        speech_assert( maxPeriods > 1 );
+        assert( maxPeriods > 1 );
 
         /* Clamp to min/max */
         numPeriods = PA_MIN(maxPeriods, PA_MAX(minPeriods, numPeriods));
@@ -2347,7 +2354,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
             /* Test (borrowed from older implementation) */
             if( framesPerHostBuffer < framesPerUserBuffer )
             {
-                speech_assert( framesPerUserBuffer % framesPerHostBuffer == 0 );
+                assert( framesPerUserBuffer % framesPerHostBuffer == 0 );
                 if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer, 0 ) < 0 )
                 {
                     if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer * 2, 0 ) == 0 )
@@ -2358,7 +2365,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
             }
             else
             {
-                speech_assert( framesPerHostBuffer % framesPerUserBuffer == 0 );
+                assert( framesPerHostBuffer % framesPerUserBuffer == 0 );
                 if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer, 0 ) < 0 )
                 {
                     if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer + framesPerUserBuffer, 0 ) == 0 )
@@ -2382,7 +2389,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
                 {
                     framesPerHostBuffer *= 2;
                 }
-                /* One extra period is preferrable to one less (should be more robust) */
+                /* One extra period is preferable to one less (should be more robust) */
                 if( bufferSize / framesPerHostBuffer < numPeriods )
                 {
                     framesPerHostBuffer /= 2;
@@ -2403,7 +2410,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
 
             if( framesPerHostBuffer < framesPerUserBuffer )
             {
-                speech_assert( framesPerUserBuffer % framesPerHostBuffer == 0 );
+                assert( framesPerUserBuffer % framesPerHostBuffer == 0 );
                 if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer, 0 ) < 0 )
                 {
                     if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer * 2, 0 ) == 0 )
@@ -2414,7 +2421,7 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
             }
             else
             {
-                speech_assert( framesPerHostBuffer % framesPerUserBuffer == 0 );
+                assert( framesPerHostBuffer % framesPerUserBuffer == 0 );
                 if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer, 0 ) < 0 )
                 {
                     if( alsa_snd_pcm_hw_params_test_period_size( self->pcm, hwParams, framesPerHostBuffer + framesPerUserBuffer, 0 ) == 0 )
@@ -2673,7 +2680,7 @@ static PaError PaAlsaStream_DetermineFramesPerBuffer( PaAlsaStream* self, double
         }
         else
         {
-            speech_assert( self->playback.pcm );
+            assert( self->playback.pcm );
             PA_ENSURE( PaAlsaStreamComponent_DetermineFramesPerBuffer( &self->playback, outputParameters, framesPerUserBuffer,
                         sampleRate, hwParamsPlayback, &accurate ) );
             framesPerHostBuffer = self->playback.framesPerPeriod;
@@ -2722,14 +2729,14 @@ static PaError PaAlsaStream_Configure( PaAlsaStream *self, const PaStreamParamet
 
     if( self->capture.pcm )
     {
-        speech_assert( self->capture.framesPerPeriod != 0 );
+        assert( self->capture.framesPerPeriod != 0 );
         PA_ENSURE( PaAlsaStreamComponent_FinishConfigure( &self->capture, hwParamsCapture, inParams, self->primeBuffers, realSr,
                     inputLatency ) );
         PA_DEBUG(( "%s: Capture period size: %lu, latency: %f\n", __FUNCTION__, self->capture.framesPerPeriod, *inputLatency ));
     }
     if( self->playback.pcm )
     {
-        speech_assert( self->playback.framesPerPeriod != 0 );
+        assert( self->playback.framesPerPeriod != 0 );
         PA_ENSURE( PaAlsaStreamComponent_FinishConfigure( &self->playback, hwParamsPlayback, outParams, self->primeBuffers, realSr,
                     outputLatency ) );
         PA_DEBUG(( "%s: Playback period size: %lu, latency: %f\n", __FUNCTION__, self->playback.framesPerPeriod, *outputLatency ));
@@ -3189,7 +3196,7 @@ static int SetApproximateSampleRate( snd_pcm_t *pcm, snd_pcm_hw_params_t *hwPara
     PaError result = paNoError;
     unsigned int reqRate, setRate, deviation;
 
-    speech_assert( pcm && hwParams );
+    assert( pcm && hwParams );
 
     /* The Alsa sample rate is set by integer value; also the actual rate may differ */
     reqRate = setRate = (unsigned int) sampleRate;
@@ -3197,7 +3204,7 @@ static int SetApproximateSampleRate( snd_pcm_t *pcm, snd_pcm_hw_params_t *hwPara
     ENSURE_( alsa_snd_pcm_hw_params_set_rate_near( pcm, hwParams, &setRate, NULL ), paUnanticipatedHostError );
     /* The value actually set will be put in 'setRate' (may be way off); check the deviation as a proportion
      * of the requested-rate with reference to the max-deviate-ratio (larger values allow less deviation) */
-    deviation = abs( setRate - reqRate );
+    deviation = abs( (int)setRate - (int)reqRate );
     if( deviation > 0 && deviation * RATE_MAX_DEVIATE_RATIO > reqRate )
         result = paInvalidSampleRate;
 
@@ -3210,6 +3217,7 @@ error:
         unsigned int _min = 0, _max = 0;
         int _dir = 0;
         ENSURE_( alsa_snd_pcm_hw_params_get_rate_min( hwParams, &_min, &_dir ), paUnanticipatedHostError );
+        _dir = 0;
         ENSURE_( alsa_snd_pcm_hw_params_get_rate_max( hwParams, &_max, &_dir ), paUnanticipatedHostError );
         PA_DEBUG(( "%s: SR min = %u, max = %u, req = %u\n", __FUNCTION__, _min, _max, reqRate ));
     }
@@ -3222,7 +3230,7 @@ static int GetExactSampleRate( snd_pcm_hw_params_t *hwParams, double *sampleRate
     unsigned int num, den = 1;
     int err;
 
-    speech_assert( hwParams );
+    assert( hwParams );
 
     err = alsa_snd_pcm_hw_params_get_rate_numden( hwParams, &num, &den );
     *sampleRate = (double) num / den;
@@ -3380,7 +3388,7 @@ static void OnExit( void *data )
 {
     PaAlsaStream *stream = (PaAlsaStream *) data;
 
-    speech_assert( data );
+    assert( data );
 
     PaUtil_ResetCpuLoadMeasurer( &stream->cpuLoadMeasurer );
 
@@ -3523,7 +3531,7 @@ static PaError PaAlsaStreamComponent_DoChannelAdaption( PaAlsaStreamComponent *s
     unsigned char *src, *dst;
     int convertMono = ( self->numHostChannels % 2 ) == 0 && ( self->numUserChannels % 2 ) != 0;
 
-    speech_assert( StreamDirection_Out == self->streamDir );
+    assert( StreamDirection_Out == self->streamDir );
 
     if( self->hostInterleaved )
     {
@@ -3631,14 +3639,15 @@ error:
  */
 static PaError PaAlsaStreamComponent_BeginPolling( PaAlsaStreamComponent* self, struct pollfd* pfds )
 {
-    PaError result = paNoError;
-    int ret = alsa_snd_pcm_poll_descriptors( self->pcm, pfds, self->nfds );
-    (void)ret;  /* Prevent unused variable warning if speech_asserts are turned off */
-    speech_assert( ret == self->nfds );
-
+    int nfds = alsa_snd_pcm_poll_descriptors( self->pcm, pfds, self->nfds );
+    /* If alsa returns anything else, like -EPIPE return */
+    if( nfds != self->nfds )
+    {
+        return paUnanticipatedHostError;
+    }
     self->ready = 0;
 
-    return result;
+    return paNoError;
 }
 
 /** Examine results from poll().
@@ -3701,11 +3710,11 @@ static PaError PaAlsaStream_GetAvailableFrames( PaAlsaStream *self, int queryCap
     unsigned long captureFrames, playbackFrames;
     *xrunOccurred = 0;
 
-    speech_assert( queryCapture || queryPlayback );
+    assert( queryCapture || queryPlayback );
 
     if( queryCapture )
     {
-        speech_assert( self->capture.pcm );
+        assert( self->capture.pcm );
         PA_ENSURE( PaAlsaStreamComponent_GetAvailableFrames( &self->capture, &captureFrames, xrunOccurred ) );
         if( *xrunOccurred )
         {
@@ -3714,7 +3723,7 @@ static PaError PaAlsaStream_GetAvailableFrames( PaAlsaStream *self, int queryCap
     }
     if( queryPlayback )
     {
-        speech_assert( self->playback.pcm );
+        assert( self->playback.pcm );
         PA_ENSURE( PaAlsaStreamComponent_GetAvailableFrames( &self->playback, &playbackFrames, xrunOccurred ) );
         if( *xrunOccurred )
         {
@@ -3759,8 +3768,8 @@ static PaError PaAlsaStream_WaitForFrames( PaAlsaStream *self, unsigned long *fr
     int xrun = 0, timeouts = 0;
     int pollResults;
 
-    speech_assert( self );
-    speech_assert( framesAvail );
+    assert( self );
+    assert( framesAvail );
 
     if( !self->callbackMode )
     {
@@ -3795,18 +3804,43 @@ static PaError PaAlsaStream_WaitForFrames( PaAlsaStream *self, unsigned long *fr
         if( pollCapture )
         {
             capturePfds = self->pfds;
-            PA_ENSURE( PaAlsaStreamComponent_BeginPolling( &self->capture, capturePfds ) );
+            PaError res = PaAlsaStreamComponent_BeginPolling( &self->capture, capturePfds );
+            if( res != paNoError)
+            {
+                xrun = 1;
+                goto end;
+            }
             totalFds += self->capture.nfds;
         }
         if( pollPlayback )
         {
             /* self->pfds is in effect an array of fds; if necessary, index past the capture fds */
             playbackPfds = self->pfds + (pollCapture ? self->capture.nfds : 0);
-            PA_ENSURE( PaAlsaStreamComponent_BeginPolling( &self->playback, playbackPfds ) );
+            PaError res = PaAlsaStreamComponent_BeginPolling( &self->playback, playbackPfds );
+            if( res != paNoError)
+            {
+                xrun = 1;
+                goto end;
+            }
             totalFds += self->playback.nfds;
         }
 
+#ifdef PTHREAD_CANCELED
+        if( self->callbackMode )
+        {
+            /* To allow 'Abort' to terminate the callback thread, enable cancelability just for poll() (& disable after) */
+            pthread_setcancelstate( PTHREAD_CANCEL_ENABLE, NULL );
+        }
+#endif
+
         pollResults = poll( self->pfds, totalFds, pollTimeout );
+
+#ifdef PTHREAD_CANCELED
+        if( self->callbackMode )
+        {
+            pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
+        }
+#endif
 
         if( pollResults < 0 )
         {
@@ -3899,17 +3933,17 @@ static PaError PaAlsaStream_WaitForFrames( PaAlsaStream *self, unsigned long *fr
             if( !self->playback.ready && !self->neverDropInput )
             {
                 /* Drop input, a period's worth */
-                speech_assert( self->capture.ready );
+                assert( self->capture.ready );
                 PaAlsaStreamComponent_EndProcessing( &self->capture, PA_MIN( self->capture.framesPerPeriod,
                             *framesAvail ), &xrun );
                 *framesAvail = 0;
                 self->capture.ready = 0;
             }
         }
-        //else if( self->capture.pcm )
-            speech_assert( self->capture.ready );
-        //else
-            speech_assert( self->playback.ready );
+        else if( self->capture.pcm )
+            assert( self->capture.ready );
+        else
+            assert( self->playback.ready );
     }
 
 end:
@@ -4087,12 +4121,12 @@ static PaError PaAlsaStream_SetUpBuffers( PaAlsaStream* self, unsigned long* num
     if( xrun )
     {
         /* Nothing more to do */
-        speech_assert( 0 == commonFrames );
+        assert( 0 == commonFrames );
         goto end;
     }
 
     commonFrames = PA_MIN( captureFrames, playbackFrames );
-    /* speech_assert( commonFrames <= *numFrames ); */
+    /* assert( commonFrames <= *numFrames ); */
     if( commonFrames > *numFrames )
     {
         /* Hmmm ... how come there are more frames available than we requested!? Blah. */
@@ -4137,8 +4171,8 @@ static PaError PaAlsaStream_SetUpBuffers( PaAlsaStream* self, unsigned long* num
         else
         {
             /* We have output underflow, but keeping input data (paNeverDropInput) */
-            speech_assert( self->neverDropInput );
-            speech_assert( self->capture.pcm != NULL );
+            assert( self->neverDropInput );
+            assert( self->capture.pcm != NULL );
             PA_DEBUG(( "%s: Setting output buffers to NULL\n", __FUNCTION__ ));
             PaUtil_SetNoOutput( &self->bufferProcessor );
         }
@@ -4163,7 +4197,7 @@ error:
  * directly is obtained from ALSA, we then request as much directly accessible memory as possible within this amount
  * from ALSA. The buffer memory is registered with the PA buffer processor and processing is carried out with
  * PaUtil_EndBufferProcessing. Finally, the number of processed frames is reported to ALSA. The processing can
- * happen in several iterations untill we have consumed the known number of available frames (or an xrun is detected).
+ * happen in several iterations until we have consumed the known number of available frames (or an xrun is detected).
  */
 static void *CallbackThreadFunc( void *userData )
 {
@@ -4175,13 +4209,19 @@ static void *CallbackThreadFunc( void *userData )
     PaStreamCallbackFlags cbFlags = 0;  /* We might want to keep state across iterations */
     int streamStarted = 0;
 
-    speech_assert( stream );
+    assert( stream );
+    /* Not implemented */
+    assert( !stream->primeBuffers );
 
     /* Execute OnExit when exiting */
     pthread_cleanup_push( &OnExit, stream );
-
-    /* Not implemented */
-    speech_assert( !stream->primeBuffers );
+#ifdef PTHREAD_CANCELED
+    /* 'Abort' will use thread cancellation to terminate the callback thread, but the Alsa-lib functions
+     * are NOT cancel-safe, (and can end up in an inconsistent state).  So, disable cancelability for
+     * the thread here, and just re-enable it for the poll() in PaAlsaStream_WaitForFrames(). */
+    pthread_testcancel();
+    pthread_setcancelstate( PTHREAD_CANCEL_DISABLE, NULL );
+#endif
 
     /* @concern StreamStart If the output is being primed the output pcm needs to be prepared, otherwise the
      * stream is started immediately. The latter involves signaling the waiting main thread.
@@ -4199,7 +4239,7 @@ static void *CallbackThreadFunc( void *userData )
          * at least one period */
         avail = alsa_snd_pcm_avail_update( stream->playback.pcm );
         startThreshold = avail - (avail % stream->playback.framesPerPeriod);
-        speech_assert( startThreshold >= stream->playback.framesPerPeriod );
+        assert( startThreshold >= stream->playback.framesPerPeriod );
     }
     else
     {
@@ -4243,13 +4283,13 @@ static void *CallbackThreadFunc( void *userData )
             /* There is still buffered output that needs to be processed */
         }
 
-        /* Wait for data to become available, this comes down to polling the ALSA file descriptors untill we have
+        /* Wait for data to become available, this comes down to polling the ALSA file descriptors until we have
          * a number of available frames.
          */
         PA_ENSURE( PaAlsaStream_WaitForFrames( stream, &framesAvail, &xrun ) );
         if( xrun )
         {
-            speech_assert( 0 == framesAvail );
+            assert( 0 == framesAvail );
             continue;
 
             /* XXX: Report xruns to the user? A situation is conceivable where the callback is never invoked due
@@ -4265,10 +4305,6 @@ static void *CallbackThreadFunc( void *userData )
         while( framesAvail > 0 )
         {
             xrun = 0;
-
-#ifdef PTHREAD_CANCELED
-           pthread_testcancel();
-#endif
 
             /** @concern Xruns Under/overflows are to be reported to the callback */
             if( stream->underrun > 0.0 )
@@ -4300,11 +4336,12 @@ static void *CallbackThreadFunc( void *userData )
 #if 0
             CallbackUpdate( &stream->threading );
 #endif
+
             CalculateTimeInfo( stream, &timeInfo );
             PaUtil_BeginBufferProcessing( &stream->bufferProcessor, &timeInfo, cbFlags );
             cbFlags = 0;
 
-            /* CPU load measurement should include processing activivity external to the stream callback */
+            /* CPU load measurement should include processing activity external to the stream callback */
             PaUtil_BeginCpuLoadMeasurement( &stream->cpuLoadMeasurer );
 
             framesGot = framesAvail;
@@ -4316,7 +4353,7 @@ static void *CallbackThreadFunc( void *userData )
             else
             {
                 /* We've committed to an upper bound on the size of host buffers */
-                speech_assert( paUtilBoundedHostBufferSize == stream->bufferProcessor.hostBufferSizeMode );
+                assert( paUtilBoundedHostBufferSize == stream->bufferProcessor.hostBufferSizeMode );
                 framesGot = PA_MIN( framesGot, stream->maxFramesPerHostBuffer );
             }
             PA_ENSURE( PaAlsaStream_SetUpBuffers( stream, &framesGot, &xrun ) );
@@ -4325,7 +4362,7 @@ static void *CallbackThreadFunc( void *userData )
 
             if( framesGot > 0 )
             {
-                speech_assert( !xrun );
+                assert( !xrun );
                 PaUtil_EndBufferProcessing( &stream->bufferProcessor, &callbackResult );
                 PA_ENSURE( PaAlsaStream_EndProcessing( stream, framesGot, &xrun ) );
             }
@@ -4335,7 +4372,6 @@ static void *CallbackThreadFunc( void *userData )
             {
                 /* Go back to polling for more frames */
                 break;
-
             }
 
             if( paContinue != callbackResult )
@@ -4366,7 +4402,7 @@ static PaError ReadStream( PaStream* s, void *buffer, unsigned long frames )
     void *userBuffer;
     snd_pcm_t *save = stream->playback.pcm;
 
-    speech_assert( stream );
+    assert( stream );
 
     PA_UNLESS( stream->capture.pcm, paCanNotReadFromAnOutputOnlyStream );
 
@@ -4427,7 +4463,7 @@ static PaError WriteStream( PaStream* s, const void *buffer, unsigned long frame
     const void *userBuffer;
     snd_pcm_t *save = stream->capture.pcm;
 
-    speech_assert( stream );
+    assert( stream );
 
     PA_UNLESS( stream->playback.pcm, paCanNotWriteToAnInputOnlyStream );
 
