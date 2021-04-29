@@ -5453,13 +5453,13 @@ case "${R_PLATFORM}" in
               CFLAGS="$CFLAGS -arch $arch"
               cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-AC_COMPILE_IFELSE([
-                    if [[ -z "$mac_arches" ]] ; then
+
+                    if [ -z "$mac_arches" ] ; then
                        mac_arches="-arch $arch"
                     else
                        mac_arches="$mac_arches -arch $arch"
                     fi
-                 ])
+
 int
 main (void)
 {
@@ -5470,6 +5470,8 @@ main (void)
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"
 then :
+
+else $as_nop
   return 0;
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext

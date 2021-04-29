@@ -162,8 +162,8 @@ case "${R_PLATFORM}" in
            do
               save_CFLAGS="$CFLAGS"
               CFLAGS="$CFLAGS -arch $arch"
-              AC_TRY_COMPILE(
-                 [AC_COMPILE_IFELSE([
+              AC_COMPILE_IFELSE(
+                 [AC_LANG_PROGRAM([
                     if [[ -z "$mac_arches" ]] ; then
                        mac_arches="-arch $arch"
                     else
