@@ -183,9 +183,9 @@ case "${R_PLATFORM}" in
         fi
         AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET   mac_version_min = $mac_version_min")        
 		
-        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot"
+        PORTAUDIO_LIBS="$PORTAUDIO_LIBS -dynamiclib $mac_arches $mac_sysroot" "$mac_version_min"
         dnl PORTAUDIO_CFLAGS="-std=c99 $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot dnl $mac_version_min"
-        PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot -mmacosx-version-min=11.0"
+        PORTAUDIO_CFLAGS="-stdlib=libc++ $PORTAUDIO_CFLAGS $mac_arches $mac_sysroot" "$mac_version_min"
 
         PORTAUDIO_SRCS_TEMPLATE="$PORTAUDIO_SRCS_TEMPLATE portaudio/src/os/unix/pa_unix_hostapis.c portaudio/src/os/unix/pa_unix_util.c portaudio/src/hostapi/coreaudio/pa_mac_core_blocking.c portaudio/src/hostapi/coreaudio/pa_mac_core_utilities.c portaudio/src/hostapi/coreaudio/pa_mac_core.c"
         ;;
