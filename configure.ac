@@ -16,10 +16,10 @@ AC_SUBST(PORTAUDIO_DEFINES_INCLUDES)
 AC_SUBST(PORTAUDIO_CFLAGS)
 AC_SUBST(MACOSX_DEPLOYMENT_TARGET)
 MACOSX_DEPLOYMENT_TARGET="10.11"
-if test "$CI" != "0"; then
+dnl if test "$CI" != "0"; then
 	MACOSX_DEPLOYMENT_TARGET="11.0"
-fi
-
+dnl fi
+AC_MSG_RESULT("CI = $CI   MACOSX_DEPLOYMENT_TARGET = $MACOSX_DEPLOYMENT_TARGET")
 dnl This must be one of the first tests we do or it will fail...
 AC_C_BIGENDIAN
 if [[ $ac_cv_c_bigendian = "yes" ]] ; then
