@@ -3559,6 +3559,9 @@ ACX_PTHREAD
 
 
 MACOSX_DEPLOYMENT_TARGET="10.11"
+if test "$CI" != "0"; then
+	MACOSX_DEPLOYMENT_TARGET="11.0"
+fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
 $as_echo_n "checking for grep that handles long lines and -e... " >&6; }
@@ -4735,7 +4738,7 @@ case "${R_PLATFORM}" in
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 
         if test "x$enable_mac_universal" = "xyes" ; then
-					 					 mac_sysroot="-isysroot `xcodebuild -version -sdk macosx Path`"
+					 mac_sysroot="-isysroot $(xcrun --sdk macosx --show-sdk-path)"
 
                                  mac_arches=""
            for arch in i386 x86_64 ppc ppc64
