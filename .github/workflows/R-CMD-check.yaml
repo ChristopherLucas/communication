@@ -86,14 +86,12 @@ jobs:
 
       - name: Install dependencies (MacOs)
         if: runner.os == 'macOS'
-        working-directory: ./app
         run: |
           brew install libtool automake pkg-config
           autoheader
           
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
-        working-directory: ./app
         run: |
           brew install libtool automake pkg-config
           autoheader          
