@@ -97,7 +97,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: msys2 {0}
         run: |
-          pacman --noconfirm -S autoconf-2.71-1
+          pacman --noconfirm -S base-devel
           msys2 -c 'autoheader'          
 
       - name: Install dependencies
