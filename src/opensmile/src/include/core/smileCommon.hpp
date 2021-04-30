@@ -253,7 +253,7 @@ static ssize_t  (*smile_getline)(char **, size_t *, FILE *) = getline;
 #define INFINITY (std::numeric_limits<double>::infinity())
 #endif
 
-#ifdef __MACOS
+#ifdef __APPLE__
 
 #include <time.h>
 //#include <sys/time.h>

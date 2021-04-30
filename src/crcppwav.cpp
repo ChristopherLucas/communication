@@ -227,10 +227,11 @@ bool CRcppWave::setInputData (std::vector<std::string> audio_files_in,
                                      std::string config_string_in)
 {
   std::remove(config_file.c_str());
-#ifdef __MACOS
-  char *filename = "/tmp/fileXXXXXX";
+#ifdef __APPLE__
+  const char *filename_const = "/tmp/fileXXXXXX";
+  char* filename = const_cast<char*> (filename_const);
   int fd = mkstemp(filename);
-  close(fd)
+  close(fd);
   config_file = filename; 
 #else    
   config_file = std::tmpnam(nullptr);
