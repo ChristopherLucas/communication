@@ -93,7 +93,6 @@ jobs:
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
         run: |
-          brew install libtool automake pkg-config
           autoheader          
 
       - name: Install dependencies
