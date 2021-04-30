@@ -98,7 +98,7 @@ jobs:
         shell: msys2 {0}
         run: |
           pacman --noconfirm -S base-devel
-          msys2 -c 'autoheader'          
+          autoheader          
 
       - name: Install dependencies
         run: |
