@@ -2,6 +2,7 @@ dnl  Require autoconf >= 2.13
 AC_PREREQ(2.13)
 
 AC_INIT([speech], 0.0.0)
+AC_CONFIG_HEADERS([src/conf/config.h])
 AC_CONFIG_SRCDIR([src])
 AC_LANG(C++)
 AC_LANG(C)
@@ -146,7 +147,7 @@ case "${R_PLATFORM}" in
   *darwin*)
         dnl Mac OS X configuration
 
-        AC_DEFINE(PA_USE_COREAUDIO,1)
+        AC_DEFINE(PA_USE_COREAUDIO,1, "Description")
 
         PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/src/os/unix"
         CFLAGS="$CFLAGS -I portaudio/src/os/unix"
