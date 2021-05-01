@@ -189,7 +189,7 @@ case "${R_PLATFORM}" in
 
           *mingw*)
                 dnl MingW configuration
-
+ 
                 CFLAGS="$CFLAGS -mthreads"
                 PORTAUDIO_CFLAGS="$PORTAUDIO_CFLAGS -mthreads"
 
