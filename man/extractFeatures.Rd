@@ -4,12 +4,22 @@
 \alias{extractFeatures}
 \title{Extract features from a file and return audio class with these data}
 \usage{
-extractFeatures(filenames, config = loudness(createConfig()))
+extractFeatures(
+  files,
+  config = loudness(createConfig()),
+  use.full.names = T,
+  use.exts = T
+)
 }
 \arguments{
-\item{filenames}{\code{character}. The path and file name. For example, "folder/1.wav"}
+\item{files}{\code{character}. Vector of path and file name. For example, c("folder/1.wav", "folder/2.wav")}
 
 \item{config}{\code{audio_config}. An object of class 'audio_config' with parameters for extraction.}
+
+\item{use.full.names}{\code{boolean}. Whether to use full file path as names of returned list elements}
+
+\item{use.exts}{\code{boolean}. Whether to use file extensions in names of returned list elements.
+Only applicable if use.full.names is FALSE}
 }
 \value{
 audio class

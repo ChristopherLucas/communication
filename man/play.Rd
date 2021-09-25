@@ -2,18 +2,18 @@
 % Please edit documentation in R/extract.features.R
 \name{play}
 \alias{play}
-\title{Play chunks of audio}
+\title{Play chunks of speech}
 \usage{
 play(x, ...)
 }
 \arguments{
-\item{x}{An object of class 'audio'}
+\item{x}{An object of class 'speech'}
 
 \item{...}{other parameters}
 }
 \value{
-audio class
+speech class
 }
 \description{
-Play chunks of an audio object
+Play chunks of a speech object
 }

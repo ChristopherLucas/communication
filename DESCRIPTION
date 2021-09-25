@@ -9,7 +9,7 @@ Authors@R:
       person(given = "Christopher",
              family = "Lucas",
              role = c("aut", "cre"),
-             email = "dvajdual@gmail.com"),
+             email = "christopher.lucas@wustl.edu"),
       person(given = "Guilherme",
              family = "Duarte",
              role = "ctb"),
@@ -26,11 +26,12 @@ Description: Provides fast, easy feature extraction of human speech with C++ lib
 Depends: R (>= 3.5.0)
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.2),
+        gtools,
         purrr,
         magrittr,
         diagram
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 Suggests: knitr,
     qpdf,
