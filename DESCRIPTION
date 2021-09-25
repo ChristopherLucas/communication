@@ -19,7 +19,7 @@ Imports: Rcpp (>= 1.0.2),
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
 RoxygenNote: 7.0.2
 Encoding: UTF-8
-Suggests: 
+Suggests: communi,
     knitr,
     qpdf,
     rmarkdown,

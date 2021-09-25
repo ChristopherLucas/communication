@@ -157,10 +157,13 @@ int CRcppDataBase::work1file(std::vector<std::string> arguments)
     /* run single or mutli-threaded, depending on componentManager config in config file */
     long long nTicks = cMan->runMultiThreaded(cmdline.getInt("nticks"));
     getData1file();
+    Rcout << "after getData1file" << std::endl;      
     /* it is important that configManager is deleted BEFORE componentManger! 
      (since component Manger unregisters plugin Dlls, which might have allocated configTypes, etc.) */
     delete configManager;
+    Rcout << "after removing configManager";     
     delete cMan;
+    Rcout << "end of end" << std::endl;     
     
   } catch(cSMILException *c) { 
     // free exception ?? 

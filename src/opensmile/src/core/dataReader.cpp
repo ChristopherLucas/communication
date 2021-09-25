@@ -49,6 +49,9 @@
 
 #include <core/dataReader.hpp>
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
 #define MODULE "cDataReader"
 
 SMILECOMPONENT_STATICS(cDataReader)
@@ -724,15 +727,27 @@ int cDataReader::setupSequentialMatrixReading(double step, double length, double
 
 
 cDataReader::~cDataReader() {
+  Rcout << "~cDataReader() start" << std::endl;  
   if (V!=nullptr) delete V;
+  Rcout << "~cDataReader() after v" << std::endl;   
   if (m!=nullptr) delete m;
+  Rcout << "~cDataReader() after m" << std::endl;  
   if (dmLevel!=nullptr) free(dmLevel);
+  Rcout << "~cDataReader() after dmLevel" << std::endl;  
   if (rdId != nullptr) free(rdId);
+  Rcout << "~cDataReader() after rdId" << std::endl;  
   if (level!=nullptr)  free(level);
+  Rcout << "~cDataReader() after level" << std::endl;  
   if (Lf!=nullptr) free(Lf);
+  Rcout << "~cDataReader() after lF" << std::endl;  
   if (Le!=nullptr) free(Le);
+  Rcout << "~cDataReader() after Le" << std::endl;    
   if (fToL!=nullptr) free(fToL);
+  Rcout << "~cDataReader() after fTol" << std::endl;  
   if (eToL!=nullptr) free(eToL);
+  Rcout << "~cDataReader() after eTol" << std::endl;   
   if (myfmeta!=nullptr) delete myfmeta;
+  Rcout << "~cDataReader() after myfmeta" << std::endl;  
   if (myLcfg != nullptr) delete myLcfg;
+  Rcout << "~cDataReader() after myLcfg" << std::endl;   
 }

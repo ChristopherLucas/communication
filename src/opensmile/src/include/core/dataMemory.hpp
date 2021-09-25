@@ -54,6 +54,7 @@
 #include <unistd.h>
 #endif
 
+
 // temporal frame ID
 #define DMEM_IDX_ABS    -1   // no special index
 #define DMEM_IDX_CURR   -11   // current read index
@@ -244,12 +245,15 @@ class  FrameMetaInfo {
     const char *getName(int n, int *arrIdx=nullptr); // n is element(!) index
     ~FrameMetaInfo() {
       if (field != nullptr) {
+        SMILE_PRINT("~FrameMetaInfo() field != nullptr");  
         int i;
         for (i=0; i<N; i++) { 
           if (field[i].name != nullptr) free(field[i].name); 
           if (field[i].info!=nullptr) free(field[i].info);
         }
-        delete [] field;
+        SMILE_PRINT("~FrameMetaInfo() after free"); 
+        //delete [] field;
+        SMILE_PRINT("~FrameMetaInfo() after delete");        
       }
       smileMutexDestroy(myMtx);
     }

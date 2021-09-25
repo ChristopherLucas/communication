@@ -235,11 +235,15 @@ bool CRcppWave::setInputData (std::vector<std::string> audio_files_in,
   config_file = filename; 
 #else    
   config_file = std::tmpnam(nullptr);
+  config_file = "C:/tmp/config";
 #endif  
   std::ofstream stream;
+  Rcout << config_file;
   stream.open(config_file, std::ofstream::out | std::ofstream::trunc);
+  Rcout << "before stream.is_open()";  
   if(!stream.is_open())
     return false;
+  Rcout << "after stream.is_open()";    
   stream << config_string_in << std::endl;
   stream.close();
   audio_files = audio_files_in;
@@ -256,6 +260,7 @@ void CRcppWave::getOutputData (std::vector <arma::mat> & rcpp_audio_features_out
                     std::vector <arma::rowvec> & rcpp_audio_timestamps_out,
                     std::vector <sWaveParameters> & rcpp_wave_header_out)
 {
+  Rcout << "CRcppWave::getOutputData()";   
   rcpp_audio_features_out = rcpp_audio_features;
   rcpp_audio_timestamps_out = rcpp_audio_timestamps;
   rcpp_wave_header_out = rcpp_wave_header;
@@ -270,8 +275,10 @@ void CRcppWave::getBorderFrames(std::vector <arma::rowvec> & rcpp_border_frame_s
 
 void CRcppWave::work()
 {
+  Rcout << "CRcppWave::work() size = " << audio_files.size();
   for(int iFile = 0; iFile < audio_files.size(); iFile++)
   {
+    Rcout << "CRcppWave::work() audio_file = " << audio_files[iFile];    
     std::vector<std::string> arguments;
     arguments.push_back(std::string("-I"));
     arguments.push_back(audio_files[iFile]);
@@ -279,27 +286,31 @@ void CRcppWave::work()
     arguments.push_back(config_file);
     work1file(arguments);
   }
+  Rcout << "CRcppWave::work() end";  
 }
   
 void CRcppWave::getData1file()
 {
+  Rcout << "CRcppWave::getData1file()";  
   arma::rowvec rcpp_audio_start_frames_1;
   arma::rowvec rcpp_audio_end_frames_1;  
   cmanGlob->getWaveFrameBorders(rcpp_audio_start_frames_1,
                                 rcpp_audio_end_frames_1);
+  Rcout << "after getWaveFrameBorders";
   rcpp_border_frame_starts.push_back(rcpp_audio_start_frames_1);
   rcpp_border_frame_ends.push_back(rcpp_audio_end_frames_1);
-
+  Rcout << "after push_back getWaveFrameBorders";
   arma::mat rcpp_audio_features_1;
   arma::rowvec rcpp_audio_timestamps_1;
   sWaveParameters rcpp_wave_header_1;
     
   cmanGlob->getFeatures(rcpp_audio_features_1,
                         rcpp_audio_timestamps_1, rcpp_wave_header_1);
-    
+  Rcout << "after getFeatures";    
   rcpp_audio_features.push_back(rcpp_audio_features_1);
   rcpp_audio_timestamps.push_back(rcpp_audio_timestamps_1);
-  rcpp_wave_header.push_back(rcpp_wave_header_1);    
+  rcpp_wave_header.push_back(rcpp_wave_header_1);
+  Rcout << "after push_back getFeatures";
 }
 
 

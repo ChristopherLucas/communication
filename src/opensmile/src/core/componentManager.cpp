@@ -107,6 +107,9 @@ Also be sure to include the necessary component header files
 #endif
 #define MODULE "cComponentManager"
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
 //-----------------------------------------
 
 void cComponentManager::setWaveFeaturesCB(const arma::rowvec &features_row, const arma::rowvec & timeFrame)
@@ -192,8 +195,10 @@ bool cComponentManager::getFeatures( arma::mat & rcpp_audio_features_out,
 void cComponentManager::getWaveFrameBorders(arma::rowvec & rcpp_audio_start_frames_out,
                                             arma::rowvec & rcpp_audio_end_frames_out)
 {
+  Rcout << "cComponentManager::getWaveFrameBorders: rcpp_audio_start_frames = " << rcpp_audio_start_frames << " rcpp_audio_end_frames = " << rcpp_audio_end_frames << std::endl;     
   rcpp_audio_start_frames_out = rcpp_audio_start_frames;
   rcpp_audio_end_frames_out = rcpp_audio_end_frames;
+  Rcout << "cComponentManager::getWaveFrameBorders: end" << std::endl;   
 }
 /************************/
 
@@ -1161,12 +1166,15 @@ void cComponentManager::unregisterComponentInstance(int id, int noDM)  // unregi
   // TODO:::: the component would have to unregister it's reader/writer etc...
   if ((id>=0)&&(id < lastComponent)&&(id < nComponentsAlloc)) {
     if (component[id] != nullptr) {
+      Rcout << "unregisterComponentInstance()  " << componentInstTs[id] << std::endl;      
       if ((noDM)&&(!strcmp(component[id]->getTypeName(),COMPONENT_NAME_CDATAMEMORY))) {
         return;
       } else {
         delete component[id];
+        Rcout << "unregisterComponentInstance() after delete" << std::endl;         
         if (componentInstTs[id] != nullptr) {
           free(componentInstTs[id]);
+          Rcout << "unregisterComponentInstance() after free" << std::endl;
           componentInstTs[id] = nullptr;
           componentThreadId[id] = 0;  // TODO: stop thread ?????
         }
@@ -1184,13 +1192,15 @@ void cComponentManager::resetInstances()
   // TODO: abort processing , stop threads...etc.??
   int mylastComponent = lastComponent;
   for (i=0; i<mylastComponent; i++) {
+    Rcout << "resetInstances() i = " << i << std::endl;
     unregisterComponentInstance(i,1);  // all BUT dataMemories...
   }
-
+  Rcout << "resetInstances(): after unregisterComponentInstance" << std::endl;
   mylastComponent = lastComponent;
   for (i=0; i<mylastComponent; i++) {
     unregisterComponentInstance(i); // now free the dataMemories
   }
+  Rcout << "resetInstances(): after unregisterComponentInstance" << std::endl;  
   nComponents = 0;
   lastComponent = 0; // ???
   ready=0;    // flag that indicates if all components are set up and ready...
@@ -2202,23 +2212,32 @@ long long cComponentManager::tickLoopA(long long maxtick, int threadId, sThreadD
 cComponentManager::~cComponentManager()
 {
   int i;
-
+  Rcout << "~cComponentManager(): before resetInstances" << std::endl;
   resetInstances();
-
+  Rcout << "~cComponentManager(): after resetInstances" << std::endl; 
   for (i=0; i<lastComponent; i++) {
     //    unregisterComponentInstance(i);
     if ((componentInstTs!=nullptr)&&(componentInstTs[i] != nullptr)) free(componentInstTs[i]);
   }
+  Rcout << "~cComponentManager(): after componentInstTs" << std::endl;   
   if (componentThreadId != nullptr) free(componentThreadId);
+  Rcout << "~cComponentManager(): after componentThreadId" << std::endl;   
   if (component != nullptr) free(component);
+  Rcout << "~cComponentManager(): after component" << std::endl;   
   if (compTs != nullptr) free(compTs);
+  Rcout << "~cComponentManager(): after compTs" << std::endl;  
   if (componentInstTs != nullptr) free(componentInstTs);
-
+  Rcout << "~cComponentManager(): after componentInstTs" << std::endl;
+  
   smileMutexDestroy(messageMtx);
+  Rcout << "~cComponentManager(): after smileMutexDestroy(messageMtx)" << std::endl;  
   smileMutexDestroy(abortMtx);
+  Rcout << "~cComponentManager(): after smileMutexDestroy(abortMtx)" << std::endl;  
   smileCondDestroy(pauseCond);
+  Rcout << "~cComponentManager(): after smileCondDestroy(pauseCond)" << std::endl;   
   smileMutexDestroy(pauseMtx);
-
+  Rcout << "~cComponentManager(): after smileMutexDestroy(pauseMtx)" << std::endl;
+  
 #ifdef SMILE_SUPPORT_PLUGINS   // NOTE: the config Manager must be freed before this
 #ifndef __STATIC_LINK
   //close dynlibs of plugins and free memory in plugin dlls/dynlibs:
@@ -2244,6 +2263,7 @@ cComponentManager::~cComponentManager()
   if (regFnlist != nullptr) free(regFnlist);
 #endif
 #endif
+  
   delete rcpp_audio_features;
   delete rcpp_audio_timestamps;
   delete rcpp_wave_header;

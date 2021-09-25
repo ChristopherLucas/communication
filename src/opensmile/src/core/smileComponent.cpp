@@ -89,6 +89,9 @@ cWriterComponent     - writes data to dataMemory (takes vector, (or matrix??)), 
 #include <core/smileComponent.hpp>
 #include <core/componentManager.hpp>
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
 #if defined(WIN32)
 #include <sys/time.h>
 #endif
@@ -266,9 +269,13 @@ void cSmileComponent::endProfile(long long t, int EOI)
 
 cSmileComponent::~cSmileComponent()
 {
+  Rcout << "~cSmileComponent() start" << std::endl;  
   if ((iname_ != cfname_)&&(cfname_!=nullptr)) free (cfname_);
+  Rcout << "~cSmileComponent() after cfname_" << std::endl;  
   if (iname_ != nullptr) free(iname_);
+  Rcout << "~cSmileComponent() after iname_" << std::endl;   
   smileMutexDestroy(messageMtx_);
+  Rcout << "~cSmileComponent() after smileMutexDestroy" << std::endl;   
 }
 
 // signal EOI to componentManager (theoretically only useful for dataSource components, however we make it accessible to all smile components)

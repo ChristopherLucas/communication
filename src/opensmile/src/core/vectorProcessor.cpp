@@ -58,6 +58,8 @@ vector Processor :  (abstract class only)
 
 #define MODULE "cVectorProcessor"
 
+#include <Rcpp.h>
+using namespace Rcpp;
 
 SMILECOMPONENT_STATICS(cVectorProcessor)
 
@@ -433,11 +435,18 @@ void cVectorProcessor::multiConfFree( void *x )
 
 cVectorProcessor::~cVectorProcessor()
 {
+  Rcout << "~cVectorProcessor()" << std::endl;  
   if (fNi!=nullptr)  free(fNi);
+  Rcout << "~cVectorProcessor() after fNi" << std::endl;    
   if (fNo!=nullptr)  free(fNo);
+  Rcout << "~cVectorProcessor() after fNo" << std::endl;   
   if (fconf != nullptr) free(fconf);
+  Rcout << "~cVectorProcessor() after fconf" << std::endl;   
   if (fconfInv != nullptr) free(fconfInv);
+  Rcout << "~cVectorProcessor() after fconfInv" << std::endl;   
   if (confBs != nullptr)  free(confBs);
+  Rcout << "~cVectorProcessor() after confBs" << std::endl;    
   if (vecO!=nullptr) delete vecO;
+  Rcout << "~cVectorProcessor() after veco" << std::endl;   
 }
 

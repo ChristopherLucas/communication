@@ -457,7 +457,8 @@ SEXP rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in,
                           std::string config_string_in)
 {
   setlocale(LC_ALL, " ");
-  
+  Rcout << "rcpp_openSmileGetFeatures start" << std::endl;
+  Rcout << "size = " << audio_files_in.size() << std::endl;
   //tilda handling  
   for(int i=0; i<audio_files_in.size(); i++)
   {
@@ -469,6 +470,7 @@ SEXP rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in,
     CRcppWave rcppWave;      
     if(rcppWave.setInputData(audio_files_in, config_string_in));
     {
+      Rcout << "rcpp_openSmileGetFeatures if" << std::endl;      
       rcppWave.work();
       std::vector <arma::mat> rcpp_audio_features;
       std::vector <arma::rowvec> rcpp_audio_timestamps;
@@ -476,20 +478,27 @@ SEXP rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in,
       rcppWave.getOutputData( rcpp_audio_features,
                               rcpp_audio_timestamps, 
                               rcpp_wave_header);
+      Rcout << "rcpp_openSmileGetFeatures size = " << rcpp_audio_features.size() << std::endl;
+      Rcout << "rcpp_audio_timestamps size = " << rcpp_audio_timestamps.size() << std::endl;
+      Rcout << "rcpp_wave_header size = " << rcpp_wave_header.size() << std::endl;        
       for(int i=0; i<rcpp_audio_features.size(); i++)
       {
-        {
-          std::string name = "audio_features_" + std::to_string(i);
-          result[name.c_str()] =  rcpp_audio_features[i];
-        }
+        Rcout << "rcpp_openSmileGetFeatures audio_timestamps = " << std::endl;          
         {
           std::string name = "audio_timestamps_" + std::to_string(i);
           result[name.c_str()] =  rcpp_audio_timestamps[i];
         }
+        Rcout << "rcpp_openSmileGetFeatures wave_header = " << std::endl;          
         {
           std::string name = "wave_header_" + std::to_string(i);
           result[name.c_str()] =  rcpp_wave_header[i];
-        }         
+        }
+        Rcout << "rcpp_openSmileGetFeatures audio_features rows = " << rcpp_audio_features[i].n_rows 
+              << " columns = " << rcpp_audio_features[i].n_cols << std::endl;          
+        {
+                std::string name = "audio_features_" + std::to_string(i);
+                result[name.c_str()] =  rcpp_audio_features[i];
+        }        
       }
     }
   }
@@ -505,7 +514,7 @@ SEXP test_rcpp_openSmileGetFeatures(std::vector<std::string> audio_files_in,
                                   std::string config_file_in)
 {
   setlocale(LC_ALL, " ");  
-  
+
   //tilda handling  
   config_file_in = tildaString(config_file_in); 
   for(int i=0; i<audio_files_in.size(); i++)
@@ -549,7 +558,7 @@ SEXP  rcpp_openSmileGetBorderFrames(std::vector<std::string> audio_files_in,
   
   Rcpp::List result;
   try { 
-    CRcppWave rcppWave;      
+    CRcppWave rcppWave;
     if(rcppWave.setInputData(audio_files_in, config_string_in));
     {
       rcppWave.work();

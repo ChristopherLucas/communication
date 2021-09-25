@@ -57,7 +57,8 @@ takes frames from one level, applies window function and saves to other level
 
 #define MODULE "cWindower"
 
-
+#include <Rcpp.h>
+using namespace Rcpp;
 
 SMILECOMPONENT_STATICS(cWindower)
 
@@ -281,5 +282,6 @@ int cWindower::processVectorFloat(const FLOAT_DMEM *src, FLOAT_DMEM *dst, long N
 cWindower::~cWindower()
 {
   if (win!=nullptr) free(win);
+  Rcout << "~cWindower()" << std::endl;
 }
 

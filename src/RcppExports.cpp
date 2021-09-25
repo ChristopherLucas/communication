@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // dmvnorm_cens
 arma::vec dmvnorm_cens(arma::mat X, arma::rowvec mu, arma::mat Sigma, arma::uvec missingness_labels_i, std::vector< arma::uvec > nonmissing_features, bool logd, double lambda);
 RcppExport SEXP _communication_dmvnorm_cens(SEXP XSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP missingness_labels_iSEXP, SEXP nonmissing_featuresSEXP, SEXP logdSEXP, SEXP lambdaSEXP) {
