@@ -22,7 +22,7 @@ Mp3_P = mp3
 Utils_P = utils
 
 
-SOURCES_CPP.top = crcppdatabase.cpp crcppwav.cpp RcppExports.cpp rcpp_opensmile_Main.cpp hmm.cpp
+SOURCES_CPP.top = crcppdatabase.cpp crcppaudio.cpp crcppwav.cpp RcppExports.cpp rcpp_opensmile_Main.cpp hmm.cpp
 SOURCES_CPP.core = $(Core_P)/commandlineParser.cpp $(Core_P)/componentManager.cpp $(Core_P)/configManager.cpp $(Core_P)/dataMemory.cpp $(Core_P)/dataProcessor.cpp $(Core_P)/dataReader.cpp $(Core_P)/dataSelector.cpp $(Core_P)/dataSink.cpp $(Core_P)/dataSource.cpp $(Core_P)/dataWriter.cpp $(Core_P)/exceptions.cpp $(Core_P)/nullSink.cpp $(Core_P)/smileCommon.cpp $(Core_P)/smileComponent.cpp $(Core_P)/smileLogger.cpp  $(Core_P)/vectorProcessor.cpp  $(Core_P)/vectorTransform.cpp $(Core_P)/vecToWinProcessor.cpp $(Core_P)/windowProcessor.cpp $(Core_P)/winToVecProcessor.cpp
 SOURCES_CPP.others = $(OpSm_P)/dspcore/acf.cpp $(OpSm_P)/smileutil/smileUtil_cpp.cpp $(OpSm_P)/iocore/waveSource.cpp $(OpSm_P)/dspcore/framer.cpp $(OpSm_P)/dspcore/turnDetector.cpp $(OpSm_P)/dspcore/windower.cpp $(OpSm_P)/iocore/RcppDataSink.cpp $(OpSm_P)/functionals/functionals.cpp $(OpSm_P)/lldcore/mzcr.cpp $(OpSm_P)/lldcore/intensity.cpp $(OpSm_P)/dspcore/transformFft.cpp $(OpSm_P)/dspcore/fftmagphase.cpp $(OpSm_P)/lldcore/melspec.cpp $(OpSm_P)/other/vectorConcat.cpp $(OpSm_P)/dspcore/vectorPreemphasis.cpp $(OpSm_P)/dspcore/deltaRegression.cpp $(OpSm_P)/lldcore/energy.cpp $(OpSm_P)/lldcore/plp.cpp $(OpSm_P)/lldcore/mfcc.cpp $(OpSm_P)/lld/formantLpc.cpp $(OpSm_P)/lld/lpc.cpp $(OpSm_P)/smileutil/zerosolve.cpp  
 SOURCES_CPP.windows = $(Wnd_P)/io_win32.cpp

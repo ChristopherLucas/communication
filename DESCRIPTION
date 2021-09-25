@@ -1,12 +1,25 @@
 Package: communication
 Type: Package
 Title: Feature Extraction and Model Estimation for Audio of Human Speech
-Authors@R: c(
-		person("Dean", "Knox", email = "dcknox@upenn.edu", role = c("aut")),
-	    person("Christopher", "Lucas", email = "christopher.lucas@wustl.edu", role = c("aut", "cre")),
-	    person("Guilherme", "Duarte", role = "ctb"),
-	    person("Alex", "Shmuley", email = "dvajdual@gmail.com", role = "ctb"),	 
-	    person("Vineet", "Bansal", role = "ctb"))
+Authors@R: 
+    c(person(given = "Dean",
+             family = "Knox",
+             role = "aut",
+             email = "dcknox@upenn.edu"),
+      person(given = "Christopher",
+             family = "Lucas",
+             role = c("aut", "cre"),
+             email = "dvajdual@gmail.com"),
+      person(given = "Guilherme",
+             family = "Duarte",
+             role = "ctb"),
+      person(given = "Alex",
+             family = "Shmuley",
+             role = "ctb",
+             email = "dvajdual@gmail.com"),
+      person(given = "Vineet",
+             family = "Bansal",
+             role = "ctb"))
 Version: 0.2
 Date: 2021-04-27
 Description: Provides fast, easy feature extraction of human speech with C++ libraries.
@@ -19,8 +32,7 @@ Imports: Rcpp (>= 1.0.2),
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.700.2.0)
 RoxygenNote: 7.0.2
 Encoding: UTF-8
-Suggests: communi,
-    knitr,
+Suggests: knitr,
     qpdf,
     rmarkdown,
     testthat

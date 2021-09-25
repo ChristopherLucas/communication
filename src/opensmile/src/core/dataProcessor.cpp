@@ -627,11 +627,8 @@ int cDataProcessor::myFinaliseInstance()
 
 cDataProcessor::~cDataProcessor()
 {
-  Rcout << "~cDataProcessor() start" << std::endl;   
   if (writer_ != nullptr) { delete writer_; }
-  Rcout << "~cDataProcessor() after writer" << std::endl;     
   if (reader_ != nullptr) { delete reader_; }
-  Rcout << "~cDataProcessor() after reader_" << std::endl;    
 }
 
 

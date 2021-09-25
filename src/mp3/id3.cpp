@@ -18,7 +18,7 @@ using namespace Rcpp;
 
 ID3::ID3(std::string filename)
 {
-  file = fopen_speech(filename.c_str(), "rb");
+  file = speech::fopen(filename.c_str(), "rb");
   
   if( nullptr == file )
     throw std::string("ID3: can not open input wave file");  

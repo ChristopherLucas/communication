@@ -1,3 +1,58 @@
+#' Add an individual component to an existing configuration object
+#'
+#' This function appends a (non-sink) component to an existing configuration object.
+#' It is used internally by the pipeline function, and is unlikely to be used by
+#' itself.
+#'
+#' @param config A configuration object
+#' @param component An individual component as a List object, with the first element
+#' being the 'type' of the component (for example 'cTransformFFT').
+#' @param is_last Whether this component is the last one to be added, in which case
+#' its output channel will be set to the sink component, and the sink component's
+#' input channel updated accordingly.
+#' @return A configuration object suitable for use with extractFeatures.
+pipeline.append <- function(config, component, is_last = F) {
+  type <- component[[1]]
+  input <- component$.input
+  output <- component$.output
+  n_features <- component$.n_features
+  
+  edges <- attr(config, 'edges')
+  if (is.null(input)) input <- ifelse(is.null(edges), 'frames', edges[nrow(edges),]$output)
+  if (is.null(output)) output <- paste0(type, '_', ifelse(is.null(edges), 1, nrow(edges)+1))
+  if (is.null(n_features)) n_features <- 1
+  
+  # Any attributes that are unnamed or not .input/.output/.n_features are passed on as component data
+  component_data = component[names(component) %in% c('', '.input', '.output', '.n_features') == F]
+  create_component(config, input, type, component_data, n_features, output, is_last)
+}
+
+#' Construct a processing pipeline
+#'
+#' This function creates a new Configuration composed of a pipeline of components.
+#' Individual components of the pipeline are named automatically, but at a mininum
+#' the type of each component (and any additional options needed for the component)
+#' should be specified during construction.
+#' 
+#' Linear pipelines can be constructed easily by laying out the individual components
+#' as individual List objects, where the first element of each List is the component
+#' type (for example 'cWindower'). The input and output level names of each component
+#' are determined automatically, but can be overridden, allowing for creation of 
+#' more complex pipelines.
+#'
+#' @param ... Individual components specified as individual List objects.
+#' @return A configuration object suitable for use with extractFeatures.
+#' @export
+pipeline <- function(...) {
+  config <- createConfig()
+  components = list(...)
+  for (c in head(components, -1)) {
+    config <- pipeline.append(config=config, component=c, is_last=F)
+  }
+  last <- tail(components, 1)[[1]]
+  config <- pipeline.append(config=config, component=last, is_last=T)
+}
+
 create_component <- function(config, input = 'frames', 
                              component_type, component_data,
                              n_features = 1,
@@ -6,14 +61,11 @@ create_component <- function(config, input = 'frames',
   
   if (is.null(output) ) output <- paste0(sample(letters), collapse="")
   
-  
   # define component_type
   config[['componentInstances:cComponentManager']][[paste0('instance[', output, '].type')]] <- component_type
 
-  
   config <- add_component_data(config, component_data,  component_type, input, output, n_features)
 
-  
   if (output_define) {
     config <- update_output(config, output, n_features)
   }
@@ -54,8 +106,16 @@ update_output <- function(config, output, n_features) {
                         config$`lldrcppdatasink:cRcppDataSink`$`reader.dmLevel`,
                             ";", output))
 
-  attr(config, "columns") <- paste0(c(attr(config, "columns"), 
-                                      paste0(output, 1:n_features)), collapse = ":" )
+  
+  if (n_features == 1) {
+    # If adding a single output, set the column name the same as the output name
+    attr(config, "columns") <- paste0(c(attr(config, "columns"), output), collapse = ":" )      
+  } else {
+    # Otherwise set column names as output + a suffix (_1/_2/..)
+    attr(config, "columns") <- paste0(c(attr(config, "columns"),
+                                        paste0(output, '_', 1:n_features)), collapse = ":" )    
+  }
+
   
   attr(config, "edges")$explicit_output[attr(config, "edges")$output == output] <- T
   config

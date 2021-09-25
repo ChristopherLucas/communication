@@ -33,7 +33,7 @@
 NULL
 
 
-mzcr <- function(config, input = input, output = output, zcr = 0,amax = 0,mcr = 0,maxmin = 0,dc = 0) {
+mzcr <- function(config, input = "frames", output = NULL, zcr = 0,amax = 0,mcr = 0,maxmin = 0,dc = 0) {
         create_component(config, 
                          input = input,
                          output = output,
@@ -70,7 +70,7 @@ max_min <- function(config, input = "frames", output = "maxmin") mzcr(config,inp
 dc <- function(config, input = "frames", output = "dc") mzcr(config, input = input, output = output, dc = 1)
 
 # cIntensity functions
-loud_intensity <- function(config, input = input, output = output, loudness = 0, intensity = 0) {
+loud_intensity <- function(config, input = "frames", output = NULL, loudness = 0, intensity = 0) {
   create_component(config, 
                    input = input,
                    output = output,
@@ -95,7 +95,7 @@ loudness <- function(config, input = "frames", output = "loudness") loud_intensi
 
 #' @rdname components
 #' @export
-fastFourierTransform <- function(config, input = 'frames',output = 'fft') {
+fastFourierTransform <- function(config, input = 'frames', output = 'fft') {
     create_component(config, 
                      input = input,
                       output = output,

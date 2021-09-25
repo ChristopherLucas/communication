@@ -173,48 +173,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// wavToMp3
-void wavToMp3(std::string wav_file_in, std::string mp3_file_out);
-RcppExport SEXP _communication_wavToMp3(SEXP wav_file_inSEXP, SEXP mp3_file_outSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type wav_file_in(wav_file_inSEXP);
-    Rcpp::traits::input_parameter< std::string >::type mp3_file_out(mp3_file_outSEXP);
-    wavToMp3(wav_file_in, mp3_file_out);
-    return R_NilValue;
-END_RCPP
-}
-// mp3ToWav
-void mp3ToWav(std::string mp3_file_in, std::string wav_file_out);
-RcppExport SEXP _communication_mp3ToWav(SEXP mp3_file_inSEXP, SEXP wav_file_outSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type mp3_file_in(mp3_file_inSEXP);
-    Rcpp::traits::input_parameter< std::string >::type wav_file_out(wav_file_outSEXP);
-    mp3ToWav(mp3_file_in, wav_file_out);
-    return R_NilValue;
-END_RCPP
-}
-// rcpp_parseWavFile
-SEXP rcpp_parseWavFile(std::string strWavfile);
-RcppExport SEXP _communication_rcpp_parseWavFile(SEXP strWavfileSEXP) {
+// rcpp_parseAudioFile
+SEXP rcpp_parseAudioFile(std::string strWavfile);
+RcppExport SEXP _communication_rcpp_parseAudioFile(SEXP strWavfileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type strWavfile(strWavfileSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_parseWavFile(strWavfile));
+    rcpp_result_gen = Rcpp::wrap(rcpp_parseAudioFile(strWavfile));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_playWavFile
-bool rcpp_playWavFile(std::vector<int32_t> rawData, Rcpp::List header);
-RcppExport SEXP _communication_rcpp_playWavFile(SEXP rawDataSEXP, SEXP headerSEXP) {
+bool rcpp_playWavFile(Rcpp::List header, std::vector<int32_t> rawData);
+RcppExport SEXP _communication_rcpp_playWavFile(SEXP headerSEXP, SEXP rawDataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type header(headerSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_playWavFile(rawData, header));
+    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_playWavFile(header, rawData));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -229,15 +207,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_writeWavFile
-void rcpp_writeWavFile(std::string filePath, std::vector<int32_t> rawData, Rcpp::List header);
-RcppExport SEXP _communication_rcpp_writeWavFile(SEXP filePathSEXP, SEXP rawDataSEXP, SEXP headerSEXP) {
+// rcpp_writeAudioFile
+void rcpp_writeAudioFile(Rcpp::List header, std::vector<int32_t> rawData, std::string filePath);
+RcppExport SEXP _communication_rcpp_writeAudioFile(SEXP headerSEXP, SEXP rawDataSEXP, SEXP filePathSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type filePath(filePathSEXP);
-    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type header(headerSEXP);
-    rcpp_writeWavFile(filePath, rawData, header);
+    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
+    Rcpp::traits::input_parameter< std::string >::type filePath(filePathSEXP);
+    rcpp_writeAudioFile(header, rawData, filePath);
+    return R_NilValue;
+END_RCPP
+}
+// rcpp_writeAudioFileStereo
+void rcpp_writeAudioFileStereo(Rcpp::List header, std::vector<int32_t> rawDataL, std::vector<int32_t> rawDataR, std::string filePath);
+RcppExport SEXP _communication_rcpp_writeAudioFileStereo(SEXP headerSEXP, SEXP rawDataLSEXP, SEXP rawDataRSEXP, SEXP filePathSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type header(headerSEXP);
+    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawDataL(rawDataLSEXP);
+    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawDataR(rawDataRSEXP);
+    Rcpp::traits::input_parameter< std::string >::type filePath(filePathSEXP);
+    rcpp_writeAudioFileStereo(header, rawDataL, rawDataR, filePath);
     return R_NilValue;
 END_RCPP
 }
@@ -346,12 +337,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_communication_llh_cpp", (DL_FUNC) &_communication_llh_cpp, 10},
     {"_communication_lstateprobs_cpp", (DL_FUNC) &_communication_lstateprobs_cpp, 7},
     {"_communication_viterbi_cpp", (DL_FUNC) &_communication_viterbi_cpp, 3},
-    {"_communication_wavToMp3", (DL_FUNC) &_communication_wavToMp3, 2},
-    {"_communication_mp3ToWav", (DL_FUNC) &_communication_mp3ToWav, 2},
-    {"_communication_rcpp_parseWavFile", (DL_FUNC) &_communication_rcpp_parseWavFile, 1},
+    {"_communication_rcpp_parseAudioFile", (DL_FUNC) &_communication_rcpp_parseAudioFile, 1},
     {"_communication_rcpp_playWavFile", (DL_FUNC) &_communication_rcpp_playWavFile, 2},
     {"_communication_test_rcpp_playWavFile", (DL_FUNC) &_communication_test_rcpp_playWavFile, 1},
-    {"_communication_rcpp_writeWavFile", (DL_FUNC) &_communication_rcpp_writeWavFile, 3},
+    {"_communication_rcpp_writeAudioFile", (DL_FUNC) &_communication_rcpp_writeAudioFile, 3},
+    {"_communication_rcpp_writeAudioFileStereo", (DL_FUNC) &_communication_rcpp_writeAudioFileStereo, 4},
     {"_communication_test_rcpp_writeWavFile", (DL_FUNC) &_communication_test_rcpp_writeWavFile, 2},
     {"_communication_rcpp_openSmileGetFeatures", (DL_FUNC) &_communication_rcpp_openSmileGetFeatures, 2},
     {"_communication_test_rcpp_openSmileGetFeatures", (DL_FUNC) &_communication_test_rcpp_openSmileGetFeatures, 2},

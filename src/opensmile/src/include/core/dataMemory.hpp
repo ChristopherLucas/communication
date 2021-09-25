@@ -245,15 +245,12 @@ class  FrameMetaInfo {
     const char *getName(int n, int *arrIdx=nullptr); // n is element(!) index
     ~FrameMetaInfo() {
       if (field != nullptr) {
-        SMILE_PRINT("~FrameMetaInfo() field != nullptr");  
         int i;
         for (i=0; i<N; i++) { 
           if (field[i].name != nullptr) free(field[i].name); 
           if (field[i].info!=nullptr) free(field[i].info);
         }
-        SMILE_PRINT("~FrameMetaInfo() after free"); 
         //delete [] field;
-        SMILE_PRINT("~FrameMetaInfo() after delete");        
       }
       smileMutexDestroy(myMtx);
     }

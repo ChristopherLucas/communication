@@ -282,6 +282,5 @@ int cWindower::processVectorFloat(const FLOAT_DMEM *src, FLOAT_DMEM *dst, long N
 cWindower::~cWindower()
 {
   if (win!=nullptr) free(win);
-  Rcout << "~cWindower()" << std::endl;
 }
 

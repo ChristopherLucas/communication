@@ -37,28 +37,24 @@ viterbi_cpp <- function(lstateprobs, delta, Gamma) {
     .Call(`_communication_viterbi_cpp`, lstateprobs, delta, Gamma)
 }
 
-wavToMp3 <- function(wav_file_in, mp3_file_out) {
-    invisible(.Call(`_communication_wavToMp3`, wav_file_in, mp3_file_out))
+rcpp_parseAudioFile <- function(strWavfile) {
+    .Call(`_communication_rcpp_parseAudioFile`, strWavfile)
 }
 
-mp3ToWav <- function(mp3_file_in, wav_file_out) {
-    invisible(.Call(`_communication_mp3ToWav`, mp3_file_in, wav_file_out))
-}
-
-rcpp_parseWavFile <- function(strWavfile) {
-    .Call(`_communication_rcpp_parseWavFile`, strWavfile)
-}
-
-rcpp_playWavFile <- function(rawData, header) {
-    .Call(`_communication_rcpp_playWavFile`, rawData, header)
+rcpp_playWavFile <- function(header, rawData) {
+    .Call(`_communication_rcpp_playWavFile`, header, rawData)
 }
 
 test_rcpp_playWavFile <- function(strWavfile) {
     .Call(`_communication_test_rcpp_playWavFile`, strWavfile)
 }
 
-rcpp_writeWavFile <- function(filePath, rawData, header) {
-    invisible(.Call(`_communication_rcpp_writeWavFile`, filePath, rawData, header))
+rcpp_writeAudioFile <- function(header, rawData, filePath) {
+    invisible(.Call(`_communication_rcpp_writeAudioFile`, header, rawData, filePath))
+}
+
+rcpp_writeAudioFileStereo <- function(header, rawDataL, rawDataR, filePath) {
+    invisible(.Call(`_communication_rcpp_writeAudioFileStereo`, header, rawDataL, rawDataR, filePath))
 }
 
 test_rcpp_writeWavFile <- function(filePathIn, filePathOut) {

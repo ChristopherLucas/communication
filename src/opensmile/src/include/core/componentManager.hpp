@@ -49,7 +49,7 @@
 
 #include <core/smileCommon.hpp>
 #include <core/smileComponent.hpp>
-#include <armadillo>
+#include <RcppArmadillo.h> 
 // this is the name of the configuration instance in the config file the component manager will search for:
 #define CM_CONF_INST  "componentInstances"
 

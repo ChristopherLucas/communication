@@ -251,7 +251,7 @@ int cWaveSource::myConfigureInstance()
   // open wave file.... etc. get header, etc.
   if (filehandle == nullptr) 
   {
-    filehandle = fopen_speech(filename, "rb");
+    filehandle = speech::fopen(filename, "rb");
     if (filehandle == nullptr) COMP_ERR("failed to open input file '%s'",filename);
   }
 

@@ -56,7 +56,7 @@ Rcpp Data output
 
 #include <core/smileCommon.hpp>
 #include <core/dataSink.hpp>
-#include <armadillo>
+#include <RcppArmadillo.h> 
 
 #define COMPONENT_DESCRIPTION_CRCPPDATASINK "This component exports data to Rcpp application"
 #define COMPONENT_NAME_CRCPPDATASINK "cRcppDataSink"
