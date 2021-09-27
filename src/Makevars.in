@@ -7,7 +7,7 @@ DEFS = @DEFS@
 MAKEFLAGS = -j$(nproc)
 CXX_STD = CXX11
 PKG_CFLAGS = $(PORTAUDIO_CFLAGS)
-PKG_CPPFLAGS = -pthread $(DEFS) $(PORTAUDIO_DEFINES_INCLUDES) -DBUILD_RNN -DHAVE_MPGLIB -DARMA_DONT_PRINT_ERRORS -DOPENSMILE_BUILD -DHAVE_PORTAUDIO -DBUILD_LIBSVM -DBUILD_WITHOUT_EXPERIMENTAL -DHAVE_PORTAUDIO_V19 -DHAVE_PTHREAD -pthread -I portaudio/src/common -I portaudio/include -I opensmile/src/include -I develop/include -I lame-wrapper -I lame/include -I lame/libmp3lame  -I lame/mpglib -I windows -I mp3 -I utils #-DDevelopVersion -I/usr/include/armadillo_bits
+PKG_CPPFLAGS = -pthread $(DEFS) $(PORTAUDIO_DEFINES_INCLUDES) -DBUILD_RNN -DHAVE_MPGLIB -DARMA_DONT_PRINT_ERRORS -DOPENSMILE_BUILD -DHAVE_PORTAUDIO -DBUILD_LIBSVM -DBUILD_WITHOUT_EXPERIMENTAL -DHAVE_PORTAUDIO_V19 -DHAVE_PTHREAD -pthread -I portaudio/src/common -I portaudio/include -I opensmile/src/include -I develop/include -I lame-wrapper -I lame/include -I lame/libmp3lame  -I lame/mpglib -I windows -I mp3 -I utils -I conf #-DDevelopVersion -I/usr/include/armadillo_bits
 PKG_LIBS = -pthread  $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(PORTAUDIO_LIBS)
 
 
