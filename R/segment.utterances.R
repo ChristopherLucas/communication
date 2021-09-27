@@ -68,7 +68,7 @@ segment.utterances.pipeline <- function() {
       copyInputName = 1,
       processArrayFields = 0,
       mode = 'transform',
-      initFile = system.file('extdata', 'vad', 'rplp18d_norm.dat', package='speech'),
+      initFile = system.file('extdata', 'vad', 'rplp18d_norm.dat', package='communication'),
       htkcompatible = 0,
       meanEnable = 1,
       stdEnable = 1,
@@ -77,7 +77,7 @@ segment.utterances.pipeline <- function() {
     
     list(
       'cRnnProcessor',
-      netfile = system.file('extdata', 'vad', 'lstmvad_rplp18d_12.net', package='speech')
+      netfile = system.file('extdata', 'vad', 'lstmvad_rplp18d_12.net', package='communication')
     ),
     
     list(

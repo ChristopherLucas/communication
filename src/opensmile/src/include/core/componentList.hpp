@@ -249,7 +249,7 @@
   #endif
   #ifdef BUILD_RNN
    //cRnnSink::registerComponent,
-   //cRnnProcessor::registerComponent,
+   cRnnProcessor::registerComponent,
    //cRnnVad2::registerComponent,
   #endif
 
@@ -265,7 +265,7 @@
   //cAcf::registerComponent,
   //cPreemphasis::registerComponent,
   cVectorPreemphasis::registerComponent,
-  //cVectorMVN::registerComponent,
+  cVectorMVN::registerComponent,
   cTurnDetector::registerComponent,
   cDeltaRegression::registerComponent,
   //cContourSmoother::registerComponent,
