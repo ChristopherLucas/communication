@@ -1,7 +1,7 @@
 dnl  Require autoconf >= 2.13
 AC_PREREQ(2.13)
 
-AC_INIT([speech], 0.0.0)
+AC_INIT([communication], 0.0.0)
 AC_CONFIG_HEADERS([src/conf/config.h])
 AC_CONFIG_SRCDIR([src])
 AC_LANG(C++)
@@ -16,6 +16,7 @@ AC_SUBST(PORTAUDIO_LIBS)
 AC_SUBST(PORTAUDIO_DEFINES_INCLUDES)
 AC_SUBST(PORTAUDIO_CFLAGS)
 AC_SUBST(MACOSX_DEPLOYMENT_TARGET)
+
 
 dnl This must be one of the first tests we do or it will fail...
 AC_C_BIGENDIAN

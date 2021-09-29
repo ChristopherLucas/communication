@@ -172,8 +172,8 @@ int cRnnProcessor::setupNewNames(long nEl)
 {
   if ((net.task == NNTASK_CLASSIFICATION)||(net.task == NNTASK_TRANSCRIPTION)) {
     long i;
-   if (net.outputSize) printf("outputsize: %i\n",net.outputSize);
-   if (nClasses) printf("classes: %i\n",nClasses);
+   //if (net.outputSize) printf("outputsize: %i\n",net.outputSize);
+   //if (nClasses) printf("classes: %i\n",nClasses);
     for (i=0; i<MIN(nClasses,net.outputSize); i++) {
       addNameAppendField("RNNoutpAct", classlabelArr_[i], 1);
     }

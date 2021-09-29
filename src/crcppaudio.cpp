@@ -59,12 +59,12 @@ void CRcppAudio::work()
     if (isMp3File(audio_files[iFile]))
     {
 #ifdef __APPLE__
-      const char *filename_const = "/tmp/fileXXXXXX";
-      char* filename_ = const_cast<char*> (filename_const);
+      char filename_[] = "/tmp/fileXXXXXX";
       int fd = mkstemp(filename_);
-      close(fd);
+      if (fd != -1)
+        close(fd);
       fileName = filename_; 
-#else       
+#else      
       fileName = std::tmpnam(nullptr);
       if (!fileName.empty ()) {
         if (fileName.at (0) == '\\')

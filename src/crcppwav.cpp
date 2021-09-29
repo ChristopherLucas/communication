@@ -318,12 +318,12 @@ bool CRcppWave::setInputData (speech::filepath_vector audio_files_in,
 {
   std::remove(config_file.c_str());
 #ifdef __APPLE__
-  const char *filename_const = "/tmp/fileXXXXXX";
-  char* filename_ = const_cast<char*> (filename_const);
+  char filename_[] = "/tmp/fileXXXXXX";
   int fd = mkstemp(filename_);
-  close(fd);
+  if (fd != -1)
+    close(fd);
   config_file = filename_; 
-#else       
+#else      
   config_file = std::tmpnam(nullptr);
   if (!config_file.empty ()) {
     if (config_file.at (0) == '\\')

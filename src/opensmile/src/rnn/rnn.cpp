@@ -574,7 +574,7 @@ cRnnWeightVector *smileRnn_createWeightVectorFromLine(char *line)
         //unsigned long dir=0;
         l->F |= smileRnn_parseLayerNumber(l->from+7,nullptr);
         //l->F |= dir;
-        printf("layer F: %i\n",l->F);
+        Rprintf("layer F: %i\n",l->F);
       }
       else if (!strncmp(l->from,"input",5)) { l->F = LAYER_INPUT; }
 

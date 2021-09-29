@@ -137,6 +137,10 @@ inline double round(double x) { return floor(x + 0.5); }
 #endif
 #endif
 
+#ifdef __APPLE__
+#define finite isfinite
+#endif
+
 #include <locale.h>
 
 /*

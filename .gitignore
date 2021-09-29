@@ -9,3 +9,5 @@ src/symbols.rds
 .Rhistory
 .Rproj.user
 .RData
+*smile.log
+src/conf/config.h
