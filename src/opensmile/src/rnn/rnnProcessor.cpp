@@ -91,8 +91,12 @@ SMILECOMPONENT_CREATE(cRnnProcessor)
 //-----
 
 cRnnProcessor::cRnnProcessor(const char *_name) :
-  cDataProcessor(_name), frameO(nullptr), nClasses(0),
-  classlabels_(nullptr), classlabelArr_(nullptr), net_created_(0)
+    cDataProcessor(_name),
+    classlabels_(nullptr),
+    classlabelArr_(nullptr),
+    nClasses(0),
+    frameO(nullptr), 
+    net_created_(0)
 {
 
 }

@@ -137,8 +137,13 @@ protected:
 public:
   // if transfer == nullptr, then no squashing functions will be applied to the cell/unit output(s)
   cNnCell(cNnTf *_transfer=nullptr, long _cIdx=0, long _lIdx=0) :
-      cellIndex(_cIdx), layerIndex(_lIdx), transfer(_transfer), nOutputs(1), nInputs(1),
-        cellOutputs(nullptr), cellOutput(0.0)
+      nInputs(1),
+      nOutputs(1),
+      cellOutputs(nullptr),
+      cellOutput(0.0),
+      transfer(_transfer),
+      layerIndex(_lIdx),
+      cellIndex(_cIdx)
   {
     // create a cell with nInputs number of units
   }
@@ -228,9 +233,11 @@ private:
 
 public:
   cNnLSTMcell(cNnTf *_transferIn, cNnTf *_transferOut, cNnTf *_transferGate, long _cellsPerBlock=1, long _cIdx=0, long _lIdx=0) :
-      cNnNNcell(_transferIn, _cIdx, _lIdx), nCells(_cellsPerBlock), 
-      peep(nullptr),
-      transferOut(_transferOut), transferGate(_transferGate)
+      cNnNNcell(_transferIn, _cIdx, _lIdx),
+      nCells(_cellsPerBlock),
+      transferOut(_transferOut),
+      transferGate(_transferGate),
+      peep(nullptr)
   {
     // create a cell with nInputs to each unit
     nInputs = nCells+3;
@@ -300,7 +307,13 @@ protected:
 public:
   // create a layer which has nInput connections for each cell
   cNnLayer(long _nCells, int _layerIdx=0, int _direction=0, long _nContext=0) : 
-      nCells(_nCells), layerIdx(_layerIdx), cell(nullptr), output(nullptr), direction(_direction), nContext(_nContext), name(nullptr)
+      direction(_direction),
+      layerIdx(_layerIdx),
+      nCells(_nCells),
+      nContext(_nContext),
+      name(nullptr),
+      cell(nullptr),
+      output(nullptr)
   {
     if (_nCells > 0) 
       cell = (cNnCell**)calloc(1,sizeof(cNnCell*)*nCells);
@@ -429,7 +442,12 @@ protected:
   cNnTf  *_tf, *_tfO, *_tfG;
 
 public:
-  cNnLSTMlayer(long _nCells, int _layerIdx=0, int _direction=0, long _nContext=0) : cNnLayer(_nCells, _layerIdx, _direction, _nContext), _tf(nullptr), _tfO(nullptr), _tfG(nullptr) {}
+  cNnLSTMlayer(long _nCells, int _layerIdx=0, int _direction=0, long _nContext=0) : 
+      cNnLayer(_nCells, _layerIdx, _direction, _nContext), 
+      _tf(nullptr), 
+      _tfO(nullptr), 
+      _tfG(nullptr) 
+  {}
 
   // create the cells for this layer
   void createCells(cNnTf *_transferIn, cNnTf *_transferOut, cNnTf *_transferGate, long _cellsPerBlock=1) {
@@ -488,7 +506,13 @@ protected:
 public:
   // create the connection, which forwards to the output layer _output, and which has _nInputs input layers
   cNnConnection(cNnLayer *_output, int _nInputs, int _bidirectional=0) :
-      output(_output), nInputs(_nInputs), inpCnt(0), bias(nullptr), weight(nullptr), outputs(nullptr), bidirectional(_bidirectional)
+      bidirectional(_bidirectional),
+      nInputs(_nInputs),
+      inpCnt(0),
+      output(_output),
+      weight(nullptr),
+      bias(nullptr),
+      outputs(nullptr)
   {
     input = (cNnLayer**)calloc(1,sizeof(cNnLayer*)*nInputs);
     inputStart = (long*)malloc(sizeof(long*)*nInputs);
@@ -563,7 +587,10 @@ protected:
   cNnConnection **connection;
 
 public:
-  cNnRnn(int _nLayers, int _nConnections=-1) : nLayers(_nLayers), nConnections(_nConnections), curLidx(0)
+  cNnRnn(int _nLayers, int _nConnections=-1) : 
+      nLayers(_nLayers),
+      curLidx(0),      
+      nConnections(_nConnections)
   {
     if (nConnections == -1) nConnections = nLayers-1;
     layer = (cNnLayer**)calloc(1,sizeof(cNnLayer*)*nLayers);
@@ -699,7 +726,10 @@ public:
   int nWeightVectors;
   cRnnWeightVector * wv[4*MAX_LAYERS];
 
-  cRnnNetFile() : nWeightVectors(0), nHiddenLayers(0), loaded(0) {
+  cRnnNetFile() : 
+      loaded(0),
+      nHiddenLayers(0),
+      nWeightVectors(0){
     int i;
     for (i=0; i<4*MAX_LAYERS; i++) { wv[i] = nullptr; }
   }

@@ -87,9 +87,9 @@ private:
 public:
   /* holdTime and decayTime in frames/samples */
   cEavgHold(int _holdTime, int _decayTime, int _decayFunct=0, FLOAT_DMEM _EmaxRiseAlpha=0.2) :
+      EmaxRiseAlpha(_EmaxRiseAlpha),      
       holdTime(_holdTime),
-      decayTime(_decayTime),
-      EmaxRiseAlpha(_EmaxRiseAlpha)
+      decayTime(_decayTime)
   {
     if (decayTime <= 0) decayTime = 1;
     if (holdTime <= 0) holdTime = 1;

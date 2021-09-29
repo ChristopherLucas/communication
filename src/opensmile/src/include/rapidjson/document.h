@@ -641,7 +641,9 @@ private:
 	void SetArrayRaw(GenericValue* values, SizeType count, Allocator& alloctaor) {
 		flags_ = kArrayFlag;
 		data_.a.elements = (GenericValue*)alloctaor.Malloc(count * sizeof(GenericValue));
-		memcpy(data_.a.elements, values, count * sizeof(GenericValue));
+		for (int i=0; i<count; i++) {
+		  data_.a.elements[i] = values[i];
+		}
 		data_.a.size = data_.a.capacity = count;
 	}
 
@@ -649,7 +651,10 @@ private:
 	void SetObjectRaw(Member* members, SizeType count, Allocator& alloctaor) {
 		flags_ = kObjectFlag;
 		data_.o.members = (Member*)alloctaor.Malloc(count * sizeof(Member));
-		memcpy(data_.o.members, members, count * sizeof(Member));
+		for (int i=0; i<count; i++) {
+		  data_.o.members[i].name  = members[i].name;
+		  data_.o.members[i].value = members[i].value;		  
+		}		
 		data_.o.size = data_.o.capacity = count;
 	}
 
