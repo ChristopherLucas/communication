@@ -10,7 +10,7 @@ CXX_STD = CXX11
 PKG_CXXFLAGS = -std=gnu++11
 #PKG_CFLAGS = $(PORTAUDIO_CFLAGS)
 PKG_CPPFLAGS = $(PORTAUDIO_DEFINES_INCLUDES) -DBUILD_RNN -DHAVE_MPGLIB -DHAVE_STRCHR -DHAVE_MEMCPY -DARMA_DONT_PRINT_ERRORS -DSTRICT_R_HEADERS -DOPENSMILE_BUILD -DHAVE_PORTAUDIO -DBUILD_LIBSVM -DBUILD_WITHOUT_EXPERIMENTAL -DHAVE_PORTAUDIO_V19 -I portaudio/src/common -I portaudio/include -I opensmile/src/include -I develop/include -I lame-wrapper -I lame/include -I lame/libmp3lame  -I lame/mpglib -I windows -I mp3 -I utils -I conf  #-DDevelopVersion
-PKG_LIBS =  $(LAPACK_LIBS) $(BLAS_LIBS) $(PORTAUDIO_LIBS)
+PKG_LIBS =  $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(PORTAUDIO_LIBS)
 
 OpSm_P = opensmile/src
 Core_P = opensmile/src/core
