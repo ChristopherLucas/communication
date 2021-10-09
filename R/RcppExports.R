@@ -41,8 +41,20 @@ rcpp_parseAudioFile <- function(strWavfile) {
     .Call(`_communication_rcpp_parseAudioFile`, strWavfile)
 }
 
+rcpp_subsetWavFile <- function(strWavfile, startSubWav, endSubWav) {
+    .Call(`_communication_rcpp_subsetWavFile`, strWavfile, startSubWav, endSubWav)
+}
+
 rcpp_playWavFile <- function(header, rawData) {
     .Call(`_communication_rcpp_playWavFile`, header, rawData)
+}
+
+rcpp_playWavFileSubset <- function(headerList, rawData, startSubWav, endSubWav) {
+    .Call(`_communication_rcpp_playWavFileSubset`, headerList, rawData, startSubWav, endSubWav)
+}
+
+test_rcpp_playWavFileSubset <- function(strWavfile, startSubWav, endSubWav) {
+    .Call(`_communication_test_rcpp_playWavFileSubset`, strWavfile, startSubWav, endSubWav)
 }
 
 test_rcpp_playWavFile <- function(strWavfile) {

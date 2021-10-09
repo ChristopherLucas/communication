@@ -184,6 +184,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_subsetWavFile
+SEXP rcpp_subsetWavFile(std::string strWavfile, uint32_t startSubWav, uint32_t endSubWav);
+RcppExport SEXP _communication_rcpp_subsetWavFile(SEXP strWavfileSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type strWavfile(strWavfileSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_subsetWavFile(strWavfile, startSubWav, endSubWav));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_playWavFile
 bool rcpp_playWavFile(Rcpp::List header, std::vector<int32_t> rawData);
 RcppExport SEXP _communication_rcpp_playWavFile(SEXP headerSEXP, SEXP rawDataSEXP) {
@@ -193,6 +206,33 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::List >::type header(headerSEXP);
     Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_playWavFile(header, rawData));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_playWavFileSubset
+bool rcpp_playWavFileSubset(Rcpp::List headerList, std::vector<int32_t> rawData, uint32_t startSubWav, uint32_t endSubWav);
+RcppExport SEXP _communication_rcpp_playWavFileSubset(SEXP headerListSEXP, SEXP rawDataSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type headerList(headerListSEXP);
+    Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_playWavFileSubset(headerList, rawData, startSubWav, endSubWav));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_rcpp_playWavFileSubset
+bool test_rcpp_playWavFileSubset(std::string strWavfile, uint32_t startSubWav, uint32_t endSubWav);
+RcppExport SEXP _communication_test_rcpp_playWavFileSubset(SEXP strWavfileSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type strWavfile(strWavfileSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    rcpp_result_gen = Rcpp::wrap(test_rcpp_playWavFileSubset(strWavfile, startSubWav, endSubWav));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -338,7 +378,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_communication_lstateprobs_cpp", (DL_FUNC) &_communication_lstateprobs_cpp, 7},
     {"_communication_viterbi_cpp", (DL_FUNC) &_communication_viterbi_cpp, 3},
     {"_communication_rcpp_parseAudioFile", (DL_FUNC) &_communication_rcpp_parseAudioFile, 1},
+    {"_communication_rcpp_subsetWavFile", (DL_FUNC) &_communication_rcpp_subsetWavFile, 3},
     {"_communication_rcpp_playWavFile", (DL_FUNC) &_communication_rcpp_playWavFile, 2},
+    {"_communication_rcpp_playWavFileSubset", (DL_FUNC) &_communication_rcpp_playWavFileSubset, 4},
+    {"_communication_test_rcpp_playWavFileSubset", (DL_FUNC) &_communication_test_rcpp_playWavFileSubset, 3},
     {"_communication_test_rcpp_playWavFile", (DL_FUNC) &_communication_test_rcpp_playWavFile, 1},
     {"_communication_rcpp_writeAudioFile", (DL_FUNC) &_communication_rcpp_writeAudioFile, 3},
     {"_communication_rcpp_writeAudioFileStereo", (DL_FUNC) &_communication_rcpp_writeAudioFileStereo, 4},

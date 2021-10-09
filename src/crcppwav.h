@@ -14,7 +14,7 @@
 class CRcppWave: public CRcppDataBase
 {
 public:
-  enum Errors {NoError, PcmError, FileNotOpenError, HeaderParseError, UnknownFormatError};
+  enum Errors {NoError, PcmError, FileNotOpenError, HeaderParseError, UnknownFormatError, IncorrectData};
   CRcppWave();
   ~CRcppWave();
   bool setInputData (speech::filepath_vector audio_files_in, 
@@ -42,6 +42,25 @@ public:
   //if mono return simple data  
   static CRcppWave::Errors parseWavFile( const speech::filepath & strWavfile, sWaveParameters & pcmParams, 
                                           std::vector<short int> & rawData_16);
+  
+  static CRcppWave::Errors subsetWavFile(const speech::filepath & strWavfile, 
+                                         uint32_t  startSubWav,               //seconds 
+                                         uint32_t endSubWav,                  //seconds
+                                         const speech::filepath & filePathOut);
+  
+  
+  static CRcppWave::Errors subsetWavFile(const speech::filepath & strWavfile, 
+                                         uint32_t  startSubWav,                     //seconds 
+                                         uint32_t endSubWav,                        //seconds
+                                         sWaveParameters & headerSubset,
+                                         std::vector<int32_t> & rawDataSubset);     //if stereo Interleaved, if mono simple data     
+  
+ 
+  static CRcppWave::Errors subsetWavFile(const sWaveParameters & header,             //the same to origin and subset
+                                        const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data
+                                        uint32_t  startSubWav,                      //seconds 
+                                        uint32_t endSubWav,                         //seconds
+                                        std::vector<int32_t> & rawDataSubset);      //if stereo Interleaved, if mono simple data 
                                                  
   static const float int8_max;
   static const float int16_max;

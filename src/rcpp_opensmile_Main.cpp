@@ -88,12 +88,98 @@ SEXP rcpp_parseAudioFile(std::string strWavfile)
     Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_parseAudioFile)");    
 }
  
-   
+
+ // [[Rcpp::export]]
+SEXP rcpp_subsetWavFile(std::string strWavfile,
+                         uint32_t  startSubWav,        //seconds 
+                         uint32_t endSubWav)           //seconds
+{
+  CRcppWave rcpp_wave;
+  std::vector<int32_t> subsetRawData;
+  sWaveParameters header;
+  CRcppWave::Errors res = rcpp_wave.subsetWavFile ( strWavfile,
+                                                    startSubWav,
+                                                    endSubWav,
+                                                    header,
+                                                    subsetRawData);    
+  if(CRcppWave::NoError == res) {
+    return Rcpp::List::create(_["header"]=header, _["data"]=subsetRawData);
+  }
+  else if(CRcppWave::HeaderParseError == res)
+    Rcpp::stop("Error parsing file header");  
+  else if(CRcppWave::PcmError == res)
+    Rcpp::stop("Error parsing file. Unsupported file format: float data");  
+  else if(CRcppWave::FileNotOpenError == res)
+    Rcpp::stop("Error parsing file. Can not open file - " + strWavfile); 
+  else if(CRcppWave::IncorrectData == res)
+    Rcpp::stop("Error during getting subset. Incorrect input data.");      
+  else
+    Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_playWavFile)");   
+}
+    
 // [[Rcpp::export]]   
 bool rcpp_playWavFile(Rcpp::List header, std::vector<int32_t> rawData)
 {
   CRcppWave rcpp_wave;
   return rcpp_wave.playWaveFile(rawData, waveHeader_cPP(header));
+}
+
+
+// [[Rcpp::export]]   
+bool rcpp_playWavFileSubset(Rcpp::List headerList, 
+                            std::vector<int32_t> rawData,                                             
+                            uint32_t  startSubWav,        //seconds 
+                            uint32_t endSubWav)           //seconds
+{
+  CRcppWave rcpp_wave;
+  std::vector<int32_t> subsetRawData;
+  sWaveParameters header = waveHeader_cPP(headerList);
+  CRcppWave::Errors res = rcpp_wave.subsetWavFile ( header,
+                                                    rawData,
+                                                    startSubWav,
+                                                    endSubWav,
+                                                    subsetRawData);
+  
+  if(CRcppWave::NoError == res)
+    return rcpp_wave.playWaveFile(subsetRawData, header);    
+  else if(CRcppWave::HeaderParseError == res)
+    Rcpp::stop("Error parsing file header");  
+  else if(CRcppWave::PcmError == res)
+    Rcpp::stop("Error parsing file. Unsupported file format: float data");  
+  else if(CRcppWave::FileNotOpenError == res)
+    Rcpp::stop("Error parsing file. Can not open file"); 
+  else if(CRcppWave::IncorrectData == res)
+    Rcpp::stop("Error during getting subset. Incorrect input data.");      
+  else
+    Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_playWavFile)");     
+}
+
+// [[Rcpp::export]]   
+bool test_rcpp_playWavFileSubset(std::string strWavfile,                                           
+                                 uint32_t  startSubWav,        //seconds 
+                                 uint32_t endSubWav)           //seconds
+{
+  CRcppWave rcpp_wave;
+  std::vector<int32_t> subsetRawData;
+  sWaveParameters header;
+  CRcppWave::Errors res = rcpp_wave.subsetWavFile ( strWavfile,
+                                                    startSubWav,
+                                                    endSubWav,
+                                                    header,
+                                                    subsetRawData);
+  
+  if(CRcppWave::NoError == res)
+    return rcpp_wave.playWaveFile(subsetRawData, header);    
+  else if(CRcppWave::HeaderParseError == res)
+    Rcpp::stop("Error parsing file header");  
+  else if(CRcppWave::PcmError == res)
+    Rcpp::stop("Error parsing file. Unsupported file format: float data");  
+  else if(CRcppWave::FileNotOpenError == res)
+    Rcpp::stop("Error parsing file. Can not open file"); 
+  else if(CRcppWave::IncorrectData == res)
+    Rcpp::stop("Error during getting subset. Incorrect input data.");      
+  else
+    Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_playWavFile)");     
 }
 
 // [[Rcpp::export]]

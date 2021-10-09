@@ -232,6 +232,67 @@ CRcppWave::Errors CRcppWave::parseWavFile(  const speech::filepath & strWavfile,
   return res;  
 }
 
+CRcppWave::Errors CRcppWave::subsetWavFile(const speech::filepath & strWavfile, 
+                                           uint32_t startSubWav,                //seconds 
+                                           uint32_t  endSubWav,                 //seconds
+                                           const speech::filepath & filePathOut)
+{
+  sWaveParameters header;
+  std::vector<int32_t> rawData;
+  
+  Errors res = parseWavFile (strWavfile, header, rawData);
+  if (NoError != res)
+    return res;
+
+  std::vector<int32_t> subsetRawData;
+  res = subsetWavFile ( header,
+                        rawData,
+                        startSubWav,
+                        endSubWav,
+                        subsetRawData);
+  if (NoError != res)
+    return res;
+  saveToWaveFile (header, subsetRawData, filePathOut);
+  return NoError;
+}
+
+CRcppWave::Errors CRcppWave::subsetWavFile( const speech::filepath & strWavfile, 
+                                            uint32_t  startSubWav,                     //seconds 
+                                            uint32_t endSubWav,                        //seconds
+                                            sWaveParameters & headerSubset,
+                                            std::vector<int32_t> & rawDataSubset)     //if stereo Interleaved, if mono simple data
+{
+  std::vector<int32_t> rawData;
+  
+  Errors res = parseWavFile (strWavfile, headerSubset, rawData);
+  if (NoError != res)
+    return res;
+  
+  return subsetWavFile ( headerSubset,
+                        rawData,
+                        startSubWav,
+                        endSubWav,
+                        rawDataSubset);
+}
+
+
+CRcppWave::Errors CRcppWave::subsetWavFile( const sWaveParameters & header,             //the same to origin and subset
+                                            const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data 
+                                            uint32_t  startSubWav,                      //seconds 
+                                            uint32_t endSubWav,                         //seconds
+                                            std::vector<int32_t> & rawDataSubset)       //if stereo Interleaved, if mono simple data 
+{
+  if (0 == header.sampleRate || endSubWav <= startSubWav || endSubWav > rawDataOrigin.size () / header.sampleRate)
+    return CRcppWave::IncorrectData;    
+  
+  int indexStart = startSubWav * header.sampleRate * header.nChan;
+  int indexEnd = endSubWav * header.sampleRate * header.nChan;  
+  
+  rawDataSubset = {rawDataOrigin.begin() + indexStart, rawDataOrigin.begin() + indexEnd};
+  return CRcppWave::NoError;   
+}
+
+
 bool CRcppWave::playWaveFile(std::vector<int32_t> rawData_, sWaveParameters header_)
 {
   indent_Audio_Raw_PlayFile = 0;
