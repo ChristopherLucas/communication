@@ -185,14 +185,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_subsetWavFile
-SEXP rcpp_subsetWavFile(std::string strWavfile, uint32_t startSubWav, uint32_t endSubWav);
+SEXP rcpp_subsetWavFile(std::string strWavfile, double startSubWav, double endSubWav);
 RcppExport SEXP _communication_rcpp_subsetWavFile(SEXP strWavfileSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type strWavfile(strWavfileSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type endSubWav(endSubWavSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_subsetWavFile(strWavfile, startSubWav, endSubWav));
     return rcpp_result_gen;
 END_RCPP
@@ -210,28 +210,28 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_playWavFileSubset
-bool rcpp_playWavFileSubset(Rcpp::List headerList, std::vector<int32_t> rawData, uint32_t startSubWav, uint32_t endSubWav);
+bool rcpp_playWavFileSubset(Rcpp::List headerList, std::vector<int32_t> rawData, double startSubWav, double endSubWav);
 RcppExport SEXP _communication_rcpp_playWavFileSubset(SEXP headerListSEXP, SEXP rawDataSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List >::type headerList(headerListSEXP);
     Rcpp::traits::input_parameter< std::vector<int32_t> >::type rawData(rawDataSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type endSubWav(endSubWavSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_playWavFileSubset(headerList, rawData, startSubWav, endSubWav));
     return rcpp_result_gen;
 END_RCPP
 }
 // test_rcpp_playWavFileSubset
-bool test_rcpp_playWavFileSubset(std::string strWavfile, uint32_t startSubWav, uint32_t endSubWav);
+bool test_rcpp_playWavFileSubset(std::string strWavfile, double startSubWav, double endSubWav);
 RcppExport SEXP _communication_test_rcpp_playWavFileSubset(SEXP strWavfileSEXP, SEXP startSubWavSEXP, SEXP endSubWavSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type strWavfile(strWavfileSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type startSubWav(startSubWavSEXP);
-    Rcpp::traits::input_parameter< uint32_t >::type endSubWav(endSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type startSubWav(startSubWavSEXP);
+    Rcpp::traits::input_parameter< double >::type endSubWav(endSubWavSEXP);
     rcpp_result_gen = Rcpp::wrap(test_rcpp_playWavFileSubset(strWavfile, startSubWav, endSubWav));
     return rcpp_result_gen;
 END_RCPP

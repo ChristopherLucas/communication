@@ -233,8 +233,8 @@ CRcppWave::Errors CRcppWave::parseWavFile(  const speech::filepath & strWavfile,
 }
 
 CRcppWave::Errors CRcppWave::subsetWavFile(const speech::filepath & strWavfile, 
-                                           uint32_t startSubWav,                //seconds 
-                                           uint32_t  endSubWav,                 //seconds
+                                           double startSubWav,                //seconds 
+                                           double  endSubWav,                 //seconds
                                            const speech::filepath & filePathOut)
 {
   sWaveParameters header;
@@ -257,8 +257,8 @@ CRcppWave::Errors CRcppWave::subsetWavFile(const speech::filepath & strWavfile,
 }
 
 CRcppWave::Errors CRcppWave::subsetWavFile( const speech::filepath & strWavfile, 
-                                            uint32_t  startSubWav,                     //seconds 
-                                            uint32_t endSubWav,                        //seconds
+                                            double  startSubWav,                     //seconds 
+                                            double endSubWav,                        //seconds
                                             sWaveParameters & headerSubset,
                                             std::vector<int32_t> & rawDataSubset)     //if stereo Interleaved, if mono simple data
 {
@@ -278,8 +278,8 @@ CRcppWave::Errors CRcppWave::subsetWavFile( const speech::filepath & strWavfile,
 
 CRcppWave::Errors CRcppWave::subsetWavFile( const sWaveParameters & header,             //the same to origin and subset
                                             const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data 
-                                            uint32_t  startSubWav,                      //seconds 
-                                            uint32_t endSubWav,                         //seconds
+                                            double  startSubWav,                      //seconds 
+                                            double endSubWav,                         //seconds
                                             std::vector<int32_t> & rawDataSubset)       //if stereo Interleaved, if mono simple data 
 {
   if (0 == header.sampleRate || endSubWav <= startSubWav || endSubWav > rawDataOrigin.size () / header.sampleRate)

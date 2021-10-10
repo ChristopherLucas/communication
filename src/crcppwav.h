@@ -44,22 +44,22 @@ public:
                                           std::vector<short int> & rawData_16);
   
   static CRcppWave::Errors subsetWavFile(const speech::filepath & strWavfile, 
-                                         uint32_t  startSubWav,               //seconds 
-                                         uint32_t endSubWav,                  //seconds
+                                         double  startSubWav,               //seconds 
+                                         double endSubWav,                  //seconds
                                          const speech::filepath & filePathOut);
   
   
   static CRcppWave::Errors subsetWavFile(const speech::filepath & strWavfile, 
-                                         uint32_t  startSubWav,                     //seconds 
-                                         uint32_t endSubWav,                        //seconds
+                                         double  startSubWav,                     //seconds 
+                                         double endSubWav,                        //seconds
                                          sWaveParameters & headerSubset,
                                          std::vector<int32_t> & rawDataSubset);     //if stereo Interleaved, if mono simple data     
   
  
   static CRcppWave::Errors subsetWavFile(const sWaveParameters & header,             //the same to origin and subset
                                         const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data
-                                        uint32_t  startSubWav,                      //seconds 
-                                        uint32_t endSubWav,                         //seconds
+                                        double  startSubWav,                      //seconds 
+                                        double endSubWav,                         //seconds
                                         std::vector<int32_t> & rawDataSubset);      //if stereo Interleaved, if mono simple data 
                                                  
   static const float int8_max;

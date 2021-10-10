@@ -91,8 +91,8 @@ SEXP rcpp_parseAudioFile(std::string strWavfile)
 
  // [[Rcpp::export]]
 SEXP rcpp_subsetWavFile(std::string strWavfile,
-                         uint32_t  startSubWav,        //seconds 
-                         uint32_t endSubWav)           //seconds
+                        double startSubWav,        //seconds 
+                        double endSubWav)           //seconds
 {
   CRcppWave rcpp_wave;
   std::vector<int32_t> subsetRawData;
@@ -128,8 +128,8 @@ bool rcpp_playWavFile(Rcpp::List header, std::vector<int32_t> rawData)
 // [[Rcpp::export]]   
 bool rcpp_playWavFileSubset(Rcpp::List headerList, 
                             std::vector<int32_t> rawData,                                             
-                            uint32_t  startSubWav,        //seconds 
-                            uint32_t endSubWav)           //seconds
+                            double startSubWav,        //seconds 
+                            double endSubWav)           //seconds
 {
   CRcppWave rcpp_wave;
   std::vector<int32_t> subsetRawData;
@@ -156,8 +156,8 @@ bool rcpp_playWavFileSubset(Rcpp::List headerList,
 
 // [[Rcpp::export]]   
 bool test_rcpp_playWavFileSubset(std::string strWavfile,                                           
-                                 uint32_t  startSubWav,        //seconds 
-                                 uint32_t endSubWav)           //seconds
+                                 double startSubWav,        //seconds 
+                                 double endSubWav)           //seconds
 {
   CRcppWave rcpp_wave;
   std::vector<int32_t> subsetRawData;
