@@ -81,16 +81,18 @@ labelUtterances <- function(features, labels) {
 play <- function(x, ...) {
     UseMethod("play", x)
 }
-play.speech <- function(x, n = NULL) {
-    if ( is.null(n) ) n <- 1:nrow(x)
-    rcpp_playWavFile(purrr::as_vector(x$raw_data[n]),
-                attr(x, "header"))
-}
 
-play.speech_subset <- function(x, start, end) {
+
+play.speech <- function(x, start = NULL, end = NULL) {
     n <- 1:nrow(x)
-    rcpp_playWavFileSubset(purrr::as_vector(x$raw_data[n]),
-                     attr(x, "header"), start, end)
+    if ( is.null(start) || is.null(end)) {
+        rcpp_playWavFile(purrr::as_vector(x$raw_data[n]),
+                         attr(x, "header"))
+    }
+    else {
+        rcpp_playWavFileSubset(purrr::as_vector(x$raw_data[n]),
+                            attr(x, "header"), start, end)
+    }
 }
 
 
