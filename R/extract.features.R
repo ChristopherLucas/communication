@@ -87,6 +87,11 @@ play.speech <- function(x, n = NULL) {
                 attr(x, "header"))
 }
 
+play.speech_subset <- function(x, start, end) {
+    n <- 1:nrow(x)
+    rcpp_playWavFileSubset(purrr::as_vector(x$raw_data[n]),
+                     attr(x, "header"), start, end)
+}
 
 
 
