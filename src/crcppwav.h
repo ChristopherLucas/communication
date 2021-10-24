@@ -56,7 +56,7 @@ public:
                                          std::vector<int32_t> & rawDataSubset);     //if stereo Interleaved, if mono simple data     
   
  
-  static CRcppWave::Errors subsetWavFile(const sWaveParameters & header,             //the same to origin and subset
+  static CRcppWave::Errors subsetWavFile(sWaveParameters & header,             //the same to origin and subset
                                         const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data
                                         double  startSubWav,                      //seconds 
                                         double endSubWav,                         //seconds

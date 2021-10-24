@@ -410,12 +410,14 @@ void CRcppAudio::mp3ToWav(speech::filepath mp3_file_in, speech::filepath wav_fil
 
 bool CRcppAudio::isWavFile ( speech::filepath file_in )
 {
+  bool res = false;
   if( speech::str_ends_with(speech::str_tolower(file_in), "wav")
        ||
       speech::str_ends_with(speech::str_tolower(file_in), "wave"))
-    return true;
+    res = true;
   else
-    return false;
+    res = false;
+  return res;
 }
 
 bool CRcppAudio::isMp3File ( speech::filepath file_in )

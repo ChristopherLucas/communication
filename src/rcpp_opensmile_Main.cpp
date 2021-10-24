@@ -70,7 +70,8 @@ SEXP rcpp_parseAudioFile(std::string strWavfile)
   std::vector<int32_t> rawDataL;
   std::vector<int32_t> rawDataR;  
   sWaveParameters header;
-  CRcppWave::Errors error = CRcppAudio::parseAudioFile(strWavfile, header, rawDataL, rawDataR);  
+  CRcppWave::Errors error = CRcppAudio::parseAudioFile(strWavfile, header, rawDataL, rawDataR);
+  
   if(CRcppWave::NoError == error)
   {
     if(1 == header.nChan)
@@ -83,9 +84,13 @@ SEXP rcpp_parseAudioFile(std::string strWavfile)
   else if(CRcppWave::PcmError == error)
     Rcpp::stop("Error parsing file. Unsupported file format: float data");  
   else if(CRcppWave::FileNotOpenError == error)
-    Rcpp::stop("Error parsing file. Can not open file - " + strWavfile);      
-  else
-    Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_parseAudioFile)");    
+    Rcpp::stop("Error parsing file. Can not open file - " + strWavfile);
+  else if(CRcppWave::UnknownFormatError == error)
+    Rcpp::stop("Error parsing file. Unknown format of file - " + strWavfile);      
+  else {
+    Rcout << "error = " << error;
+    Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_parseAudioFile)");
+  }
 }
  
 
@@ -112,7 +117,9 @@ SEXP rcpp_subsetWavFile(std::string strWavfile,
   else if(CRcppWave::FileNotOpenError == res)
     Rcpp::stop("Error parsing file. Can not open file - " + strWavfile); 
   else if(CRcppWave::IncorrectData == res)
-    Rcpp::stop("Error during getting subset. Incorrect input data.");      
+    Rcpp::stop("Error during getting subset. Incorrect input data."); 
+  else if(CRcppWave::UnknownFormatError == res)
+    Rcpp::stop("Error parsing file. Unknown format of file.");  
   else
     Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_playWavFile)");   
 }
@@ -149,7 +156,9 @@ bool rcpp_playWavFileSubset(Rcpp::List headerList,
   else if(CRcppWave::FileNotOpenError == res)
     Rcpp::stop("Error parsing file. Can not open file"); 
   else if(CRcppWave::IncorrectData == res)
-    Rcpp::stop("Error during getting subset. Incorrect input data.");      
+    Rcpp::stop("Error during getting subset. Incorrect input data.");
+  else if(CRcppWave::UnknownFormatError == res)
+    Rcpp::stop("Error parsing file. Unknown format of file.");    
   else
     Rcpp::stop("Error parsing file. Unknown error! Please say devs that needing rewrite rcpp_playWavFile)");     
 }

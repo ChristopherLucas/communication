@@ -276,19 +276,23 @@ CRcppWave::Errors CRcppWave::subsetWavFile( const speech::filepath & strWavfile,
 }
 
 
-CRcppWave::Errors CRcppWave::subsetWavFile( const sWaveParameters & header,             //the same to origin and subset
+CRcppWave::Errors CRcppWave::subsetWavFile( sWaveParameters & headerCommon,             //the same to origin and subset
                                             const std::vector<int32_t> & rawDataOrigin, //if stereo Interleaved, if mono simple data 
                                             double  startSubWav,                      //seconds 
                                             double endSubWav,                         //seconds
                                             std::vector<int32_t> & rawDataSubset)       //if stereo Interleaved, if mono simple data 
 {
-  if (0 == header.sampleRate || endSubWav <= startSubWav || endSubWav > rawDataOrigin.size () / header.sampleRate)
+  if (0 == headerCommon.sampleRate || endSubWav <= startSubWav || endSubWav > rawDataOrigin.size () / headerCommon.sampleRate)
     return CRcppWave::IncorrectData;    
   
-  int indexStart = startSubWav * header.sampleRate * header.nChan;
-  int indexEnd = endSubWav * header.sampleRate * header.nChan;  
+  int indexStart = startSubWav * headerCommon.sampleRate * headerCommon.nChan;
+  int indexEnd = endSubWav * headerCommon.sampleRate * headerCommon.nChan;  
   
   rawDataSubset = {rawDataOrigin.begin() + indexStart, rawDataOrigin.begin() + indexEnd};
+  
+  if (0 != headerCommon.nChan)
+    headerCommon.nBlocks = (indexEnd - indexStart) / headerCommon.nChan; 
+  
   return CRcppWave::NoError;   
 }
 
@@ -484,8 +488,8 @@ void CRcppWave::saveToWaveFileStereo (const sWaveParameters & header,
   std::vector<int32_t> rawData (static_cast<std::vector<int32_t>::size_type>(rawDataL.size() * 2));
   for(int i=0; i<rawDataL.size(); i++)
   {
-    rawData[i] = rawDataL[i];
-    rawData[i] = rawDataR[i];    
+    rawData[2*i] = rawDataL[i];
+    rawData[2*i+1] = rawDataR[i];    
   }
   return saveToWaveFile(header, rawData, filePath);
 }
@@ -573,7 +577,7 @@ void CRcppWave::saveToWaveFile (const sWaveParameters & header,
   }
   
   // check that the various sizes we put in the metadata are correct
-  if (fileSizeInBytes != (fileData.size() - 8) || dataChunkSize != (header.nBlocks * (header.nBits / 8)))
+  if (fileSizeInBytes != (fileData.size() - 8) || dataChunkSize != (header.nBlocks * (header.nBits / 8) * header.nChan))
     Rcpp::stop("ERROR: couldn't save file");  
 }
 
