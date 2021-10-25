@@ -51,13 +51,6 @@
 
 #include "portaudio.h"
 
-/** Preprocessor Utilities
-*/
-
-#define PA_STRINGIZE_HELPER(x) #x
-#define PA_STRINGIZE(x) PA_STRINGIZE_HELPER(x)
-
-
 #ifdef __cplusplus
 extern "C"
 {

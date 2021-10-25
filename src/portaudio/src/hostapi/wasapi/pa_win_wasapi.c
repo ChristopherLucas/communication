@@ -1207,8 +1207,6 @@ static BOOL IsWindowsVersionOrGreater(WORD wMajorVersion, WORD wMinorVersion, WO
 }
 #endif
 // Get Windows version
-// note: We are trying to get Windows version starting from Windows Vista. Earlier OS versions
-//       will fall into WINDOWS_UNKNOWN case.
 static EWindowsVersion GetWindowsVersion()
 {
 #ifndef PA_WINRT
@@ -1231,14 +1229,14 @@ static EWindowsVersion GetWindowsVersion()
         {
             OSVERSIONINFOW ver = { sizeof(OSVERSIONINFOW), 0, 0, 0, 0, {0} };
 
+            PRINT(("WASAPI: getting Windows version with RtlGetVersion()\n"));
+
             if (fnRtlGetVersion(&ver) == NTSTATUS_SUCCESS)
             {
                 dwMajorVersion = ver.dwMajorVersion;
                 dwMinorVersion = ver.dwMinorVersion;
                 dwBuild        = ver.dwBuildNumber;
             }
-            
-            PRINT(("WASAPI: getting Windows version with RtlGetVersion(): major=%d, minor=%d, build=%d\n", dwMajorVersion, dwMinorVersion, dwBuild));
         }
 
         #undef NTSTATUS_SUCCESS
@@ -1251,15 +1249,17 @@ static EWindowsVersion GetWindowsVersion()
 
             if ((fnGetVersion = (LPFN_GETVERSION)GetProcAddress(GetModuleHandleA("kernel32"), "GetVersion")) != NULL)
             {
-                DWORD dwVersion = fnGetVersion();
+                DWORD dwVersion;
+
+                PRINT(("WASAPI: getting Windows version with GetVersion()\n"));
+
+                dwVersion = fnGetVersion();
 
                 dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
                 dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
 
                 if (dwVersion < 0x80000000)
                     dwBuild = (DWORD)(HIWORD(dwVersion));
-                
-                PRINT(("WASAPI: getting Windows version with GetVersion(): major=%d, minor=%d, build=%d\n", dwMajorVersion, dwMinorVersion, dwBuild));
             }
         }
 
@@ -2319,16 +2319,9 @@ PaError PaWasapi_Initialize( PaUtilHostApiRepresentation **hostApi, PaHostApiInd
     PaWasapiHostApiRepresentation *paWasapi;
 
 #ifndef PA_WINRT
-    // Fail safely for any Windows version below Windows Vista
-    if (GetWindowsVersion() == WINDOWS_UNKNOWN)
-    {
-        PRINT(("WASAPI: Unsupported Windows version!\n"));
-        return paNoError;
-    }
-
     if (!SetupAVRT())
     {
-        PRINT(("WASAPI: avrt.dll missing! Windows integrity broken?\n"));
+        PRINT(("WASAPI: No AVRT! (not VISTA?)\n"));
         return paNoError;
     }
 #endif
@@ -2356,11 +2349,11 @@ PaError PaWasapi_Initialize( PaUtilHostApiRepresentation **hostApi, PaHostApiInd
 
     // Fill basic interface info
     *hostApi                             = &paWasapi->inheritedHostApiRep;
-    (*hostApi)->info.structVersion       = 1;
-    (*hostApi)->info.type                = paWASAPI;
-    (*hostApi)->info.name                = "Windows WASAPI";
+    (*hostApi)->info.structVersion         = 1;
+    (*hostApi)->info.type                 = paWASAPI;
+    (*hostApi)->info.name                 = "Windows WASAPI";
     (*hostApi)->info.deviceCount         = 0;
-    (*hostApi)->info.defaultInputDevice  = paNoDevice;
+    (*hostApi)->info.defaultInputDevice     = paNoDevice;
     (*hostApi)->info.defaultOutputDevice = paNoDevice;
     (*hostApi)->Terminate                = Terminate;
     (*hostApi)->OpenStream               = OpenStream;

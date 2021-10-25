@@ -112,7 +112,6 @@
 
 #include "pa_win_wmme.h"
 #include "pa_win_waveformat.h"
-#include "pa_win_util.h"
 
 #ifdef PAWIN_USE_WDMKS_DEVICE_INFO
 #include "pa_win_wdmks_utils.h"
@@ -314,7 +313,18 @@ static signed long GetStreamWriteAvailable( PaStream* stream );
 
 static void PaMme_SetLastSystemError( DWORD errorCode )
 {
-    PaWinUtil_SetLastSystemErrorInfo( paMME, errorCode );
+    char *lpMsgBuf;
+    FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+        NULL,
+        errorCode,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0,
+        NULL
+    );
+    PaUtil_SetLastHostErrorInfo( paMME, errorCode, lpMsgBuf );
+    LocalFree( lpMsgBuf );
 }
 
 #define PA_MME_SET_LAST_SYSTEM_ERROR( errorCode ) \
@@ -329,13 +339,13 @@ static PaError CreateEventWithPaError( HANDLE *handle,
         LPSECURITY_ATTRIBUTES lpEventAttributes,
         BOOL bManualReset,
         BOOL bInitialState,
-        LPCWSTR lpName )
+        LPCTSTR lpName )
 {
     PaError result = paNoError;
 
     *handle = NULL;
 
-    *handle = CreateEventW( lpEventAttributes, bManualReset, bInitialState, lpName );
+    *handle = CreateEvent( lpEventAttributes, bManualReset, bInitialState, lpName );
     if( *handle == NULL )
     {
         result = paUnanticipatedHostError;
@@ -1719,7 +1729,7 @@ static PaError CalculateBufferSettings(
 
                 if( *hostFramesPerOutputBuffer != *hostFramesPerInputBuffer )
                 {
-                    if( *hostFramesPerInputBuffer < *hostFramesPerOutputBuffer )
+                    if( hostFramesPerInputBuffer < hostFramesPerOutputBuffer )
                     {
                         *hostFramesPerOutputBuffer = *hostFramesPerInputBuffer;
 

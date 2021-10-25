@@ -47,6 +47,10 @@
  @ingroup hostapi_src
 */
 
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -104,7 +108,7 @@ static pthread_t mainThread_;
                 PaUtil_SetLastHostErrorInfo( paOSS, sysErr_, strerror( errno ) ); \
             } \
             \
-            PaUtil_DebugPrint(( "Expression '" #expr "' failed in '" __FILE__ "', line: " PA_STRINGIZE( __LINE__ ) "\n" )); \
+            PaUtil_DebugPrint(( "Expression '" #expr "' failed in '" __FILE__ "', line: " STRINGIZE( __LINE__ ) "\n" )); \
             result = (code); \
             goto error; \
         } \

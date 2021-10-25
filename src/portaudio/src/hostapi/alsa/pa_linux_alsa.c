@@ -220,10 +220,8 @@ _PA_DEFINE_FUNC(snd_config_update_free_global);
 _PA_DEFINE_FUNC(snd_pcm_status);
 _PA_DEFINE_FUNC(snd_pcm_status_sizeof);
 _PA_DEFINE_FUNC(snd_pcm_status_get_tstamp);
-_PA_DEFINE_FUNC(snd_pcm_status_get_htstamp);
 _PA_DEFINE_FUNC(snd_pcm_status_get_state);
 _PA_DEFINE_FUNC(snd_pcm_status_get_trigger_tstamp);
-_PA_DEFINE_FUNC(snd_pcm_status_get_trigger_htstamp);
 _PA_DEFINE_FUNC(snd_pcm_status_get_delay);
 #define alsa_snd_pcm_status_alloca(ptr) __alsa_snd_alloca(ptr, snd_pcm_status)
 
@@ -501,10 +499,8 @@ static int PaAlsa_LoadLibrary()
     _PA_LOAD_FUNC(snd_pcm_status);
     _PA_LOAD_FUNC(snd_pcm_status_sizeof);
     _PA_LOAD_FUNC(snd_pcm_status_get_tstamp);
-    _PA_LOAD_FUNC(snd_pcm_status_get_htstamp);
     _PA_LOAD_FUNC(snd_pcm_status_get_state);
     _PA_LOAD_FUNC(snd_pcm_status_get_trigger_tstamp);
-    _PA_LOAD_FUNC(snd_pcm_status_get_trigger_htstamp);
     _PA_LOAD_FUNC(snd_pcm_status_get_delay);
 
     _PA_LOAD_FUNC(snd_card_next);
@@ -575,7 +571,7 @@ static void PaAlsa_CloseLibrary()
             { \
                 PaUtil_SetLastHostErrorInfo( paALSA, __pa_unsure_error_id, alsa_snd_strerror( __pa_unsure_error_id ) ); \
             } \
-            PaUtil_DebugPrint( "Expression '" #expr "' failed in '" __FILE__ "', line: " PA_STRINGIZE( __LINE__ ) "\n" ); \
+            PaUtil_DebugPrint( "Expression '" #expr "' failed in '" __FILE__ "', line: " STRINGIZE( __LINE__ ) "\n" ); \
             if( (code) == paUnanticipatedHostError ) \
                 PA_DEBUG(( "Host error description: %s\n", alsa_snd_strerror( __pa_unsure_error_id ) )); \
             result = (code); \
@@ -1284,7 +1280,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
         char *cardName;
         int devIdx = -1;
         snd_ctl_t *ctl;
-        char buf[66];
+        char buf[50];
 
         snprintf( alsaCardName, sizeof (alsaCardName), "hw:%d", cardIdx );
 
@@ -3160,28 +3156,6 @@ static PaError IsStreamActive( PaStream *s )
     return stream->isActive;
 }
 
-/** Extract audio/trigger htstamp from status and convert into PaTime (seconds).
- *
- * trigger is boolean:  trigger stampstamp vs audio timestamp.  If delay is non-NULL, return delay in
- * frames.  */
-static PaTime StatusToTime( const snd_pcm_status_t *status, int trigger, snd_pcm_uframes_t* delay )
-{
-    snd_htimestamp_t timestamp;
-    if ( trigger )
-    {
-        alsa_snd_pcm_status_get_trigger_htstamp( status, &timestamp );
-    }
-    else
-    {
-        alsa_snd_pcm_status_get_htstamp( status, &timestamp );
-    }
-    if ( delay )
-    {
-        *delay = alsa_snd_pcm_status_get_delay( status );
-    }
-    return timestamp.tv_sec + ( (PaTime)timestamp.tv_nsec * 1e-9 );
-}
-
 static PaTime GetStreamTime( PaStream *s )
 {
     PaAlsaStream *stream = (PaAlsaStream*)s;
@@ -3205,7 +3179,8 @@ static PaTime GetStreamTime( PaStream *s )
         alsa_snd_pcm_status( stream->playback.pcm, status );
     }
 
-    return StatusToTime( status, 0, NULL );
+    alsa_snd_pcm_status_get_tstamp( status, &timestamp );
+    return timestamp.tv_sec + (PaTime)timestamp.tv_usec / 1e6;
 }
 
 static double GetStreamCpuLoad( PaStream* s )
@@ -3301,7 +3276,7 @@ static PaError PaAlsaStream_HandleXrun( PaAlsaStream *self )
         if( alsa_snd_pcm_status_get_state( st ) == SND_PCM_STATE_XRUN )
         {
             alsa_snd_pcm_status_get_trigger_tstamp( st, &t );
-            self->underrun = ( now - StatusToTime( st, 1, NULL ) ) * 1000;
+            self->underrun = now * 1000 - ( (PaTime)t.tv_sec * 1000 + (PaTime)t.tv_usec / 1000 );
 
             if( !self->playback.canMmap )
             {
@@ -3320,7 +3295,8 @@ static PaError PaAlsaStream_HandleXrun( PaAlsaStream *self )
         alsa_snd_pcm_status( self->capture.pcm, st );
         if( alsa_snd_pcm_status_get_state( st ) == SND_PCM_STATE_XRUN )
         {
-            self->overrun = ( now - StatusToTime( st, 1, NULL ) ) * 1000;
+            alsa_snd_pcm_status_get_trigger_tstamp( st, &t );
+            self->overrun = now * 1000 - ((PaTime) t.tv_sec * 1000 + (PaTime) t.tv_usec / 1000);
 
             if (!self->capture.canMmap)
             {
@@ -3432,29 +3408,37 @@ static void OnExit( void *data )
 
 static void CalculateTimeInfo( PaAlsaStream *stream, PaStreamCallbackTimeInfo *timeInfo )
 {
-    snd_pcm_status_t *status;
+    snd_pcm_status_t *capture_status, *playback_status;
+    snd_timestamp_t capture_timestamp, playback_timestamp;
     PaTime capture_time = 0., playback_time = 0.;
 
-    alsa_snd_pcm_status_alloca( &status );
+    alsa_snd_pcm_status_alloca( &capture_status );
+    alsa_snd_pcm_status_alloca( &playback_status );
 
     if( stream->capture.pcm )
     {
         snd_pcm_sframes_t capture_delay;
 
-        alsa_snd_pcm_status( stream->capture.pcm, status );
-        capture_time = StatusToTime( status, 0, &capture_delay );
+        alsa_snd_pcm_status( stream->capture.pcm, capture_status );
+        alsa_snd_pcm_status_get_tstamp( capture_status, &capture_timestamp );
 
+        capture_time = capture_timestamp.tv_sec +
+            ( (PaTime)capture_timestamp.tv_usec / 1000000.0 );
         timeInfo->currentTime = capture_time;
-        timeInfo->inputBufferAdcTime = capture_time -
+
+        capture_delay = alsa_snd_pcm_status_get_delay( capture_status );
+        timeInfo->inputBufferAdcTime = timeInfo->currentTime -
             (PaTime)capture_delay / stream->streamRepresentation.streamInfo.sampleRate;
     }
     if( stream->playback.pcm )
     {
         snd_pcm_sframes_t playback_delay;
-        PaTime playback_time;
 
-        alsa_snd_pcm_status( stream->playback.pcm, status );
-        playback_time = StatusToTime( status, 0, &playback_delay );
+        alsa_snd_pcm_status( stream->playback.pcm, playback_status );
+        alsa_snd_pcm_status_get_tstamp( playback_status, &playback_timestamp );
+
+        playback_time = playback_timestamp.tv_sec +
+            ((PaTime)playback_timestamp.tv_usec / 1000000.0);
 
         if( stream->capture.pcm ) /* Full duplex */
         {
@@ -3466,6 +3450,7 @@ static void CalculateTimeInfo( PaAlsaStream *stream, PaStreamCallbackTimeInfo *t
         else
             timeInfo->currentTime = playback_time;
 
+        playback_delay = alsa_snd_pcm_status_get_delay( playback_status );
         timeInfo->outputBufferDacTime = timeInfo->currentTime +
             (PaTime)playback_delay / stream->streamRepresentation.streamInfo.sampleRate;
     }
@@ -3512,18 +3497,10 @@ static PaError PaAlsaStreamComponent_EndProcessing( PaAlsaStreamComponent *self,
     if( self->canMmap )
         res = alsa_snd_pcm_mmap_commit( self->pcm, self->offset, numFrames );
 
-    if( res == -EPIPE )
+    if( res == -EPIPE || res == -ESTRPIPE )
     {
         *xrun = 1;
     }
-    // ESTRPIPE is provided by the Linux kernel headers, and is unavailable
-    // on the BSDs, which can still use alsalib.
-#if defined(ESTRPIPE) && ESTRPIPE != EPIPE
-    else if( res == -ESTRPIPE )
-    {
-        *xrun = 1;
-    }
-#endif
     else
     {
         ENSURE_( res, paUnanticipatedHostError );
@@ -4090,20 +4067,11 @@ static PaError PaAlsaStreamComponent_RegisterChannels( PaAlsaStreamComponent* se
             }
             res = alsa_snd_pcm_readn( self->pcm, bufs, *numFrames );
         }
-        if( res == -EPIPE )
+        if( res == -EPIPE || res == -ESTRPIPE )
         {
             *xrun = 1;
             *numFrames = 0;
         }
-        // ESTRPIPE is provided by the Linux kernel headers, and is unavailable
-        // on the BSDs, which can still use alsalib.
-#if defined(ESTRPIPE) && ESTRPIPE != EPIPE
-        else if( res == -ESTRPIPE )
-        {
-            *xrun = 1;
-            *numFrames = 0;
-        }
-#endif
     }
 
 end:
@@ -4652,7 +4620,6 @@ PaError PaAlsa_GetStreamInputCard( PaStream* s, int* card )
     PaError result = paNoError;
     snd_pcm_info_t* pcmInfo;
 
-    stream = NULL;
     PA_ENSURE( GetAlsaStreamPointer( s, &stream ) );
 
     /* XXX: More descriptive error? */
@@ -4672,7 +4639,6 @@ PaError PaAlsa_GetStreamOutputCard( PaStream* s, int* card )
     PaError result = paNoError;
     snd_pcm_info_t* pcmInfo;
 
-    stream = NULL;
     PA_ENSURE( GetAlsaStreamPointer( s, &stream ) );
 
     /* XXX: More descriptive error? */

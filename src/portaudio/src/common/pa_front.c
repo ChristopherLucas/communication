@@ -106,8 +106,11 @@
  */
 #define paVersion  paMakeVersionNumber(paVersionMajor, paVersionMinor, paVersionSubMinor)
 
-#define PA_VERSION_STRING_ PA_STRINGIZE(paVersionMajor) "." PA_STRINGIZE(paVersionMinor) "." PA_STRINGIZE(paVersionSubMinor)
-#define PA_VERSION_TEXT_   "PortAudio V" PA_VERSION_STRING_ "-devel, revision " PA_STRINGIZE(PA_GIT_REVISION)
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+#define PA_VERSION_STRING_ TOSTRING(paVersionMajor) "." TOSTRING(paVersionMinor) "." TOSTRING(paVersionSubMinor)
+#define PA_VERSION_TEXT_   "PortAudio V" PA_VERSION_STRING_ "-devel, revision " TOSTRING(PA_GIT_REVISION)
 
 int Pa_GetVersion( void )
 {
@@ -123,7 +126,7 @@ static PaVersionInfo versionInfo_ = {
     /*.versionMajor =*/ paVersionMajor,
     /*.versionMinor =*/ paVersionMinor,
     /*.versionSubMinor =*/ paVersionSubMinor,
-    /*.versionControlRevision =*/ PA_STRINGIZE(PA_GIT_REVISION),
+    /*.versionControlRevision =*/ TOSTRING(PA_GIT_REVISION),
     /*.versionText =*/ PA_VERSION_TEXT_
 };
 

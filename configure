@@ -4369,7 +4369,7 @@ ACX_PTHREAD
 
 
 
-MACOSX_DEPLOYMENT_TARGET="10.11"
+
 
 ac_header= ac_cache=
 for ac_item in $ac_header_c_list
@@ -5439,11 +5439,7 @@ PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/include -I 
 case "${R_PLATFORM}" in
   *darwin*)
 
-
-printf "%s\n" "#define PA_USE_COREAUDIO 1" >>confdefs.h
-
-
-        PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/src/os/unix"
+        PORTAUDIO_DEFINES_INCLUDES="$PORTAUDIO_DEFINES_INCLUDES -I portaudio/src/os/unix -DPA_USE_COREAUDIO=1"
         CFLAGS="$CFLAGS -I portaudio/src/os/unix"
         PORTAUDIO_LIBS="$PORTAUDIO_LIBS -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon"
 

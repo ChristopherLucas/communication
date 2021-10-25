@@ -59,6 +59,7 @@
 #include <string.h>
 #include "pa_memorybarrier.h"
 
+
 /***************************************************************************
  * Initialize FIFO.
  * elementCount must be power of 2, returns -1 if not.
