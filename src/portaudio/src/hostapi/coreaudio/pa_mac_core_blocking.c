@@ -63,7 +63,12 @@
 #include "pa_mac_core_blocking.h"
 #include "pa_mac_core_internal.h"
 #include <assert.h>
-#include <stdatomic.h>
+#ifdef MOSX_USE_NON_ATOMIC_FLAG_BITS
+# define OSAtomicOr32( a, b ) ( (*(b)) |= (a) )
+# define OSAtomicAnd32( a, b ) ( (*(b)) &= (a) )
+#else
+# include <libkern/OSAtomic.h>
+#endif
 
 /*
  * This function determines the size of a particular sample format.
@@ -346,7 +351,7 @@ int BlioCallback( const void *input, void *output, unsigned long frameCount,
     ring_buffer_size_t framesTransferred;
 
     /* set flags returned by OS: */
-    atomic_fetch_or_explicit((atomic_uint *)(&blio->statusFlags), statusFlags, memory_order_relaxed | statusFlags);
+    OSAtomicOr32( statusFlags, &blio->statusFlags ) ;
 
     /* --- Handle Input Buffer --- */
     if( blio->inChan ) {
@@ -355,7 +360,7 @@ int BlioCallback( const void *input, void *output, unsigned long frameCount,
         /* check for underflow */
         if( framesAvailable < frameCount )
         {
-            atomic_fetch_or_explicit((atomic_uint *)(&blio->statusFlags), paInputOverflow, memory_order_relaxed | paInputOverflow);
+            OSAtomicOr32( paInputOverflow, &blio->statusFlags );
             framesToTransfer = framesAvailable;
         }
         else
@@ -389,7 +394,7 @@ int BlioCallback( const void *input, void *output, unsigned long frameCount,
             size_t countInBytes = (frameCount - framesToTransfer) * bytesPerFrame;
             bzero( ((char *)output) + offsetInBytes, countInBytes );
 
-            atomic_fetch_or_explicit((atomic_uint *)(&blio->statusFlags), paOutputUnderflow, memory_order_relaxed | paOutputUnderflow);
+            OSAtomicOr32( paOutputUnderflow, &blio->statusFlags );
             framesToTransfer = framesAvailable;
         }
         else
@@ -484,7 +489,7 @@ PaError ReadStream( PaStream* stream,
 
     /* report underflow only once: */
     if( ret ) {
-       atomic_fetch_or_explicit((atomic_uint *)(&blio->statusFlags), (uint32_t)(~paInputOverflow), memory_order_relaxed & (uint32_t)(~paInputOverflow));
+        OSAtomicAnd32( (uint32_t)(~paInputOverflow), &blio->statusFlags );
         ret = paInputOverflowed;
     }
 
@@ -574,7 +579,7 @@ PaError WriteStream( PaStream* stream,
         /* report underflow only once: */
         if( ret )
         {
-            atomic_fetch_or_explicit((atomic_uint *)(&blio->statusFlags), (uint32_t)(~paOutputUnderflow), memory_order_relaxed & (uint32_t)(~paOutputUnderflow));
+            OSAtomicAnd32( (uint32_t)(~paOutputUnderflow), &blio->statusFlags );
             ret = paOutputUnderflowed;
         }
     }

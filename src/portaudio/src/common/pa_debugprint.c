@@ -111,7 +111,7 @@ void PaUtil_DebugPrint( const char *format, ... )
         userCB(strdump);
         va_end(ap);
     }
-    /*else
+    else
     // Standard output to stderr
     {
         va_list ap;
@@ -119,5 +119,5 @@ void PaUtil_DebugPrint( const char *format, ... )
         vfprintf(stderr, format, ap);
         va_end(ap);
         fflush(stderr);
-    }*/
+    }
 }
