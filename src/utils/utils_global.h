@@ -13,8 +13,13 @@ namespace speech
   FILE* fopen(const char* path, const char* mode);
 
   std::string str_tolower(const std::string & s);
+  
   bool str_ends_with(std::string const & value, std::string const & ending);
 
+  bool isDirExist (const std::string& path);
+  
+  bool makePath(const std::string& path);
+  
   class filepath : public std::string
   {
   public:

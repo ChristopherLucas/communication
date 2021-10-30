@@ -584,6 +584,8 @@ void CRcppWave::saveToWaveFile (const sWaveParameters & header,
 
 void CRcppWave::writeDataToFile (std::vector<uint8_t>& fileData, std::string filePath)
 {
+  auto fileDir = filePath.substr (0, filePath.find_last_of('/') );
+  speech::makePath (fileDir);
   FILE * wav = speech::fopen( filePath.c_str(), "wb");
   if( nullptr == wav )
     Rcpp::stop("can not open file - " + filePath);

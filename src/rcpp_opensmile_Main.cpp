@@ -243,7 +243,6 @@ void test_rcpp_writeWavFile(std::string  filePathIn, std::string  filePathOut)
   else if(CRcppWave::HeaderParseError == error)
     Rcpp::stop("Error parsing file header");  
   
-  //return   CRcppWave::saveToWaveFile(header, rawData, filePathOut);
   return   CRcppAudio::saveToAudioFile(header, rawData, filePathOut);
 }
 
