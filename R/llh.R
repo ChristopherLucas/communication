@@ -8,7 +8,8 @@
 #'   sequence and is of dimension nobs x nfeatures. For a single observation
 #'   sequence, a single matrix can be provided
 #' @param mod Model object of class 'feelr.hmm', as output by \code{hmm}
-#'
+#' @param control list
+#' 
 #' @return List with two components. \code{llhs} is a numeric vector of
 #'   log-likelihoods of each observation sequence in \code{Xs}. \code{llh_total}
 #'   is the log-likelihood of all observation sequences together, i.e.
@@ -18,8 +19,7 @@
 #'   each sequence, whereas here it is assumed that the starting state is drawn
 #'   from the stationary distribution \code{mod$delta}.
 #' @export
-#'
-#' @examples
+
 llh = function(Xs,   # data
                mod,  # fitted feelr.hmm model
                control=list()
