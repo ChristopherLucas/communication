@@ -121,7 +121,7 @@ hmm = function(Xs,              # data
       Xs = list(Xs)
   }
 
-  if (any(sapply(Xs, function(X) class(X) != c("matrix", "array")))){
+  if (any(sapply(Xs, function(X) class(X) != class(matrix())))){
       stop('Xs must be matrix or list of matrices')
   }
 

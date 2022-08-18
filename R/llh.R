@@ -31,7 +31,7 @@ llh = function(Xs,   # data
   if (class(Xs) == 'matrix')
     Xs = list(Xs)
 
-  if (any(sapply(Xs, function(X) class(X)!=c('matrix', 'array'))))
+  if (any(sapply(Xs, function(X) class(X) != class(matrix()))))
     stop('Xs must be matrix or list of matrices')
 
   if (any(sapply(Xs, ncol) != length(mod$mus[[1]])))
