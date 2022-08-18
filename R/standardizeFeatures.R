@@ -23,9 +23,7 @@
 #' audio$data <- standardizeFeatures(
 #'     lapply(audio$data, function(x) na.omit(x))
 #' )
-#' 
-#' @export
-#'
+
 standardizeFeatures = function(Xs, feature_means=NULL, feature_sds=NULL, verbose=1){
 
   if (class(Xs) == 'matrix')
