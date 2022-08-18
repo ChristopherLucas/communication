@@ -1,7 +1,3 @@
-# dk when derivatives > 0 delete first leading rows from each Xs before
-# calculating Ts, passing to hmm
-# then add leading rows of NAs back into results
-
 #########################
 # R wrapper for hmm_cpp #
 #########################
@@ -112,23 +108,20 @@
 #'     Defaults to 1.
 #'   }
 #' }
-#' @export
-hmm <- function(Xs,              # data
+#'
+hmm = function(Xs,              # data
                weights=NULL,    # weight on each element of Xs
                nstates,         # number of states
                par=list(),      # initialization
                control=list(),  # EM control parameters
                labels=list()    # labels for supervised training
-)
-  {
-  
-  Xs
+){
 
   if (class(Xs) == 'matrix'){
       Xs = list(Xs)
   }
 
-  if (any(sapply(Xs, function(X) class(X)!='matrix'))){
+  if (any(sapply(Xs, function(X) class(X) != c("matrix", "array")))){
       stop('Xs must be matrix or list of matrices')
   }
 
@@ -136,9 +129,9 @@ hmm <- function(Xs,              # data
       stop('all observation sequences must have same number of observed features')
   }
 
-  ## if (is.null(weights)){
-  ##     weights <- rep(weights, length(Xs))
-  ## }
+  if (is.null(weights)){
+      weights <- rep(weights, length(Xs))
+  }
 
   # indices
 
@@ -265,7 +258,7 @@ hmm <- function(Xs,              # data
 
   if (control$standardize){
 
-    Xs = standardizeFeatures(Xs)
+    Xs = standardizeFeatures(Xs, verbose=control$verbose)
 
     feature_means = attr(Xs[[1]], 'scaled:center')
     feature_sds = attr(Xs[[1]], 'scaled:scale')
@@ -519,7 +512,7 @@ hmm <- function(Xs,              # data
   if (iters >= control$maxiter){
     if (diff(out$llh_seq[-1:0 + length(out$llh_seq)]) >= control$tol){
       converged = FALSE
-      warning('failed to converge by maxiter = ', control$maxiter, ' iterations (tol = ', control$tol, ')')
+      if (control$verbose > 0) warning('failed to converge by maxiter = ', control$maxiter, ' iterations (tol = ', control$tol, ')')
     }
   }
 
