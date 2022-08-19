@@ -129,9 +129,9 @@ hmm = function(Xs,              # data
       stop('all observation sequences must have same number of observed features')
   }
 
-  if (is.null(weights)){
-      weights <- rep(weights, length(Xs))
-  }
+  ## if (is.null(weights)){
+  ##     weights <- rep(weights, length(Xs))
+  ## }
 
   # indices
 
