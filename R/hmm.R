@@ -121,7 +121,7 @@ hmm = function(Xs,              # data
       Xs = list(Xs)
   }
 
-  if (any(sapply(Xs, function(X) is.matrix(X)))){
+  if (any(sapply(Xs, function(X) !is.matrix(X)))){
       stop('Xs must be matrix or list of matrices')
   }
 
