@@ -108,7 +108,7 @@
 #'     Defaults to 1.
 #'   }
 #' }
-#'
+#' @export
 hmm = function(Xs,              # data
                weights=NULL,    # weight on each element of Xs
                nstates,         # number of states
