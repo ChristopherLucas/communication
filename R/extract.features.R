@@ -2,6 +2,7 @@
 #' @description Extract features from a file and return audio class with these data
 #' @importFrom magrittr %>%
 #' @importFrom purrr map
+#' @importFrom purrr transpose
 #' @param files \code{character}. Vector of path and file name. For example, c("folder/1.wav", "folder/2.wav")
 #' @param config \code{audio_config}. An object of class 'audio_config' with parameters for extraction.
 #' @param use.full.names \code{boolean}. Whether to use full file path as names of returned list elements
@@ -14,17 +15,17 @@
 #' @export
 
 extractFeatures <- function(files,  config = loudness(createConfig()), 
-                            use.full.names=T, 
-                            use.exts=T,
+                            use.full.names = T, 
+                            use.exts = T,
                             raw.data = F,
                             timestamp = F,
                             standardize = F
 ) {
   features <- purrr::map(files, function(x) {
-    result <- extractFeature(x, config)
+    result <- extractFeature(x, config, raw.data, timestamp) 
     attr(result, "filename") <- x
     result
-  })
+  }) %>% purrr::transpose()
   
   out = NULL
   
@@ -32,15 +33,12 @@ extractFeatures <- function(files,  config = loudness(createConfig()),
   if (!use.full.names) list_names <- basename(list_names)
   if (!use.exts) list_names <- tools::file_path_sans_ext(list_names)
   
-  out$data <- purrr::set_names(features, list_names)
-
+  out <- purrr::map(features, purrr::set_names, list_names)
+  
   if (standardize) {
-    if (raw.data | timestamp)
-      stop("standardizeFeatures can only be used when both raw.data and timestamp are set to false.")
-    else
-      out$data <- out$data %>% standardizeFeatures
+      out$data <- out$data %>% communication:::standardizeFeatures()
   }
-
+  
   out$files$fname <- list_names
   out$files$duration <- sapply(out$data, nrow) 
   
@@ -52,18 +50,27 @@ extractFeature <- function(filename, config = config,
                            raw.data = F,
                            timestamp = F) {
   
-  audio_nfeatures <- create_audio_object(filename, config, raw.data, timestamp)
+  out = NULL
+  audio_nfeatures <- create_audio_object(filename, config)
   audio <- audio_nfeatures$audio %>% as.matrix
-
   n_features <- audio_nfeatures$n_features
+  timestamps <- audio_nfeatures$timestamps
+  
+  out$data <- audio
   
   if(raw.data){
-    raw_data <- add_raw_data(filename, audio$timestamps)
+    raw_data <- add_raw_data(filename, timestamps)
     
     # For some reasons, length of audio$timestamps is not the same as raw_data (returning 
     # more data - I have to check it)
-    audio$raw_data <- raw_data$cut_raw_data[1:length(audio$timestamps)]
-    attr(audio, "header") <- raw_data$header  
+    raw_data_out <- raw_data$cut_raw_data[1:length(timestamps)]
+    attr(raw_data_out, "header") <- raw_data$header  
+    
+    out$raw_data <- raw_data_out
+  }
+  
+  if(timestamp){
+    out$timestamps <- timestamps
   }
   
   # If the no. of columns supplied by the config object is not the same as the no. of features
@@ -80,8 +87,9 @@ extractFeature <- function(filename, config = config,
       column_names <- paste0(outputs[1], '_', seq(n_features))
     }
   }
-  colnames(audio) <- c(column_names)
-  audio
+  colnames(out$data) <- c(column_names)
+  
+  return(out)
 }
 
 
@@ -144,24 +152,19 @@ tail.speech <- function(x, ...) {
   tail(print(x))
 }
 
-create_audio_object <- function(filename, config,
-                                raw.data = F,
-                                timestamp = F) {
+create_audio_object <- function(filename, config) {
   config_string <- communication:::generate_config_string(config)
   extracted_data <- communication:::rcpp_openSmileGetFeatures(filename, config_string_in = config_string)
   audio <- as.data.frame(extracted_data$audio_features_0)
   n_features <- ncol(audio)
   
-  if(timestamp) {
-    timestamps <- as.vector(extracted_data$audio_timestamps_0)
-    audio$timestamps <- timestamps
-  }
+  timestamps <- as.vector(extracted_data$audio_timestamps_0)
   
-  list(audio=audio, n_features=n_features)
+  list(audio=audio, timestamps = timestamps, n_features=n_features)
 }
 
 add_raw_data <- function(filename, timestamps) {
-  raw_data <- rcpp_parseAudioFile(filename)
+  raw_data <- communication:::rcpp_parseAudioFile(filename)
   # Timemust must be cut in time intervals of same size
   # We need to create a test for that
   timestamp_interval <- timestamps[2]
