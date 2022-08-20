@@ -8,7 +8,7 @@
 #' @param use.full.names \code{boolean}. Whether to use full file path as names of returned list elements
 #' @param use.exts \code{boolean}. Whether to use file extensions in names of returned list elements.
 #' @param raw.data \code{boolean}. Whether to include raw data in the output list.
-#' @param timestamp \code{boolean}. Whether to include raw data in the output list.
+#' @param timestamp \code{boolean}. Whether to include timestamps in the output list.
 #' @param standardize \code{boolean}. Whether to standardize the extracted features. Only works when both raw.data and timestamp are set to false.
 #'   Only applicable if use.full.names is FALSE
 #' @return audio class
@@ -174,5 +174,3 @@ add_raw_data <- function(filename, timestamps) {
                         ceiling(seq_along(raw_data[[2]])/(raw_data[[1]]$sampleRate*timestamp_interval)))
   list(cut_raw_data = cut_raw_data, header = raw_data[[1]])
 }
-
-
