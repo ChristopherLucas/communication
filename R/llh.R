@@ -9,6 +9,7 @@
 #'   sequence, a single matrix can be provided
 #' @param mod Model object of class 'feelr.hmm', as output by \code{hmm}
 #' @param control list
+#' 
 #' @return List with two components. \code{llhs} is a numeric vector of
 #'   log-likelihoods of each observation sequence in \code{Xs}. \code{llh_total}
 #'   is the log-likelihood of all observation sequences together, i.e.
@@ -17,7 +18,8 @@
 #'   \code{mod$llhs}. This is because \code{hmm} estimates the starting state of
 #'   each sequence, whereas here it is assumed that the starting state is drawn
 #'   from the stationary distribution \code{mod$delta}.
-#'
+#' @export
+
 llh = function(Xs,   # data
                mod,  # fitted feelr.hmm model
                control=list()
@@ -29,7 +31,7 @@ llh = function(Xs,   # data
   if (class(Xs) == 'matrix')
     Xs = list(Xs)
 
-  if (any(sapply(Xs, function(X) class(X)!='matrix')))
+  if (any(sapply(Xs, function(X) !is.matrix(X))))
     stop('Xs must be matrix or list of matrices')
 
   if (any(sapply(Xs, ncol) != length(mod$mus[[1]])))

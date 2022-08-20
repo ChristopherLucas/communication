@@ -11,3 +11,4 @@ src/symbols.rds
 .RData
 *smile.log
 src/conf/config.h
+.vscode/*
